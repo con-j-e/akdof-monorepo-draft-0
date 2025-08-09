@@ -1,0 +1,9 @@
+**/conda_env/
+**/logs/
+**/__pycache__/
+
+*.cfg
+*.crt
+*.pem
+
+**/*stderr.txt

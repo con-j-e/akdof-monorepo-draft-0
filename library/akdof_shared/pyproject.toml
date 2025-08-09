@@ -1,0 +1,21 @@
+[project]
+name = "akdof_shared"
+version = "0.1.0"
+description = "An internal akdof-monorepo package for code that is shared across multiple projects."
+authors = [
+    { name = "Connor Edick", email = "connor.edick@alaska.gov" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "geopandas>=1.0.1",
+    "geomet>=1.0.0",
+    "requests>=2.32.3"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["akdof_shared"]
