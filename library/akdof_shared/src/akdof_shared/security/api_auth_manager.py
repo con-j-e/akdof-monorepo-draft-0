@@ -8,7 +8,7 @@ import keyring
 import requests
 
 from gis.arcgis_api_validation import validate_arcgis_rest_api_json_response
-from protocol.datetime_protocol import iso_from_timestamp, datetime_from_iso, valid_iso_datetime
+from protocol.datetime_info import iso_from_timestamp, datetime_from_iso, valid_iso_datetime
 
 from cryptfile_keyring_manager import ProjectSecret, CryptfileKeyringManager, PasswordNotFound
 

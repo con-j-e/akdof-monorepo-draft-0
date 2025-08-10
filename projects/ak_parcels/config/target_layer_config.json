@@ -1,0 +1,165 @@
+{
+    "url": "https://services1.arcgis.com/7HDiw78fcUiM2BWn/arcgis/rest/services/AK_Parcels/FeatureServer/0",
+    "fields": [
+        {
+            "name": "OBJECTID",
+            "type": "esriFieldTypeOID",
+            "alias": "OBJECTID",
+            "sqlType": "sqlTypeOther",
+            "nullable": false,
+            "editable": false,
+            "domain": null,
+            "defaultValue": null,
+            "required": true
+        },
+        {
+            "name": "parcel_id",
+            "type": "esriFieldTypeString",
+            "alias": "parcel_id",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "owner",
+            "type": "esriFieldTypeString",
+            "alias": "owner",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "alt_owner",
+            "type": "esriFieldTypeString",
+            "alias": "alt_owner",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "property_type",
+            "type": "esriFieldTypeString",
+            "alias": "property_type",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "property_use",
+            "type": "esriFieldTypeString",
+            "alias": "property_use",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "land_value",
+            "type": "esriFieldTypeInteger",
+            "alias": "land_value",
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "building_value",
+            "type": "esriFieldTypeInteger",
+            "alias": "building_value",
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "total_value",
+            "type": "esriFieldTypeInteger",
+            "alias": "total_value",
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "local_gov",
+            "type": "esriFieldTypeString",
+            "alias": "local_gov",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "datetime_processed",
+            "type": "esriFieldTypeString",
+            "alias": "datetime_processed",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "feature_id",
+            "type": "esriFieldTypeString",
+            "alias": "feature_id",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "nullable": true,
+            "editable": true,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Shape__Area",
+            "type": "esriFieldTypeDouble",
+            "alias": "Shape__Area",
+            "sqlType": "sqlTypeDouble",
+            "nullable": true,
+            "editable": false,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Shape__Length",
+            "type": "esriFieldTypeDouble",
+            "alias": "Shape__Length",
+            "sqlType": "sqlTypeDouble",
+            "nullable": true,
+            "editable": false,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "GlobalID",
+            "type": "esriFieldTypeGlobalID",
+            "alias": "GlobalID",
+            "sqlType": "sqlTypeOther",
+            "length": 38,
+            "nullable": false,
+            "editable": false,
+            "domain": null,
+            "defaultValue": "NEWID() WITH VALUES"
+        }
+    ]
+}
