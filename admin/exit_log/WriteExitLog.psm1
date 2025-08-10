@@ -1,6 +1,6 @@
-function Write-ExitCodeLog {
+function Write-ExitLog {
     param (
-        [string]$ExitCodeLog = (Join-Path $Env:AKDOF_ROOT "admin\logs\exit_codes.csv"),
+        [string]$ExitLog = (Join-Path $Env:AKDOF_ROOT "admin\exit_log\exit_log.csv"),
 
         [Parameter(Mandatory = $true)]
         [string]$ProjectName,
@@ -12,7 +12,7 @@ function Write-ExitCodeLog {
     $ExitCode = $LASTEXITCODE
     $Timestamp = [datetime]::UtcNow.ToString("o")
     $LogLine = "$Timestamp,$ProjectName,$ScriptName,$ExitCode`r`n"
-    [System.IO.File]::AppendAllText($ExitCodeLog, $LogLine)
+    [System.IO.File]::AppendAllText($ExitLog, $LogLine)
 }
 
-Export-ModuleMember -Function Write-ExitCodeLog
+Export-ModuleMember -Function Write-ExitLog

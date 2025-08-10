@@ -1,8 +1,8 @@
 **/conda_env/
 **/logs/
 **/__pycache__/
+**/*.egg-info/
 
-*.cfg
 *.crt
 *.pem
 
