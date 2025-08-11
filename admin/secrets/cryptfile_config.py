@@ -17,17 +17,17 @@ ALL_PROJECT_SECRETS: Iterable[ProjectSecret] = (
     ProjectSecret(
         service_name="https://soa-dnr.maps.arcgis.com/",
         username="for_admin",
-        #password=""
+        #password=_
     ),
     ProjectSecret(
         service_name="gmail",
         username="akdofscripts@gmail.com",
-        #password=""
+        #password=_
     ),
     ProjectSecret(
         service_name="send_gmail",
         username="ak_parcels",
-        #password=""
+        #password=_
     )
 )
 
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     #CKM.store_cryptfile_keyring_master_password(master_password=_)
 
     # use as-needed
-    #CKM.store_secrets(project_secrets=ALL_PROJECT_SECRETS)
+    #CKM.store_secrets(project_secrets=_)
 
     # use as-needed
-    #CKM.delete_secrets(project_secrets=tuple())
+    #CKM.delete_secrets(project_secrets=_)

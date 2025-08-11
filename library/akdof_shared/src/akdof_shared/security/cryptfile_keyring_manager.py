@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Iterable, NamedTuple
 
 import keyring
-from keyring.backends.Windows import WinVaultKeyring
+import keyring.backend
 from keyrings.cryptfile.cryptfile import CryptFileKeyring
 
 class PasswordNotFound(Exception): pass

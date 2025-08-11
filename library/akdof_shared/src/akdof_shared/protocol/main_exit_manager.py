@@ -1,36 +1,15 @@
 import asyncio
-from enum import IntEnum
 from datetime import datetime as dt, timezone as tz
 import inspect
 from logging import Logger
 from pathlib import Path
 from typing import Callable, Iterable, Any, NamedTuple
 
-from file_logging_manager import FileLoggingManager
-from utils.gmail_sender import GmailSender
+from akdof_shared.protocol.file_logging_manager import FileLoggingManager
+from akdof_shared.protocol.types import ExitStatus
+from akdof_shared.utils.gmail_sender import GmailSender
 
 class CleanExitFailure(Exception): pass
-
-class ExitStatus(IntEnum):
-    """
-    Status codes that all Python programs run as `__main__` are expected to exit with.
-    These codes represent the highest severity level of one or more events that were logged.
-
-    Attributes
-    ----------
-    OK : 0
-        Operations normal.
-    WARNING : 30
-        Something occurred that is out of the ordinary, or that might indicate a problem.
-    ERROR : 40
-        A non-critical error occurred. The main program is expected to have continued running.
-    CRITICAL : 50
-        A critical error occurred. The main program is expected to have terminated prematurely.
-    """
-    OK = 0
-    WARNING = 30
-    ERROR = 40
-    CRITICAL = 50
   
 class CleanupCallable(NamedTuple):
     func: Callable
@@ -54,6 +33,7 @@ class MainExitManager:
         self._start_datetime = dt.now(tz.utc)
 
     def clean_exit(self) -> ExitStatus:
+
         for func, kwargs in self.cleanup_callables:
             try:
                 if inspect.iscoroutinefunction(func):
@@ -62,6 +42,24 @@ class MainExitManager:
                     func(**kwargs)
             except Exception as e:
                 self.main_logger.error(f"MainManager for {self.project_directory} failed calling {func}: {self.file_logging_manager.format_exception(e)}")
+                
+        return self._shutdown_file_logging_manager()
+    
+    async def clean_exit_async(self) -> ExitStatus:
+
+        for func, kwargs in self.cleanup_callables:
+            try:
+                if inspect.iscoroutinefunction(func):
+                    await func(**kwargs)
+                else:
+                    func(**kwargs)
+            except Exception as e:
+                self.main_logger.error(f"MainManager for {self.project_directory} failed calling {func}: {self.file_logging_manager.format_exception(e)}")
+
+        return self._shutdown_file_logging_manager()
+    
+    def _shutdown_file_logging_manager(self) -> ExitStatus:
+
         try:
             self.file_logging_manager.flush_all_handlers()
             exit_status = self.file_logging_manager.check_log_files_for_status(start_datetime=self._start_datetime)

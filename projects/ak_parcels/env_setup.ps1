@@ -29,13 +29,7 @@ if (-not ($response -match '^[Yy]$')) {
     exit
 }
 & conda install -c esri geomet=1.0.0
-
-$Library = Join-Path $Env:AKDOF_ROOT "library"
-& pip install -e (Join-Path $Library "akwf_gis")
-& pip install -e (Join-Path $Library "akwf_io")
-& pip install -e (Join-Path $Library "akwf_models")
-& pip install -e (Join-Path $Library "akwf_security")
-& pip install -e (Join-Path $Library "akwf_utils")
+& pip install -e (Join-Path $Env:AKDOF_ROOT "library\akdof_shared")
 
 Write-Host "Conda environment '$($env:CONDA_DEFAULT_ENV)' setup complete. Exiting..."
 & conda deactivate

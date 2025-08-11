@@ -9,7 +9,7 @@ from typing import Iterable, Literal, NamedTuple
 
 import pandas as pd
 
-from akdof_shared.protocol.main_exit_manager import ExitStatus
+from akdof_shared.protocol.types import ExitStatus
 from akdof_shared.protocol.datetime_info import datetime_from_iso, iso_from_datetime, enforce_utc, iso_file_naming, now_utc_iso
 
 class ConfiguredLoggersConflict(Exception): pass
@@ -89,18 +89,18 @@ class FileLoggingManager:
         Sets the converter to use UTC for all time information.
         Formats time information as ISO 8601 strings.
         Replaces any `|` in a log message with `<replaced_pipe>`.
+        Replaces any `\\n` in a log message with `<br>`.
         """
         converter = time.gmtime
 
         def formatTime(self, record: logging.LogRecord, datefmt: str | None = None):
             dt_obj = dt.fromtimestamp(timestamp=record.created, tz=tz.utc)
             return iso_from_datetime(dt_obj)
-
-        def format(self, record: logging.LogRecord):
-            if isinstance(record.msg, str):
-                record.msg = record.msg.replace("|", "<replaced_pipe>")
-            return super().format(record)
         
+        def format(self, record: logging.LogRecord):
+            formatted = super().format(record)
+            return formatted.replace("|", "<replaced_pipe>").replace("\n", "<br>")
+
     class _LogManifest(dict[Path, pd.DataFrame]):
         """Internal data structure used by public methods `check_log_files_for_status()`, `write_log_check_email_bodies()`, and `check_log_files_to_archive()`"""
 
@@ -149,7 +149,7 @@ class FileLoggingManager:
         warning_filter: LogWarningFilter | None = None,
     ) -> logging.Logger:
         """Configure and return a file logger, which the calling `FileLoggingManager` instance will then manage"""
-        log_file = self.log_directory / f"{file_name}.log"
+        log_file = (self.log_directory / f"{Path(file_name).stem}.log").resolve()
         if log_file in self._configured_loggers:
             raise ConfiguredLoggersConflict(
                 f"Logger with name '{self._configured_loggers[log_file].name}' is already logging to {log_file}"
@@ -170,7 +170,7 @@ class FileLoggingManager:
         if warning_filter:
             logger.addFilter(filter=warning_filter)
 
-        handler = logging.FileHandler(file_name=log_file, errors="backslashreplace")
+        handler = logging.FileHandler(filename=log_file, errors="backslashreplace")
         handler.setLevel(level=level)
         handler.setFormatter(fmt=self._DefaultFormatter(self._default_format))
 

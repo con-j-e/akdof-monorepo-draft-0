@@ -1,20 +1,21 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from datetime import datetime as dt, timezone as tz, timedelta
 from pathlib import Path
 import time
-from typing import NamedTuple
 
 import keyring
 import requests
 
-from gis.arcgis_api_validation import validate_arcgis_rest_api_json_response
-from protocol.datetime_info import iso_from_timestamp, datetime_from_iso, valid_iso_datetime
+from akdof_shared.gis.arcgis_api_validation import validate_arcgis_rest_api_json_response
+from akdof_shared.protocol.datetime_info import iso_from_timestamp, datetime_from_iso, valid_iso_datetime
 
-from cryptfile_keyring_manager import ProjectSecret, CryptfileKeyringManager, PasswordNotFound
+from akdof_shared.security.cryptfile_keyring_manager import ProjectSecret, CryptfileKeyringManager, PasswordNotFound
 
 class InvalidTimedTokenFormat(Exception): pass
 
-class TimedToken(NamedTuple):
+@dataclass(frozen=True)
+class TimedToken:
     """
     Attributes
     ----------
@@ -25,20 +26,18 @@ class TimedToken(NamedTuple):
     """
     token: str
     expiration_time: str
-
-    def __new__(cls, token: str, expiration_time: str):
-        if "||" in token:
-            raise InvalidTimedTokenFormat(f"Cannot support '||' in token, '||' will be required for string splitting")
-        if not valid_iso_datetime(iso_datetime=expiration_time):
-            raise InvalidTimedTokenFormat(f"{expiration_time} is not a valid ISO 8601 string")
-        return super().__new__(cls, token, expiration_time)
+    
+    def __post_init__(self):
+        if "||" in self.token:
+            raise InvalidTimedTokenFormat(f"Cannot support '||' character sequence in token (reserved for TimedToken __str__ method)")
+        if not valid_iso_datetime(iso_datetime=self.expiration_time):
+            raise InvalidTimedTokenFormat(f"{self.expiration_time} is not a valid ISO 8601 string")
     
     def __str__(self):
         return f"{self.token}||{self.expiration_time}"
     
     @property
     def lifespan(self) -> timedelta:
-        """How long until token expires"""
         return datetime_from_iso(self.expiration_time) - dt.now(tz.utc)
 
 class ApiAuthManager(ABC):

@@ -5,11 +5,10 @@ import geopandas as gpd
 
 from config.logging_config import FLM
 
-from config.py.inputs_config import INPUT_FEATURE_LAYERS_CONFIG
+from config.inputs_config import INPUT_FEATURE_LAYERS_CONFIG
 
-from akwf_gis.input_feature_layer import FeaturesGdf
-from akwf_gis.gis_utils import gdf_no_index_change_detection
-from akwf_utils.logging_utils import FileLoggingManager as LogManager, format_logged_exception
+from akdof_shared.gis.input_feature_layer import FeaturesGdf
+from akdof_shared.gis.gdf_change_detection import gdf_no_index_change_detection
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
@@ -22,7 +21,7 @@ async def load_parcel_feature_history() -> dict[str, list[FeaturesGdf]]:
     
     exceptions = [e for e in refresh_features_results if isinstance(e, Exception)]
     for e in exceptions:
-        _LOGGER.error(format_logged_exception(e))
+        _LOGGER.error(FLM.format_exception(e))
 
     results = [r for r in refresh_features_results if not isinstance(r, Exception)]
     valid_feature_refresh_aliases = [alias for r in results for alias in r.keys()]
@@ -34,7 +33,7 @@ async def load_parcel_feature_history() -> dict[str, list[FeaturesGdf]]:
 
     exceptions = [e for e in feature_history_results if isinstance(e, Exception)]
     for e in exceptions:
-        _LOGGER.error(format_logged_exception(e))
+        _LOGGER.error(FLM.format_exception(e))
 
     results = [r for r in feature_history_results if not isinstance(r, Exception)]
     return {alias: feature_history for r in results for alias, feature_history in r.items()}

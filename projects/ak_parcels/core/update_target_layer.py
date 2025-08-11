@@ -1,20 +1,18 @@
 import pandas as pd
 import geopandas as gpd
-from pathlib import Path
 import json
 
-from config.py.process_config import PROJ_DIR, LOG_LEVEL
-from config.py.inputs_config import INPUT_FEATURE_LAYERS_CONFIG
+from akdof_shared.protocol.datetime_info import now_utc_iso
+from akdof_shared.utils.with_retry import with_retry_async
+from akdof_shared.gis.spatial_json_conversion import gdf_to_arcgis_json
+from akdof_shared.gis.feature_layer_editor import FeatureLayerEditor, ResultingFeatureCountInvalid, BatchEditException, EditFailureResponse
+from akdof_shared.gis.arcgis_gdf_conversion_prep import format_gdf_using_arcgis_config, ArcGisTargetLayerConfig
+from akdof_shared.io.async_requester import AsyncRequester
 
-from akwf_utils.logging_utils import FileLoggingManager as LogManager, format_logged_exception
-from akwf_utils.time_utils import now_utc_iso
-from akwf_utils.retry_utils import with_retry_async
-from akwf_gis.json_io import gdf_to_arcgis_json
-from akwf_gis.feature_layer_editor import FeatureLayerEditor, ResultingFeatureCountInvalid, BatchEditException, EditFailureResponse
-from akwf_gis.arcgis_gdf_conversion_prep import format_gdf_using_arcgis_config, ArcGisTargetLayerConfig
-from akwf_io.async_requester import AsyncRequester
+from config.inputs_config import INPUT_FEATURE_LAYERS_CONFIG
+from config.logging_config import FLM
 
-_LOGGER = LogManager.get_file_logger(name=__name__, log_file=PROJ_DIR / "logs" / f"{Path(__file__).stem}.log", log_level=LOG_LEVEL)
+_LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 async def update_target_layer(target_layer_config: ArcGisTargetLayerConfig, token: str, features_to_update: dict[str, gpd.GeoDataFrame]):
         
@@ -43,7 +41,7 @@ async def update_target_layer(target_layer_config: ArcGisTargetLayerConfig, toke
                 input_feature_layer = INPUT_FEATURE_LAYERS_CONFIG.get_layer(alias=alias)
                 input_feature_layer.rollback_features_cache()
                 _LOGGER.warning(f"{alias}: Feature cache rolled back due to error updating the target layer.")
-                _LOGGER.error(f"{alias}: {format_logged_exception(e)}")
+                _LOGGER.error(f"{alias}: {FLM.format_exception(e)}")
     finally:
         await editor_requester.close()
 

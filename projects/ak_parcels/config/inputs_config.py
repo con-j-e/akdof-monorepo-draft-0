@@ -3,12 +3,13 @@ from datetime import timedelta
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from akwf_io.file_cache_manager import FileCacheManager, PurgeMethod, create_file_diff
-from akwf_gis.input_feature_layer import InputFeatureLayerCache, InputFeatureLayer, InputFeatureLayersConfig
-from akwf_gis.async_arcgis_requester import AsyncArcGisRequester
+from akdof_shared.io.file_cache_manager import FileCacheManager, PurgeMethod
+from akdof_shared.io.async_requester import AsyncArcGisRequester
+from akdof_shared.utils.create_file_diff import create_file_diff
+from akdof_shared.gis.input_feature_layer import InputFeatureLayerCache, InputFeatureLayer, InputFeatureLayersConfig
 
 from config.logging_config import FLM
-from config.process_config import TARGET_EPSG
+from config.process_config import PROJ_DIR, TARGET_EPSG
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
@@ -20,7 +21,7 @@ def parcel_feature_layer_cache_factory(cache_path: Path) -> InputFeatureLayerCac
     resource_info_fcm = FileCacheManager(
         path=cache_path / "resource_info",
 
-        # a small max_age value is being used temporarily so I can determine if resource info reliably changes whenever the feature data changes
+        # a small max_age value is being used temporarily to help determine if resource info reliably changes whenever feature data changes
         max_age=timedelta(hours=1),
         
         max_count=3,
@@ -43,7 +44,7 @@ def input_parcel_factory(url: str, alias: str | None, field_map: dict[str, str],
     ifl = InputFeatureLayer(
         url=url,
         alias=alias,
-        cache=parcel_feature_layer_cache_factory(cache_path=PARCEL_INPUTS_CACHE / alias.lower().strip().replace(" ", "_")),
+        cache=parcel_feature_layer_cache_factory(cache_path=PROJ_DIR / "parcel_inputs_cache" / alias.lower().strip().replace(" ", "_")),
         certificate_chain=certificate_chain,
         output_epsg=TARGET_EPSG,
         outfields=[source_field for source_field in field_map.values() if source_field is not None],
@@ -228,6 +229,22 @@ INPUT_FEATURE_LAYERS_CONFIG = InputFeatureLayersConfig((
         },
     ),
     input_parcel_factory(
+        url="https://gis-public.north-slope.org/server/rest/services/Lama/Parcels_sql/FeatureServer/9",
+        alias="North Slope Borough",
+        field_map={
+            "parcel_id": "Parcel_ID",
+            "owner": None,
+            "alt_owner": None,
+            "first_name": "First_Name",
+            "last_name": "Last_Name",
+            "property_type": "OwnerTypeDesc",
+            "property_use": "LUCDesc",
+            "land_value": None,
+            "building_value": None,
+            "total_value": None,
+        },
+    ),
+    input_parcel_factory(
         url="https://services7.arcgis.com/RqATEQTpM1W1xU9c/ArcGIS/rest/services/Lots/FeatureServer/0",
         alias="Petersburg Borough",
         field_map={
@@ -286,26 +303,3 @@ INPUT_FEATURE_LAYERS_CONFIG = InputFeatureLayersConfig((
         },
     ),
 ))
-
-
-# 20250803
-# unexplained 500 responses coming from the server
-# {'error': {'code': 500, 'message': 'Error performing query operation', 'details': []}}
-"""
-input_parcel_factory(
-    url="https://gis-public.north-slope.org/server/rest/services/Lama/Parcels_sql/FeatureServer/9",
-    alias="North Slope Borough",
-    field_map={
-        "parcel_id": "Parcel_ID",
-        "owner": None,
-        "alt_owner": None,
-        "first_name": "First_Name",
-        "last_name": "Last_Name",
-        "property_type": "OwnerTypeDesc",
-        "property_use": "LUCDesc",
-        "land_value": None,
-        "building_value": None,
-        "total_value": None,
-    },
-),
-"""
