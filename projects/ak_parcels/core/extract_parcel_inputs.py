@@ -48,8 +48,7 @@ def identify_parcel_features_to_update(feature_history_results: dict[str, list[F
         new_gdf = feature_history[0].gdf
         old_gdf = feature_history[1].gdf
         change_detection = gdf_no_index_change_detection(new_gdf=new_gdf, old_gdf=old_gdf)
-        #if any(len(gdf) > 0 for gdf in change_detection.values()):
-        if True:
+        if any(len(gdf) > 0 for gdf in change_detection.values()):
             _LOGGER.info(f"{alias} has updated parcel records")
             features_to_update[alias] = new_gdf
 

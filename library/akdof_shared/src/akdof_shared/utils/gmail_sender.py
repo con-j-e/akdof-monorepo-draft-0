@@ -13,7 +13,7 @@ class GmailSender:
     def plain_text(self, subject: str, body: str):
         """Send a plain text email body"""
 
-        recipient_address = tuple(self.recipient_address,) if isinstance(self.recipient_address, str) else self.recipient_address
+        recipient_address = (self.recipient_address,) if isinstance(self.recipient_address, str) else self.recipient_address
 
         msg = MIMEText(body)
         msg["Subject"] = subject

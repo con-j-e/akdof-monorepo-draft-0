@@ -98,8 +98,10 @@ class FileLoggingManager:
             return iso_from_datetime(dt_obj)
         
         def format(self, record: logging.LogRecord):
-            formatted = super().format(record)
-            return formatted.replace("|", "<replaced_pipe>").replace("\n", "<br>")
+            record.msg = record.getMessage().replace("|", "<replaced_pipe>").replace("\n", "<br>")
+            record.args = None
+            return super().format(record)
+
 
     class _LogManifest(dict[Path, pd.DataFrame]):
         """Internal data structure used by public methods `check_log_files_for_status()`, `write_log_check_email_bodies()`, and `check_log_files_to_archive()`"""
