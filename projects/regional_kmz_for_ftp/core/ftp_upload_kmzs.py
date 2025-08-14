@@ -1,0 +1,45 @@
+import ftplib
+from pathlib import Path
+from typing import Iterable
+
+from akdof_shared.utils.with_retry import with_retry
+
+from config.logging_config import FLM
+
+_LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
+
+
+def upload_kmzs(processing_regions: Iterable[str], output_kmz_directory: Path, ftp_username: str, ftp_password: str):
+    with Explicit_FTP_TLS(timeout=30) as ftps:
+        ftps.connect(host="ftp.wildfire.gov", port=1021)
+        ftps.login(user=ftp_username, passwd=ftp_password)
+        ftps.prot_p()
+        for region in processing_regions:
+            ftps.cwd(f"/incident_specific_data/alaska/Statewide_Maps/{region}/Map_Layers")
+            _LOGGER.info(f"Beginning uploads for {ftps.pwd()}")
+            for kmz_file in output_kmz_directory.glob(f"{region}*.kmz"):
+                if "AKSD" in kmz_file.name:
+                    continue
+                try:
+                    with open(kmz_file, "rb") as file:
+                        response_code = with_retry(
+                            ftps.storbinary, cmd=f"STOR {kmz_file.name}", fp=file, retry_logger=_LOGGER
+                        )
+                    if response_code.startswith("226"):
+                        kmz_file.replace(output_kmz_directory / "ftp_complete" / kmz_file.name)
+                        _LOGGER.info(f"{kmz_file.name}: {response_code}")
+                    else:
+                        raise ftplib.error_reply(f"{kmz_file.name}: {response_code}")
+                except ftplib.all_errors as e:
+                    kmz_file.replace(output_kmz_directory / "ftp_error" / kmz_file.name)
+                    _LOGGER.error(FLM.format_exception(exc_val=e, full_traceback=True))
+
+
+class Explicit_FTP_TLS(ftplib.FTP_TLS):
+    """Explicit FTPS, with shared TLS session"""
+
+    def ntransfercmd(self, cmd, rest=None):
+        conn, size = ftplib.FTP.ntransfercmd(self, cmd, rest)
+        if self._prot_p:
+            conn = self.context.wrap_socket(conn, server_hostname=self.host, session=self.sock.session)
+        return conn, size
