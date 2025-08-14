@@ -1,6 +1,7 @@
 import asyncio
 from datetime import timedelta
 from concurrent.futures import ThreadPoolExecutor
+import os
 from pathlib import Path
 
 from akdof_shared.io.file_cache_manager import FileCacheManager, PurgeMethod
@@ -212,7 +213,7 @@ INPUT_FEATURE_LAYERS_CONFIG = InputFeatureLayersConfig((
             "building_value": "BLDGVALUE",
             "total_value": None,
         },
-        certificate_chain=Path(r"C:\CERTS\maps.matsugov.us_chain.pem")
+        certificate_chain=Path(os.getenv("AKDOF_ROOT")) / "admin" / "certs" / "chain" / "maps.matsugov.us_chain.pem"
     ),
     input_parcel_factory(
         url="https://services9.arcgis.com/Oi9vFzXc8ZcONgM6/arcgis/rest/services/Parcels_Joined_with_Taxroll_Symbolized_by_Exempt/FeatureServer/0",

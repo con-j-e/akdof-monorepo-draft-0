@@ -1,11 +1,11 @@
-Import-Module (Join-Path $Env:AKWF_ROOT "lib\ps\PyScriptUtils.psm1")
+Import-Module (Join-Path $Env:AKDOF_ROOT "admin\exit_log\WriteExitLog.psm1")
 
 $ScriptRoot = Get-Item $PSScriptRoot
 $CondaPyExe = Join-Path $ScriptRoot "\conda_env\python.exe"
 $MainPy = Join-Path $ScriptRoot "main.py"
 
-$ExitCodeLog = Join-Path $Env:AKWF_ROOT "status_codes.csv"
 $PSDefaultParameterValues['Out-File:Width'] = 5000
 & $CondaPyExe $MainPy 2>> (Join-Path $ScriptRoot "stderr.txt")
-Write-ExitCodeLog -ExitCodeLog $ExitCodeLog -ProjectName $ScriptRoot.Name -ScriptName "main"
+Write-ExitLog -ProjectName $ScriptRoot.Name -ScriptName "main"
+
 exit
