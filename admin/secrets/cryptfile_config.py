@@ -20,6 +20,16 @@ ALL_PROJECT_SECRETS: Iterable[ProjectSecret] = (
         #password=_
     ),
     ProjectSecret(
+        service_name="https://nifc.maps.arcgis.com/",
+        username="AK_State_Authoritative_nifc",
+        #password=_
+    ),
+    ProjectSecret(
+        service_name="ftp.wildfire.gov",
+        username="cedick",
+        #password=_
+    ),
+    ProjectSecret(
         service_name="gmail",
         username="akdofscripts@gmail.com",
         #password=_
@@ -28,7 +38,20 @@ ALL_PROJECT_SECRETS: Iterable[ProjectSecret] = (
         service_name="send_gmail",
         username="ak_parcels",
         #password=_
+    ),
+    ProjectSecret(
+        service_name="send_gmail",
+        username="regional_kmz_for_ftp",
+        #password=_
     )
+)
+
+ADD_PROJECT_SECRETS: Iterable[ProjectSecret] = (
+
+)
+
+DELETE_PROJECT_SECRETS: Iterable[ProjectSecret] = (
+
 )
 
 if __name__ == "__main__":
@@ -41,7 +64,7 @@ if __name__ == "__main__":
     #CKM.store_cryptfile_keyring_master_password(master_password=_)
 
     # use as-needed
-    #CKM.store_secrets(project_secrets=_)
+    #CKM.store_secrets(project_secrets=ADD_PROJECT_SECRETS)
 
     # use as-needed
-    #CKM.delete_secrets(project_secrets=_)
+    #CKM.delete_secrets(project_secrets=DELETE_PROJECT_SECRETS)
