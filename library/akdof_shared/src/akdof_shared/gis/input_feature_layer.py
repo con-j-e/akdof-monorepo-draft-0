@@ -133,13 +133,11 @@ class InputFeatureLayer(BaseModel):
 
     async def refresh_features(self) -> Literal[True]:
 
+        self._validate_required_resources("semaphore", "requester", "thread_executor")
+
         if not self._supports_pagination():
             raise PaginationNotSupported(f"{self.alias} does not support pagination! Consider implementing an alternate code path using objectId based queries.")
         
-        missing_resources = [name for name, resource in (("semaphore", self.semaphore), ("requester", self.requester), ("thread_executor", self.thread_executor)) if resource is None]
-        if missing_resources:
-            raise ResourceNotInitialized(f"{self.alias} missing required resources: {', '.join(missing_resources)}. Refusing method call.")
-
         target_feature_count, target_extent = self._get_feature_count_and_extent()
 
         complete_parameters, query_parameters, spatial_query_parameters = self._collect_params_with_metadata()
@@ -177,8 +175,7 @@ class InputFeatureLayer(BaseModel):
 
     async def load_feature_history(self, cache_count: int | Literal["all"] = "all", apply_field_map: bool = False, validate_index: bool = False) -> list[FeaturesGdf]:
 
-        if self.thread_executor is None:
-            raise ResourceNotInitialized(f"{self.alias} missing required resource: thread_executor. Refusing method call.")
+        self._validate_required_resources("thread_executor")
 
         cache_manifest = self.cache.features.load_manifest() if cache_count == "all" else self.cache.features.parse_manifest(target_length=cache_count)
 
@@ -354,6 +351,11 @@ class InputFeatureLayer(BaseModel):
         if not (unique_id_field_name is not None and gdf.index.name is not None and unique_id_field_name == gdf.index.name):
             raise InvalidIndex(f"{self.alias} produced a GeoDataFrame with an index that does not pass validation!")
         
+    def _validate_required_resources(self, *resource_names: str) -> None:
+        missing = [name for name in resource_names if getattr(self, name) is None]
+        if missing:
+            raise ResourceNotInitialized(f"{self.alias} missing required resources: {', '.join(missing)}. Refusing method call.")
+
 class InputFeatureLayersConfig:
     """Configuration for a projects input feature layer dependencies."""
 
