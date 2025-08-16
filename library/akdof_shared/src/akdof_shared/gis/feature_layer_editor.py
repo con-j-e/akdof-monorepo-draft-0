@@ -7,13 +7,26 @@ import aiohttp
 
 from akdof_shared.gis.arcgis_api_validation import validate_arcgis_json
 from akdof_shared.gis.arcgis_helpers import get_feature_count_and_extent, get_object_ids
-from akdof_shared.io.async_requester import AsyncRequester
+from akdof_shared.io.async_requester import AsyncRequester, StatusCodePlanner
 
 class EditFailureResponse(Exception): pass
 class BatchEditException(Exception): pass
 class ResultingFeatureCountInvalid(Exception): pass
 
 class FeatureLayerEditor:
+
+    status_code_planner: StatusCodePlanner = {
+        408: {"sleep_seconds": 2, "attempt_increment": 1},
+        429: {"sleep_seconds": 10, "attempt_increment": 0.5},
+        502: {"sleep_seconds": 5, "attempt_increment": 0.8},
+        503: {"sleep_seconds": 8, "attempt_increment": 0.8},
+    }
+    """
+    - 408 Request Timeout: Server didn't receive complete request in time
+    - 429 Too Many Requests: Rate limiting - client sending requests too quickly  
+    - 502 Bad Gateway: Upstream server returned invalid response
+    - 503 Service Unavailable: Server temporarily overloaded or down for maintenance
+    """
 
     def __init__(
         self,
@@ -23,8 +36,8 @@ class FeatureLayerEditor:
         features_to_add: list[dict] | None = None,
         logger: Logger | None = None,
         requester: AsyncRequester | None = None,
-        deletes_batch_size: int = 10_000,
-        adds_batch_size: int = 5000,
+        deletes_batch_size: int = 5_000,
+        adds_batch_size: int = 2_500,
     ):
         self.base_url = base_url
         self.token = token
@@ -63,22 +76,12 @@ class FeatureLayerEditor:
 
         try:
             await self._edit_request(features_to_add=self.features_to_add, object_ids_to_delete=object_ids_to_delete)
-        except aiohttp.ClientResponseError as e:
-            if e.status == 413:
-                self.logger.debug(f"{self.base_url} edit attempt failed with an HTTP 413 response: {e.message}")
+        except (aiohttp.ClientResponseError, aiohttp.ContentTypeError) as e:
+            if e.status in (413, 504):
+                self.logger.debug(f"{self.base_url} edit attempt failed with an HTTP {e.status} response: {e.message}")
                 self.logger.debug(f"{self.base_url} beginning batched edit operations...")
-
-                batches = [list(object_ids_to_delete[i: i + self.deletes_batch_size]) for i in range(0, len(object_ids_to_delete), self.deletes_batch_size)]
-                self.logger.debug(f"{self.base_url} sending {len(batches)} requests, using batch sizes of {self.deletes_batch_size} to delete a total of {len(object_ids_to_delete)} features...")
-                for batch_count, oid_batch in enumerate(batches, start=1):
-                    await self._edit_request(object_ids_to_delete=oid_batch)
-                    self.logger.debug(f"{self.base_url} DELETES: batch {batch_count} of {len(batches)} complete")
-                
-                batches = [list(self.features_to_add[i: i + self.adds_batch_size]) for i in range(0, len(self.features_to_add), self.adds_batch_size)]
-                self.logger.debug(f"{self.base_url} sending {len(batches)} requests, using batch sizes of {self.adds_batch_size} to add a total of {len(self.features_to_add)} features...")
-                for batch_count, feat_batch in enumerate(batches, start=1):
-                    await self._edit_request(features_to_add=feat_batch)
-                    self.logger.debug(f"{self.base_url} ADDS: batch {batch_count} of {len(batches)} complete")
+                updated_object_ids_to_delete = get_object_ids(base_url=self.base_url, where=self.feature_deletion_query, token=self.token)
+                await self._batched_edits(features_to_add=self.features_to_add, object_ids_to_delete=updated_object_ids_to_delete)
             else:
                 raise
 
@@ -96,6 +99,20 @@ class FeatureLayerEditor:
             "feature_count_change": resulting_feature_count - initial_feature_count,
             "target_feature_count_discrepancy": resulting_feature_count - target_feature_count
         }
+    
+    async def _batched_edits(self, features_to_add: list[dict] | None = None, object_ids_to_delete: list[int] | None = None):
+
+        batches = [list(object_ids_to_delete[i: i + self.deletes_batch_size]) for i in range(0, len(object_ids_to_delete), self.deletes_batch_size)]
+        self.logger.debug(f"{self.base_url} sending {len(batches)} requests, using batch sizes of {self.deletes_batch_size} to delete a total of {len(object_ids_to_delete)} features...")
+        for batch_count, oid_batch in enumerate(batches, start=1):
+            await self._edit_request(object_ids_to_delete=oid_batch)
+            self.logger.debug(f"{self.base_url} DELETES: batch {batch_count} of {len(batches)} complete")
+        
+        batches = [list(features_to_add[i: i + self.adds_batch_size]) for i in range(0, len(features_to_add), self.adds_batch_size)]
+        self.logger.debug(f"{self.base_url} sending {len(batches)} requests, using batch sizes of {self.adds_batch_size} to add a total of {len(features_to_add)} features...")
+        for batch_count, feat_batch in enumerate(batches, start=1):
+            await self._edit_request(features_to_add=feat_batch)
+            self.logger.debug(f"{self.base_url} ADDS: batch {batch_count} of {len(batches)} complete")
 
     async def _edit_request(self, features_to_add: list[dict] | None = None, object_ids_to_delete: list[int] | None = None):
 
@@ -112,6 +129,7 @@ class FeatureLayerEditor:
             url=f"{self.base_url}/applyEdits",
             request_method="post",
             read_method="json",
+            status_code_plan=self.status_code_planner,
             data=apply_edits_data,
             timeout=aiohttp.ClientTimeout(total=120)
         )

@@ -147,12 +147,17 @@ class AsyncRequester:
                 self.logger.debug(f"{url} EXCEPTION: {FileLoggingManager.format_exception(e)}")
                 self.logger.debug(f"{url} RESPONSE HEADERS: {dict(response.headers)}")
                 content_type = response.headers.get("content-type", "")
-                try:
-                    fallback_read_method = self._get_read_method_from_content_type(content_type)
-                    content = await self.dispatchers[fallback_read_method](response)
-                    self.logger.debug(f"{url} RESPONSE CONTENT: {str(content)[:5000]}")
-                except Exception as _:
-                    self.logger.debug(f"{url} RESPONSE CONTENT: Failed to read response content.")
+                fallback_read_method = self._get_read_method_from_content_type(content_type)
+                content = await self.dispatchers[fallback_read_method](response)
+                self.logger.debug(f"{url} RESPONSE CONTENT: {str(content)[:5000]}")
+
+                # raising upstream server timeouts that deliver unexpected text content to the client
+                # this pattern is common for ArcGIS REST API applyEdits operations
+                if isinstance(content, str) and '"error"' in content and '"code":504' in content:
+                    e.status = 504
+                    e.message = content
+                    raise
+
                 await asyncio.sleep(
                     self._randomize_and_backoff_sleep(
                         base_sleep=5,
