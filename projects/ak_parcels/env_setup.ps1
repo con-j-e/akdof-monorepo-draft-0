@@ -3,12 +3,12 @@ $CondaPath = $WhichConda.Path
 $CondaVersion = & $CondaPath --version
 
 $Response = Read-Host ("${CondaVersion} found at ${CondaPath}. Would you like to use this conda installation to conduct the environment setup? ( y / n )")
-if (-not ($response -match '^[Yy]$')) {
+if (-not ($Response -match '^[Yy]$')) {
     Write-Host "Aborted by user."
     exit
 }
 $Response = Read-Host ("This setup script is executing from the directory ${PSScriptRoot}. Would you like to setup the environment in this location? ( y / n )")
-if (-not ($response -match '^[Yy]$')) {
+if (-not ($Response -match '^[Yy]$')) {
     Write-Host "Aborted by user."
     exit
 }
@@ -24,7 +24,7 @@ if ($env:CONDA_DEFAULT_ENV) {
     Write-Host "Unable to activate conda environment. Shell profile may require 'conda init' before this setup script will work as expected. Exiting..."
     exit
 }
-if (-not ($response -match '^[Yy]$')) {
+if (-not ($Response -match '^[Yy]$')) {
     Write-Host "Aborted by user."
     exit
 }
