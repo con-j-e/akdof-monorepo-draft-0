@@ -28,6 +28,7 @@ class InvalidFeaturesResponse(InputFeatureLayerError): pass
 class UnclearSpatialReference(InputFeatureLayerError): pass
 class InvalidIndex(InputFeatureLayerError): pass
 class PaginationNotSupported(InputFeatureLayerError): pass
+class ResourceNotInitialized(InputFeatureLayerError): pass
 class MetadataConflict(InputFeatureLayerError): pass
 class DuplicateAlias(InputFeatureLayerError): pass
 
@@ -128,24 +129,16 @@ class InputFeatureLayer(BaseModel):
         if not self.logger.handlers:
             self.logger.addHandler(logging.NullHandler())
 
-        if self.semaphore is None:
-            self.semaphore = asyncio.Semaphore(10)
-            self.logger.info(f"Created default instance-specific semaphore for {self.alias}")
-
-        if self.requester is None:
-            self.requester = AsyncArcGisRequester(logger=self.logger)
-            self.logger.info(f"Created default instance-specific requester for {self.alias}")
-
-        if self.thread_executor is None:
-            self.thread_executor = ThreadPoolExecutor(thread_name_prefix=self.alias.replace(" ","_").strip())
-            self.logger.info(f"Created default instance-specific thread executor for {self.alias}")
-
-        self.logger.info(f"Post-init complete for {self.alias}")
+        self.logger.debug(f"Post-init complete for {self.alias}")
 
     async def refresh_features(self) -> Literal[True]:
 
         if not self._supports_pagination():
             raise PaginationNotSupported(f"{self.alias} does not support pagination! Consider implementing an alternate code path using objectId based queries.")
+        
+        missing_resources = [name for name, resource in (("semaphore", self.semaphore), ("requester", self.requester), ("thread_executor", self.thread_executor)) if resource is None]
+        if missing_resources:
+            raise ResourceNotInitialized(f"{self.alias} missing required resources: {', '.join(missing_resources)}. Refusing method call.")
 
         target_feature_count, target_extent = self._get_feature_count_and_extent()
 
@@ -183,6 +176,9 @@ class InputFeatureLayer(BaseModel):
         return True
 
     async def load_feature_history(self, cache_count: int | Literal["all"] = "all", apply_field_map: bool = False, validate_index: bool = False) -> list[FeaturesGdf]:
+
+        if self.thread_executor is None:
+            raise ResourceNotInitialized(f"{self.alias} missing required resource: thread_executor. Refusing method call.")
 
         cache_manifest = self.cache.features.load_manifest() if cache_count == "all" else self.cache.features.parse_manifest(target_length=cache_count)
 
@@ -386,6 +382,10 @@ class InputFeatureLayersConfig:
 
     def get_layer(self, alias: str) -> InputFeatureLayer:
         return self.layers_dict[alias]
+    
+    def update_resource_info(self):
+        for layer in self.input_layers:
+            layer._get_feature_layer_resource_info()
     
     def shutdown_thread_executors(self):
         unique_thread_executors = {layer.thread_executor for layer in self.input_layers if isinstance(layer.thread_executor, ThreadPoolExecutor)}
