@@ -1,6 +1,3 @@
-from copy import copy
-import sys
-
 import arcpy
 
 from akdof_shared.utils.with_retry import with_retry
@@ -20,8 +17,57 @@ from config.secrets_config import NIFC_AGOL_CREDENTIALS
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
+def arcpy_create_kmzs() -> ExitStatus:
+    try:
+        exit_status = ExitStatus.OK
 
-def clip_layer_to_kmz(
+        with_retry(arcpy.SignInToPortal, *NIFC_AGOL_CREDENTIALS)
+        arcpy.env.workspace = str(AK_FIRE_REGIONS_GDB)
+        arcpy.env.overwriteOutput = True
+        arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(4326)
+        arcpy.env.parallelProcessingFactor = 100
+
+        if PROCESSING_CYCLE == "annual":
+            input_feature_layers_config = [input for input in INPUT_FEATURE_LAYERS_CONFIG if input.processing_frequency == "annual"]
+        else:
+            input_feature_layers_config = [input for input in INPUT_FEATURE_LAYERS_CONFIG]
+
+        arcpy_processing_exceptions = dict()
+        for region in PROCESSING_REGIONS:
+            selected_region = arcpy.management.SelectLayerByAttribute(
+                in_layer_or_view=AK_FIRE_REGIONS_LAYER_NAME,
+                selection_type="NEW_SELECTION",
+                where_clause=rf"REGION = '{region}'",
+            )
+            for input in input_feature_layers_config:
+                try:
+                    with_retry(
+                        _clip_layer_to_kmz,
+                        clip_layer=selected_region,
+                        layer_to_clip=str(input.url),
+                        layer_file=str(LYRX_DIRECTORY / f"{input.alias}.lyrx"),
+                        output_path=str(OUTPUT_KMZ_DIRECTORY / f"{region}_{input.alias}.kmz"),
+                        query=input.sql_where_clause,
+                        retry_logger=_LOGGER,
+                    )
+                    _LOGGER.info(f"_clip_layer_to_kmz() --> {region}_{input.alias}.kmz")
+                except Exception as e:
+                    if input.alias not in arcpy_processing_exceptions:
+                        arcpy_processing_exceptions[input.alias] = FLM.format_exception(exc_val=e, full_traceback=True)
+
+        if arcpy_processing_exceptions:
+            _LOGGER.error("Errors occurred during ArcPy processing and persisted across all retry attempts!")
+            for feature_layer_alias, logged_exc in arcpy_processing_exceptions.items():
+                _LOGGER.error(f"{feature_layer_alias}: {logged_exc}")
+
+    except Exception as e:
+        exit_status = ExitStatus.CRITICAL
+        _LOGGER.critical(FLM.format_exception(exc_val=e, full_traceback=True))
+
+    finally:
+        return exit_status
+    
+def _clip_layer_to_kmz(
     clip_layer: str, layer_to_clip: str, layer_file: str, output_path: str, query: str | None = None
 ) -> None:
     """
@@ -55,56 +101,3 @@ def clip_layer_to_kmz(
         is_composite="NO_COMPOSITE",
         ignore_zvalue="CLAMPED_TO_GROUND",
     )
-
-
-def main() -> ExitStatus:
-    try:
-        exit_status = ExitStatus.OK
-
-        with_retry(arcpy.SignInToPortal, *NIFC_AGOL_CREDENTIALS)
-        arcpy.env.workspace = str(AK_FIRE_REGIONS_GDB)
-        arcpy.env.overwriteOutput = True
-        arcpy.env.outputCoordinateSystem = arcpy.SpatialReference(4326)
-        arcpy.env.parallelProcessingFactor = 100
-
-        input_feature_layers_config = copy(INPUT_FEATURE_LAYERS_CONFIG)
-        if PROCESSING_CYCLE == "nightly":
-            input_feature_layers_config = [config for config in input_feature_layers_config if config.processing_frequency != "annual"]
-
-        arcpy_processing_exceptions = dict()
-        for region in PROCESSING_REGIONS:
-            selected_region = arcpy.management.SelectLayerByAttribute(
-                in_layer_or_view=AK_FIRE_REGIONS_LAYER_NAME,
-                selection_type="NEW_SELECTION",
-                where_clause=rf"REGION = '{region}'",
-            )
-            for config in input_feature_layers_config:
-                try:
-                    with_retry(
-                        clip_layer_to_kmz,
-                        clip_layer=selected_region,
-                        layer_to_clip=str(config.url),
-                        layer_file=str(LYRX_DIRECTORY / f"{config.alias}.lyrx"),
-                        output_path=str(OUTPUT_KMZ_DIRECTORY / f"{region}_{config.alias}.kmz"),
-                        query=config.sql_where_clause,
-                        retry_logger=_LOGGER,
-                    )
-                    _LOGGER.info(f"clip_layer_to_kmz() --> {region}_{config.alias}.kmz")
-                except Exception as e:
-                    if config.alias not in arcpy_processing_exceptions:
-                        arcpy_processing_exceptions[config.alias] = FLM.format_exception(exc_val=e, full_traceback=True)
-
-        if arcpy_processing_exceptions:
-            _LOGGER.error("Errors occurred during ArcPy processing and persisted across all retry attempts!")
-            for feature_layer_alias, logged_exc in arcpy_processing_exceptions.items():
-                _LOGGER.error(f"{feature_layer_alias}: {logged_exc}")
-
-    except Exception as e:
-        exit_status = ExitStatus.CRITICAL
-        _LOGGER.critical(FLM.format_exception(exc_val=e, full_traceback=True))
-
-    finally:
-        return exit_status
-
-if __name__ == "__main__":
-    sys.exit(main())

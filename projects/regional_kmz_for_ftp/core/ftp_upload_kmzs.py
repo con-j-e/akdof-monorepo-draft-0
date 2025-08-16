@@ -9,7 +9,7 @@ from config.logging_config import FLM
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 
-def upload_kmzs(processing_regions: Iterable[str], output_kmz_directory: Path, ftp_username: str, ftp_password: str):
+def ftp_upload_kmzs(processing_regions: Iterable[str], output_kmz_directory: Path, ftp_username: str, ftp_password: str):
     with Explicit_FTP_TLS(timeout=30) as ftps:
         ftps.connect(host="ftp.wildfire.gov", port=1021)
         ftps.login(user=ftp_username, passwd=ftp_password)

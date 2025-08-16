@@ -1,5 +1,3 @@
-import os
-from pathlib import Path
 import subprocess
 import sys
 
@@ -13,8 +11,8 @@ from config.secrets_config import (
     NIFC_TOKEN,
     GMAIL_SENDER
 )
-from core.arcgis_api_upload_aksd_kmzs import upload_aksd_kmzs
-from core.ftp_upload_kmzs import upload_kmzs
+from core.agol_upload_aksd_kmzs import agol_upload_aksd_kmzs
+from core.ftp_upload_kmzs import ftp_upload_kmzs
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
@@ -25,24 +23,19 @@ def main() -> ExitStatus:
         main_logger=_LOGGER,
         gmail_sender=GMAIL_SENDER,
     ) as exit_manager:
-
+        
         # kmz outputs are created using arcpy
         # arcpy is contained in a subprocess to prevent its imports from modifying the main runtime environment
-        env = dict(**os.environ)
-        existing_path = os.environ.get("PYTHONPATH", "")
-        env["PYTHONPATH"] = str(Path(__file__).resolve().parent) + os.pathsep + existing_path
-        subprocess.run(
-            [sys.executable, str(PROJ_DIR / "core" / "arcpy_create_kmzs.py")], env=env, check=True, timeout=3600
-        )
+        subprocess.run([sys.executable, str(PROJ_DIR / "_arcpy_subprocess.py")], check=True, timeout=3600)
 
         # alaska known sites database kmzs will be uploaded to nifc arcgis online
         try:
-            upload_aksd_kmzs(output_kmz_directory=OUTPUT_KMZ_DIRECTORY, aksd_kmz_item_ids=AKSD_KMZ_ITEM_IDS, token=NIFC_TOKEN)
+            agol_upload_aksd_kmzs(output_kmz_directory=OUTPUT_KMZ_DIRECTORY, aksd_kmz_item_ids=AKSD_KMZ_ITEM_IDS, token=NIFC_TOKEN)
         except Exception as e:
             _LOGGER.critical(FLM.format_exception(exc_val=e, full_traceback=True))
 
         # remaining kmzs will be uploaded to ftp.wildfire.gov
-        upload_kmzs(
+        ftp_upload_kmzs(
             processing_regions=PROCESSING_REGIONS,
             output_kmz_directory=OUTPUT_KMZ_DIRECTORY,
             ftp_username=NIFC_FTP_CREDENTIALS.username,

@@ -11,7 +11,7 @@ _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 class ItemUpdateFailure(Exception): pass
 
-def upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[str, str], token: str) -> None:
+def agol_upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[str, str], token: str) -> None:
 
     files_to_delete = list()
 
@@ -33,7 +33,7 @@ def upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[str, st
             with open(kmz_zip, "rb") as myzip:
                 files = {"file": (f"{stem}.zip", myzip, "application/zip")}
                 response = requests.post(
-                    url=f"https://nifc.maps.arcgis.com/content/users/AK_State_Authoritative_nifc/items/{item_id}/update",
+                    url=f"https://www.arcgis.com/sharing/rest/content/users/AK_State_Authoritative_nifc/items/{item_id}/update",
                     data={"token": token, "f": "json"},
                     files=files
                 )
