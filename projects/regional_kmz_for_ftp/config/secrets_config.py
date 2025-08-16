@@ -14,19 +14,18 @@ CKM = CryptfileKeyringManager(
     cryptfile_path=Path(os.getenv("AKDOF_ROOT")) / "admin" / "secrets" / "keyring_cryptfile.cfg"
 )
 
-NIFC_AGOL_CREDENTIALS = CKM.get_full_secret(ProjectSecret(service_name=, username=))
-"""`<portal_url>, <username>, <password>` for authenticating with ArcGIS Online"""
-
-NIFC_FTP_CREDENTIALS = CKM.get_full_secret(ProjectSecret(service_name=, username=))
+NIFC_FTP_CREDENTIALS = CKM.get_full_secret(ProjectSecret(service_name="ftp.wildfire.gov", username="cedick"))
 """`<ftp_url>, <username>, <password>` for authenticating with ftp.wildfire.gov"""
+
+NIFC_AGOL_CREDENTIALS = CKM.get_full_secret(ProjectSecret(service_name="https://nifc.maps.arcgis.com/", username="AK_State_Authoritative_nifc"))
+"""`<portal_url>, <username>, <password>` for authenticating with ArcGIS Online"""
 
 NIFC_ARCGIS_AUTH = ArcGisApiAuthManager(
     cryptfile_keyring_manager=CKM,
-    project_secret=ProjectSecret(
-        service_name="https://nifc.maps.arcgis.com/",
-        username="AK_State_Authoritative_nifc"
-    )
+    project_secret=NIFC_AGOL_CREDENTIALS
 )
+
+NIFC_TOKEN = NIFC_ARCGIS_AUTH.checkout_token(minutes_needed=45)
 
 def gmail_sender_factory() -> GmailSender:
     sender_full_secret = CKM.get_full_secret(

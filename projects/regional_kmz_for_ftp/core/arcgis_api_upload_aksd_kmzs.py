@@ -1,57 +1,46 @@
-import os
 from pathlib import Path
+import requests
 from zipfile import ZipFile
 
-from arcgis.gis import GIS
-
 from akdof_shared.utils.with_retry import with_retry
+from akdof_shared.gis.arcgis_api_validation import validate_arcgis_rest_api_json_response
 
 from config.logging_config import FLM
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
-def upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[str, str], gis: GIS) -> None:
+class ItemUpdateFailure(Exception): pass
+
+def upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[str, str], token: str) -> None:
 
     files_to_delete = list()
 
     for region, item_id in aksd_kmz_item_ids.items():
-        if not os.path.isfile(rf"{output_kmz_directory}/{region}_AKSD.kmz"):
-            _LOGGER.error(f"File not found: {region}_AKSD.kmz")
+        
+        stem = f"{region}_AKSD"
+
+        if not (output_kmz_directory / f"{stem}.kmz").exists():
+            _LOGGER.error(f"File not found: {stem}.kmz")
             continue
 
-        props = {
-            "type": "KML Collection",
-            "dataURL": None,
-            "filename": None,
-            "typeKeywords": None,
-            "description": "This file is updated daily during fire season.",
-            "title": f"{region}_AKSD",
-            "url": None,
-            "text": None,
-            "tags": "AKSD_KMZ",
-            "snippet": f"Zipped KMZ file of the Alaska Known Sites Database for {region} region.",
-            "extent": None,
-            "spatialReference": "EPSG:4326",
-            "accessInformation": "Data sourced from BLM Alaska Fire Service",
-            "licenseInfo": None,
-            "culture": None,
-            "commentsEnabled": False,
-            "overwrite": True,
-        }
-
-        kmz_file = output_kmz_directory / f"{region}_AKSD.kmz"
-        kmz_zip = output_kmz_directory / f"{region}_AKSD.zip"
+        kmz_file = output_kmz_directory / f"{stem}.kmz"
+        kmz_zip = output_kmz_directory / f"{stem}.zip"
 
         with ZipFile(kmz_zip, "w") as myzip:
             myzip.write(kmz_file, arcname=kmz_file.name)
 
         def _update_aksd_item():
-            item = gis.content.get(item_id)
-            success = item.update(item_properties=props, data=str(kmz_zip))
-            if success:
-                _LOGGER.info(f"{region}_AKSD.kmz update success.")
-            else:
-                raise RuntimeError(f"{region}_AKSD.kmz (Item ID {item_id}) failed to update.")
+            with open(kmz_zip, "rb") as myzip:
+                files = {"file": (f"{stem}.zip", myzip, "application/zip")}
+                response = requests.post(
+                    url=f"https://nifc.maps.arcgis.com/content/users/AK_State_Authoritative_nifc/items/{item_id}/update",
+                    data={"token": token, "f": "json"},
+                    files=files
+                )
+            response_json = validate_arcgis_rest_api_json_response(response=response, expected_keys=("success", "id"), expected_keys_requirement="all")
+            if response_json["success"] is not True:
+                raise ItemUpdateFailure(f"Failed to update AKSD KMZ item (id: {item_id}) for {region} region")
+            _LOGGER.info(f"{stem}.kmz update success.")
 
         try:
             with_retry(_update_aksd_item, retry_logger=_LOGGER)
@@ -61,4 +50,4 @@ def upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[str, st
         files_to_delete.extend([kmz_file, kmz_zip])
 
     for file in files_to_delete:
-        os.remove(file)
+        file.unlink()

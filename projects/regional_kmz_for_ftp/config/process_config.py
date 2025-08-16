@@ -1,7 +1,8 @@
+import os
 from pathlib import Path
 from typing import Iterable, Literal
 
-PROJ_DIR: Path = Path(r"C:\REPOS\con-j-e\ak-wildfire-monorepo\regional_kmz_for_ftp")
+PROJ_DIR: Path = Path(os.getenv("AKDOF_ROOT")) / "projects" / "regional_kmz_for_ftp"
 """Project root directory"""
 
 AK_FIRE_REGIONS_GDB: Path = PROJ_DIR / "ak_fire_regions.gdb"
