@@ -34,8 +34,7 @@ PROCESSING_CYCLE: Literal["nightly", "annual"] = "nightly"
 
 PROCESSING_REGIONS: Iterable[
     Literal["CGF", "CRS", "DAS", "FAS", "GAD", "HNS", "KKS", "MSS", "SWS", "TAD", "TAS", "TNF", "UYD"]
-] = ("MSS",)
-#("CGF", "CRS", "DAS", "FAS", "GAD", "HNS", "KKS", "MSS", "SWS", "TAD", "TAS", "TNF", "UYD")
+] = ("CGF", "CRS", "DAS", "FAS", "GAD", "HNS", "KKS", "MSS", "SWS", "TAD", "TAS", "TNF", "UYD")
 """
 Which wildland fire regions to produce KMZs for.
 Note that MID region is left out. Data covering MID will be present in the FAS and DAS KMZs.

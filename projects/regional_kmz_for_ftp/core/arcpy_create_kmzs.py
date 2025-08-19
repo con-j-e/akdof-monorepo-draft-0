@@ -28,9 +28,9 @@ def arcpy_create_kmzs() -> ExitStatus:
         arcpy.env.parallelProcessingFactor = 100
 
         if PROCESSING_CYCLE == "annual":
-            input_feature_layers_config = [input for input in INPUT_FEATURE_LAYERS_CONFIG if input.processing_frequency == "annual"]
-        else:
             input_feature_layers_config = [input for input in INPUT_FEATURE_LAYERS_CONFIG]
+        else:
+            input_feature_layers_config = [input for input in INPUT_FEATURE_LAYERS_CONFIG if input.processing_frequency != "annual"]
 
         arcpy_processing_exceptions = dict()
         for region in PROCESSING_REGIONS:
