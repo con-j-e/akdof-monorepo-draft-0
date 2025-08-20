@@ -26,14 +26,12 @@ def ftp_upload_kmzs(processing_regions: Iterable[str], output_kmz_directory: Pat
                             ftps.storbinary, cmd=f"STOR {kmz_file.name}", fp=file, retry_logger=_LOGGER
                         )
                     if response_code.startswith("226"):
-                        kmz_file.replace(output_kmz_directory / "ftp_complete" / kmz_file.name)
                         _LOGGER.info(f"{kmz_file.name}: {response_code}")
+                        kmz_file.replace(output_kmz_directory / "ftp_complete" / kmz_file.name)
                     else:
                         raise ftplib.error_reply(f"{kmz_file.name}: {response_code}")
                 except ftplib.all_errors as e:
-                    kmz_file.replace(output_kmz_directory / "ftp_error" / kmz_file.name)
                     _LOGGER.error(FLM.format_exception(exc_val=e, full_traceback=True))
-
 
 class Explicit_FTP_TLS(ftplib.FTP_TLS):
     """Explicit FTPS, with shared TLS session"""

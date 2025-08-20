@@ -26,7 +26,7 @@ def main() -> ExitStatus:
         
         # kmz outputs are created using arcpy
         # arcpy is contained in a subprocess to prevent its imports from modifying the main runtime environment
-        subprocess.run([sys.executable, str(PROJ_DIR / "_arcpy_subprocess.py")], check=True, timeout=3600)
+        subprocess.run([sys.executable, str(PROJ_DIR / "_subprocess.py")], check=True, timeout=3600)
 
         # alaska known sites database kmzs will be uploaded to nifc arcgis online
         try:

@@ -5,7 +5,7 @@ from typing import Iterable, Literal
 PROJ_DIR: Path = Path(os.getenv("AKDOF_ROOT")) / "projects" / "regional_kmz_for_ftp"
 """Project root directory"""
 
-AK_FIRE_REGIONS_GDB: Path = PROJ_DIR / "ak_fire_regions.gdb"
+AK_FIRE_REGIONS_GDB: Path = PROJ_DIR / "data" / "ak_fire_regions.gdb"
 """
 File GDB containing the feature layer specified by global constant `AK_FIRE_REGIONS_LAYER_NAME`.
 This is saved locally to cut down on unnecessary queries to static data.
@@ -19,10 +19,10 @@ Because we will set `arcpy.env.outputCoordinateSystem` to EPSG 4326 before proce
 so this is not an essential detail.
 """
 
-OUTPUT_KMZ_DIRECTORY: Path = PROJ_DIR / "output_kmz"
+OUTPUT_KMZ_DIRECTORY: Path = PROJ_DIR / "data" / "temp" / "output_kmz"
 """Where KMZ files will be stored temporarily before being uploaded to FTP or AGOL."""
 
-LYRX_DIRECTORY: Path = PROJ_DIR / "lyrx"
+LYRX_DIRECTORY: Path = PROJ_DIR / "data" / "layer_files"
 """
 Where layer files that define the symbology used during KMZ generation get stored.
 File names must be idential to the associated `InputFeatureLayer` `alias` attribute.

@@ -1,3 +1,4 @@
+import asyncio
 import json
 import sys
 
@@ -60,7 +61,7 @@ def main() -> ExitStatus:
         runways_gdf[aircraft_flight_time_cols] = runways_gdf[aircraft_flight_time_cols].map(json.dumps)
 
         token = SOA_ARCGIS_AUTH.checkout_token(minutes_needed=10)
-        status = update_target_layers(
+        status = asyncio.run(update_target_layers(
             features_to_update={
                 "ak_runways": runways_gdf,
                 "heli_medevac_timezones": heli_range_gdf,
@@ -68,8 +69,7 @@ def main() -> ExitStatus:
                 "medevac_flight_paths": flight_lines_gdf
             },
             token=token
-        )
-
+        ))
         if status["success"] is True:
             fdm.update_cache()
 

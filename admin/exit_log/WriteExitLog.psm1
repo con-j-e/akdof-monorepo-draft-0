@@ -1,6 +1,6 @@
 function Write-ExitLog {
     param (
-        [string]$ExitLog = (Join-Path $Env:AKDOF_ROOT "admin\exit_log\exit_log.csv"),
+        [string]$ExitLog = (Join-Path $Env:AKDOF_ROOT "admin" "exit_log" "exit_log.csv"),
 
         [Parameter(Mandatory = $true)]
         [string]$ProjectName,

@@ -45,7 +45,7 @@ def input_parcel_factory(url: str, alias: str | None, field_map: dict[str, str],
     ifl = InputFeatureLayer(
         url=url,
         alias=alias,
-        cache=parcel_feature_layer_cache_factory(cache_path=PROJ_DIR / "parcel_inputs_cache" / alias.lower().strip().replace(" ", "_")),
+        cache=parcel_feature_layer_cache_factory(cache_path=PROJ_DIR / "data" / "cache" / "input_feature_layers" / alias.lower().strip().replace(" ", "_")),
         certificate_chain=certificate_chain,
         output_epsg=TARGET_EPSG,
         outfields=[source_field for source_field in field_map.values() if source_field is not None],

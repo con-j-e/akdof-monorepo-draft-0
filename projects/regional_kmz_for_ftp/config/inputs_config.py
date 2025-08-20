@@ -37,7 +37,7 @@ def input_kmz_layer_factory(url: str, alias: str, token: str | None = None, sql_
         alias=alias,
         token=token,
         sql_where_clause=sql_where_clause,
-        cache=kmz_feature_layer_cache_factory(cache_path=PROJ_DIR / "kmz_input_layers_cache" / alias.lower().strip().replace(" ", "_")),
+        cache=kmz_feature_layer_cache_factory(cache_path=PROJ_DIR / "data" / "cache" / "input_feature_layers" / alias.lower().strip().replace(" ", "_")),
         processing_frequency=processing_frequency,
         logger=_LOGGER
     )

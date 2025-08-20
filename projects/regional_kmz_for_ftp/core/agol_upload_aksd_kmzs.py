@@ -13,8 +13,6 @@ class ItemUpdateFailure(Exception): pass
 
 def agol_upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[str, str], token: str) -> None:
 
-    files_to_delete = list()
-
     for region, item_id in aksd_kmz_item_ids.items():
         
         stem = f"{region}_AKSD"
@@ -40,14 +38,11 @@ def agol_upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[st
             response_json = validate_arcgis_rest_api_json_response(response=response, expected_keys=("success", "id"), expected_keys_requirement="all")
             if response_json["success"] is not True:
                 raise ItemUpdateFailure(f"Failed to update AKSD KMZ item (id: {item_id}) for {region} region")
-            _LOGGER.info(f"{stem}.kmz update success.")
 
         try:
             with_retry(_update_aksd_item, retry_logger=_LOGGER)
+            _LOGGER.info(f"{stem}.kmz update success.")
+            for path in (kmz_file, kmz_zip):
+                path.replace(output_kmz_directory / "agol_complete" / path.name)
         except Exception as e:
             _LOGGER.error(FLM.format_exception(exc_val=e, full_traceback=True))
-
-        files_to_delete.extend([kmz_file, kmz_zip])
-
-    for file in files_to_delete:
-        file.unlink()

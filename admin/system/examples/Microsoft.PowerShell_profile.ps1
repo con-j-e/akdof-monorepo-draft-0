@@ -28,15 +28,15 @@ Set-Location $Env:AKDOF_ROOT
 # note that conda behavior in the shell session is determined in part by the user level config defined here: ..\miniconda3\.condarc
 
 # tell conda to use a custom certificate chain for SSL verification
-$Env:CONDA_SSL_VERIFY = Join-Path $Env:AKDOF_ROOT "admin\certs\chain\anaconda.org_chain.pem"
+$Env:CONDA_SSL_VERIFY = (Join-Path $Env:AKDOF_ROOT "admin" "certs" "chain" "anaconda.org_chain.pem")
 
 # inside virtual conda environments, pip can have self-signed certificate errors doing pip installs
 # so we tell pip to use a custom certificate chain for SSL verification as well
-$Env:PIP_CERT = Join-Path $Env:AKDOF_ROOT "admin\certs\chain\pypi.org_chain.pem"
+$Env:PIP_CERT = (Join-Path $Env:AKDOF_ROOT "admin" "certs" "chain" "pypi.org_chain.pem")
 
 # the expression below gets created by executing the `conda init powershell` command, and is initially saved to ..\Documents\WindowsPowerShell\profile.ps1
 # here it has been modified to use the AKDOF_USER environment variable when looking for conda.exe
-$CondaPath = Join-Path $Env:AKDOF_USER "miniconda3\Scripts\conda.exe"
+$CondaPath = (Join-Path $Env:AKDOF_USER "miniconda3" "Scripts" "conda.exe")
 If (Test-Path $CondaPath) {
     (& $CondaPath "shell.powershell" "hook") | Out-String | ?{$_} | Invoke-Expression
 }
