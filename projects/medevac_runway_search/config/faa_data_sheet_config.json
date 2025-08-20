@@ -1,0 +1,60 @@
+{
+    "url": "https://adip.faa.gov/publishedAirports/all-airport-data.xlsx",
+    "state_of_interest": "AK",
+    "sheets": {
+        "Airports": {
+            "state_column": "State Id",
+            "index": ["site_id"],
+            "columns_to_keep": [
+                "Site Id",
+                "Loc Id",
+                "Airport Status Code",
+                "Facility Type",
+                "Name",
+                "Ownership",
+                "Use",
+                "Owner",
+                "Manager",
+                "Owner Phone",
+                "Manager Phone",
+                "Medical Use",
+                "Fuel Available",
+                "Fuel Types",
+                "Tie In FSS Name",
+                "FSS Phone Number",
+                "Alternate FSS Name",
+                "Alternate FSS Toll Free Number",
+                "ARP Latitude DD",
+                "ARP Longitude DD",
+                "Elevation"
+            ],
+            "cached_csv": "data\\cache\\ak_airports.csv"
+        },
+        "Runways": {
+            "state_column": "State",
+            "index": ["site_id", "runway_id"],
+            "columns_to_keep": [
+                "Site Id",
+                "Loc Id",
+                "Runway Id",
+                "Length",
+                "Width",
+                "Surface Type Condition",
+                "Surface Treatment",
+                "Edge Light Intensity"
+            ],
+            "cached_csv": "data\\cache\\ak_runways.csv"
+        },
+        "Airport Schedules": {
+            "state_column": "State Id",
+            "index": ["site_id", "sequence"],
+            "columns_to_keep": [
+                "Site Id",
+                "Loc Id",
+                "Schedule",
+                "Sequence"
+            ],
+            "cached_csv": "data\\cache\\ak_airport_schedules.csv"
+        }
+    }
+}

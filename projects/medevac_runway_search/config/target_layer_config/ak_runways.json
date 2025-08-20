@@ -1,0 +1,307 @@
+{
+    "url": "https://services1.arcgis.com/7HDiw78fcUiM2BWn/arcgis/rest/services/AK_Runways/FeatureServer/0",
+    "fields": [
+        {
+            "name": "OBJECTID",
+            "type": "esriFieldTypeOID",
+            "alias": "OBJECTID",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null,
+            "required": true
+        },
+        {
+            "name": "facility_type",
+            "type": "esriFieldTypeString",
+            "alias": "facility_type",
+            "sqlType": "sqlTypeOther",
+            "length": 13,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "airport_status_code",
+            "type": "esriFieldTypeString",
+            "alias": "airport_status_code",
+            "sqlType": "sqlTypeOther",
+            "length": 2,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "name",
+            "type": "esriFieldTypeString",
+            "alias": "name",
+            "sqlType": "sqlTypeOther",
+            "length": 45,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "loc_id",
+            "type": "esriFieldTypeString",
+            "alias": "loc_id",
+            "sqlType": "sqlTypeOther",
+            "length": 4,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "loc_id_runway_count",
+            "type": "esriFieldTypeBigInteger",
+            "alias": "loc_id_runway_count",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "schedules",
+            "type": "esriFieldTypeString",
+            "alias": "schedules",
+            "sqlType": "sqlTypeOther",
+            "length": 116,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "latitude_ddm",
+            "type": "esriFieldTypeString",
+            "alias": "latitude_ddm",
+            "sqlType": "sqlTypeOther",
+            "length": 13,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "longitude_ddm",
+            "type": "esriFieldTypeString",
+            "alias": "longitude_ddm",
+            "sqlType": "sqlTypeOther",
+            "length": 14,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "elevation",
+            "type": "esriFieldTypeDouble",
+            "alias": "elevation",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "runway_id",
+            "type": "esriFieldTypeString",
+            "alias": "runway_id",
+            "sqlType": "sqlTypeOther",
+            "length": 7,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "length",
+            "type": "esriFieldTypeInteger",
+            "alias": "length",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "width",
+            "type": "esriFieldTypeInteger",
+            "alias": "width",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "surface",
+            "type": "esriFieldTypeString",
+            "alias": "surface",
+            "sqlType": "sqlTypeOther",
+            "length": 12,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "condition",
+            "type": "esriFieldTypeString",
+            "alias": "condition",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "edge_light_intensity",
+            "type": "esriFieldTypeString",
+            "alias": "edge_light_intensity",
+            "sqlType": "sqlTypeOther",
+            "length": 19,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "bell_407_gxp_helicopter",
+            "type": "esriFieldTypeString",
+            "alias": "bell_407_gxp_helicopter",
+            "sqlType": "sqlTypeOther",
+            "length": 23,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "learjet_31_and_35",
+            "type": "esriFieldTypeString",
+            "alias": "learjet_31_and_35",
+            "sqlType": "sqlTypeOther",
+            "length": 24,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "learjet_45",
+            "type": "esriFieldTypeString",
+            "alias": "learjet_45",
+            "sqlType": "sqlTypeOther",
+            "length": 24,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "beechcraft_king_air_200",
+            "type": "esriFieldTypeString",
+            "alias": "beechcraft_king_air_200",
+            "sqlType": "sqlTypeOther",
+            "length": 48,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "cessna_208_grand_caravan",
+            "type": "esriFieldTypeString",
+            "alias": "cessna_208_grand_caravan",
+            "sqlType": "sqlTypeOther",
+            "length": 12,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "ownership",
+            "type": "esriFieldTypeString",
+            "alias": "ownership",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "use_",
+            "type": "esriFieldTypeString",
+            "alias": "use",
+            "sqlType": "sqlTypeOther",
+            "length": 7,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "owner",
+            "type": "esriFieldTypeString",
+            "alias": "owner",
+            "sqlType": "sqlTypeOther",
+            "length": 35,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "manager",
+            "type": "esriFieldTypeString",
+            "alias": "manager",
+            "sqlType": "sqlTypeOther",
+            "length": 34,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "owner_phone",
+            "type": "esriFieldTypeString",
+            "alias": "owner_phone",
+            "sqlType": "sqlTypeOther",
+            "length": 14,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "manager_phone",
+            "type": "esriFieldTypeString",
+            "alias": "manager_phone",
+            "sqlType": "sqlTypeOther",
+            "length": 14,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "medical_use",
+            "type": "esriFieldTypeString",
+            "alias": "medical_use",
+            "sqlType": "sqlTypeOther",
+            "length": 1,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "fuel_available",
+            "type": "esriFieldTypeString",
+            "alias": "fuel_available",
+            "sqlType": "sqlTypeOther",
+            "length": 254,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "fuel_types",
+            "type": "esriFieldTypeString",
+            "alias": "fuel_types",
+            "sqlType": "sqlTypeOther",
+            "length": 14,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "tie_in_fss_name",
+            "type": "esriFieldTypeString",
+            "alias": "tie_in_fss_name",
+            "sqlType": "sqlTypeOther",
+            "length": 10,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "fss_phone_number",
+            "type": "esriFieldTypeString",
+            "alias": "fss_phone_number",
+            "sqlType": "sqlTypeOther",
+            "length": 12,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "alternate_fss_name",
+            "type": "esriFieldTypeString",
+            "alias": "alternate_fss_name",
+            "sqlType": "sqlTypeOther",
+            "length": 9,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "alternate_fss_toll_free_number",
+            "type": "esriFieldTypeString",
+            "alias": "alternate_fss_toll_free_number",
+            "sqlType": "sqlTypeOther",
+            "length": 14,
+            "domain": null,
+            "defaultValue": null
+        }
+    ]
+}

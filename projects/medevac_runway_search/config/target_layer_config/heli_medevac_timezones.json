@@ -1,0 +1,83 @@
+{
+    "url": "https://services1.arcgis.com/7HDiw78fcUiM2BWn/arcgis/rest/services/Heli_Medevac_Timezones/FeatureServer/0",
+    "fields": [
+        {
+            "name": "OBJECTID",
+            "type": "esriFieldTypeOID",
+            "alias": "OBJECTID",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null,
+            "required": true
+        },
+        {
+            "name": "departure_loc_id",
+            "type": "esriFieldTypeString",
+            "alias": "departure_loc_id",
+            "sqlType": "sqlTypeOther",
+            "length": 4,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "departure_name",
+            "type": "esriFieldTypeString",
+            "alias": "departure_name",
+            "sqlType": "sqlTypeOther",
+            "length": 17,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "departure_airport",
+            "type": "esriFieldTypeString",
+            "alias": "departure_airport",
+            "sqlType": "sqlTypeOther",
+            "length": 23,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "aircraft",
+            "type": "esriFieldTypeString",
+            "alias": "aircraft",
+            "sqlType": "sqlTypeOther",
+            "length": 23,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "flight_minutes",
+            "type": "esriFieldTypeDouble",
+            "alias": "flight_minutes",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "flight_minutes_range",
+            "type": "esriFieldTypeString",
+            "alias": "flight_minutes_range",
+            "sqlType": "sqlTypeOther",
+            "length": 15,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Shape__Area",
+            "type": "esriFieldTypeDouble",
+            "alias": "Shape__Area",
+            "sqlType": "sqlTypeDouble",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Shape__Length",
+            "type": "esriFieldTypeDouble",
+            "alias": "Shape__Length",
+            "sqlType": "sqlTypeDouble",
+            "domain": null,
+            "defaultValue": null
+        }
+    ]
+}

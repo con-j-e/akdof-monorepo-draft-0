@@ -1,0 +1,137 @@
+{
+    "url": "https://services1.arcgis.com/7HDiw78fcUiM2BWn/arcgis/rest/services/Medevac_Flight_Paths/FeatureServer/0",
+    "fields": [
+        {
+            "name": "OBJECTID",
+            "type": "esriFieldTypeOID",
+            "alias": "OBJECTID",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null,
+            "required": true
+        },
+        {
+            "name": "aircraft_base_id",
+            "type": "esriFieldTypeString",
+            "alias": "aircraft_base_id",
+            "sqlType": "sqlTypeOther",
+            "length": 4,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "aircraft_base_name",
+            "type": "esriFieldTypeString",
+            "alias": "aircraft_base_name",
+            "sqlType": "sqlTypeOther",
+            "length": 26,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "landing_airport_id",
+            "type": "esriFieldTypeString",
+            "alias": "landing_airport_id",
+            "sqlType": "sqlTypeOther",
+            "length": 4,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "landing_airport_name",
+            "type": "esriFieldTypeString",
+            "alias": "landing_airport_name",
+            "sqlType": "sqlTypeOther",
+            "length": 43,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "extraction_airport",
+            "type": "esriFieldTypeString",
+            "alias": "extraction_airport",
+            "sqlType": "sqlTypeOther",
+            "length": 50,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "miles",
+            "type": "esriFieldTypeDouble",
+            "alias": "miles",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "aircraft",
+            "type": "esriFieldTypeString",
+            "alias": "aircraft",
+            "sqlType": "sqlTypeOther",
+            "length": 15,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "estimated_flight_minutes",
+            "type": "esriFieldTypeBigInteger",
+            "alias": "estimated_flight_minutes",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "learjet_45",
+            "type": "esriFieldTypeString",
+            "alias": "learjet_45",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "learjet_31_35",
+            "type": "esriFieldTypeString",
+            "alias": "learjet_31_35",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "beechcraft_king_air_200",
+            "type": "esriFieldTypeString",
+            "alias": "beechcraft_king_air_200",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "cessna_208_grand_caravan",
+            "type": "esriFieldTypeString",
+            "alias": "cessna_208_grand_caravan",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "bell_407_gxp_helicopter",
+            "type": "esriFieldTypeString",
+            "alias": "bell_407_gxp_helicopter",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Shape__Length",
+            "type": "esriFieldTypeDouble",
+            "alias": "Shape__Length",
+            "sqlType": "sqlTypeDouble",
+            "domain": null,
+            "defaultValue": null
+        }
+    ]
+}

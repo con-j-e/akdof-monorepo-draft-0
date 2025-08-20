@@ -1,0 +1,95 @@
+{
+    "url": "https://services1.arcgis.com/7HDiw78fcUiM2BWn/arcgis/rest/services/Medevac_Aircraft_Base/FeatureServer/0",
+    "fields": [
+        {
+            "name": "OBJECTID",
+            "type": "esriFieldTypeOID",
+            "alias": "OBJECTID",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null,
+            "required": true
+        },
+        {
+            "name": "loc_id",
+            "type": "esriFieldTypeString",
+            "alias": "loc_id",
+            "sqlType": "sqlTypeOther",
+            "length": 4,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "name",
+            "type": "esriFieldTypeString",
+            "alias": "name",
+            "sqlType": "sqlTypeOther",
+            "length": 26,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "latitude_ddm",
+            "type": "esriFieldTypeString",
+            "alias": "latitude_ddm",
+            "sqlType": "sqlTypeOther",
+            "length": 13,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "longitude_ddm",
+            "type": "esriFieldTypeString",
+            "alias": "longitude_ddm",
+            "sqlType": "sqlTypeOther",
+            "length": 14,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "learjet_31_and_35",
+            "type": "esriFieldTypeString",
+            "alias": "learjet_31_and_35",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "learjet_45",
+            "type": "esriFieldTypeString",
+            "alias": "learjet_45",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "beechcraft_king_air_200",
+            "type": "esriFieldTypeString",
+            "alias": "beechcraft_king_air_200",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "cessna_208_grand_caravan",
+            "type": "esriFieldTypeString",
+            "alias": "cessna_208_grand_caravan",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "bell_407_gxp_helicopter",
+            "type": "esriFieldTypeString",
+            "alias": "bell_407_gxp_helicopter",
+            "sqlType": "sqlTypeOther",
+            "length": 11,
+            "domain": null,
+            "defaultValue": null
+        }
+    ]
+}
