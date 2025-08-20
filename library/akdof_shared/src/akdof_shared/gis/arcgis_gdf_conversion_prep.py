@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Iterable
 import json
 import logging
+from pathlib import Path
 
 import geopandas as gpd
 import pandas as pd
@@ -37,7 +38,7 @@ class ArcGisTargetLayerConfig:
     fields: list[FieldDefinition]
       
     @classmethod
-    def load(cls, json_path: str):
+    def load(cls, json_path: Path):
         """Load the `ArcGISTargetLayerConfig` from a locally saved JSON file"""
         with open(json_path) as f:
             data = json.load(f)
