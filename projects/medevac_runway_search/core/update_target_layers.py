@@ -1,6 +1,7 @@
-import geopandas as gpd
 import json
 from typing import Literal
+
+import geopandas as gpd
 
 from akdof_shared.utils.with_retry import with_retry_async
 from akdof_shared.gis.spatial_json_conversion import gdf_to_arcgis_json
@@ -8,7 +9,7 @@ from akdof_shared.gis.feature_layer_editor import FeatureLayerEditor, ResultingF
 from akdof_shared.gis.arcgis_gdf_conversion_prep import format_gdf_using_arcgis_config, ArcGisTargetLayerConfig
 from akdof_shared.io.async_requester import AsyncRequester
 
-from config.process_config import TARGET_LAYER_CONFIG
+from config.process_config import PROJ_DIR
 from config.logging_config import FLM
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
@@ -19,7 +20,7 @@ async def update_target_layers(features_to_update: dict[str, gpd.GeoDataFrame], 
         success_status = True
         editor_requester = AsyncRequester(logger=_LOGGER)
         for alias, gdf in features_to_update.items():
-            target_layer_config = ArcGisTargetLayerConfig.load(json_path=TARGET_LAYER_CONFIG / f"{alias}.json")
+            target_layer_config = ArcGisTargetLayerConfig.load(json_path=PROJ_DIR / "config" / "target_layer_config" / f"{alias}.json")
             formatted_gdf = format_gdf_using_arcgis_config(gdf=gdf, target_layer_config=target_layer_config, logger=_LOGGER)
             arcgis_json = gdf_to_arcgis_json(gdf=formatted_gdf)
 

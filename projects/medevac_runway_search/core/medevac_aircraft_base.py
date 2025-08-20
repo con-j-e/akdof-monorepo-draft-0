@@ -1,15 +1,14 @@
+from typing import Iterable
+
 import geopandas as gpd
 import pandas as pd
-from pathlib import Path
-from typing import Iterable
 import shapely as shp
 
-from akwf_utils.logging_utils import FileLoggingManager as LogManager
-from akwf_gis.gis_utils import dd_to_ddm_lng, dd_to_ddm_lat
+from akdof_shared.gis.coords_conversion import dd_to_ddm_lat, dd_to_ddm_lng
 
-from config.py.process_config import PROJ_DIR
+from config.logging_config import FLM
 
-logger = LogManager.get_file_logger(name=__name__, log_file=PROJ_DIR / "logs" / f"{Path(__file__).stem}.log")
+_LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 def create_lifemed_base_gdf(lifemed_base_df: pd.DataFrame, lifemed_aircraft_locations: dict[str, Iterable[str]], target_epsg: int) -> gpd.GeoDataFrame:
 

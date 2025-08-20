@@ -1,14 +1,12 @@
-import geopandas as gpd
-from pathlib import Path
 from collections import defaultdict
 
-from akwf_utils.logging_utils import FileLoggingManager as LogManager
+import geopandas as gpd
 
-from config.py.process_config import PROJ_DIR
+from config.logging_config import FLM
 
 from core.aircraft_fleet import Bell_407_Heli
 
-logger = LogManager.get_file_logger(name=__name__, log_file=PROJ_DIR / "logs" / f"{Path(__file__).stem}.log")
+_LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 def create_heli_range_gdf(
     lifemed_base_gdf: gpd.GeoDataFrame,

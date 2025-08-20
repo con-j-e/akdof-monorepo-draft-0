@@ -1,19 +1,18 @@
+from typing import Iterable, Type
+
 import geopandas as gpd
 import pandas as pd
-from pathlib import Path
 import pyproj
 import shapely as shp
 import numpy as np
-from typing import Iterable, Type
 
-from akwf_utils.logging_utils import FileLoggingManager as LogManager
-from akwf_gis.gis_utils import dd_to_ddm_lng, dd_to_ddm_lat
+from akdof_shared.gis.coords_conversion import dd_to_ddm_lat, dd_to_ddm_lng
 
-from config.py.process_config import PROJ_DIR
+from config.logging_config import FLM
 from core.faa_data_translators import DataFrameTranslator
 from core.aircraft_fleet import AircraftFleet
 
-logger = LogManager.get_file_logger(name=__name__, log_file=PROJ_DIR / "logs" / f"{Path(__file__).stem}.log")
+_LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 def create_runways_gdf(
     faa_data: dict[str, pd.DataFrame],

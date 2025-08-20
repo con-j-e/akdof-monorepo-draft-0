@@ -1,11 +1,10 @@
-import pandas as pd
 from pathlib import Path
 
-from akwf_utils.logging_utils import FileLoggingManager as LogManager
+import pandas as pd
 
-from config.py.process_config import PROJ_DIR
+from config.logging_config import FLM
 
-logger = LogManager.get_file_logger(name=__name__, log_file=PROJ_DIR / "logs" / f"{Path(__file__).stem}.log")
+_LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 class FaaDataManager():
     """
@@ -49,7 +48,7 @@ class FaaDataManager():
             deleted_df = cache_df.loc[~cache_df.index.isin(complete_df.index)]
             if len(deleted_df) > 0:
                 self.deleted_data[sheet_name] = deleted_df
-                logger.info(f"The '{sheet_name}' FAA data sheet has {len(deleted_df)} deleted records")
+                _LOGGER.info(f"The '{sheet_name}' FAA data sheet has {len(deleted_df)} deleted records")
 
             # remove any cached record with an index not represented in the current complete dataframe
             retained_df = cache_df.loc[cache_df.index.isin(complete_df.index)]
@@ -59,7 +58,7 @@ class FaaDataManager():
             fresh_df = combined_df.drop_duplicates(keep=False)
             if len(fresh_df) > 0:
                 self.fresh_data[sheet_name] = fresh_df
-                logger.info(f"The '{sheet_name}' FAA data sheet has {len(fresh_df)} updated records")
+                _LOGGER.info(f"The '{sheet_name}' FAA data sheet has {len(fresh_df)} updated records")
 
         self._get_related_records()
 

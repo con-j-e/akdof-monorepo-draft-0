@@ -1,13 +1,11 @@
-import geopandas as gpd
-from pathlib import Path
 from typing import Iterable
+
+import geopandas as gpd
 import shapely as shp
 
-from akwf_utils.logging_utils import FileLoggingManager as LogManager
+from config.logging_config import FLM
 
-from config.py.process_config import PROJ_DIR
-
-logger = LogManager.get_file_logger(name=__name__, log_file=PROJ_DIR / "logs" / f"{Path(__file__).stem}.log")
+_LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 def create_flight_lines_gdf(lifemed_aircraft_locations: dict[str, Iterable[str]], runways_gdf: gpd.GeoDataFrame, lifemed_base_gdf: gpd.GeoDataFrame, target_epsg: int) -> gpd.GeoDataFrame:
 

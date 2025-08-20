@@ -54,7 +54,7 @@ def main() -> ExitStatus:
         heli_range_gdf = create_heli_range_gdf(lifemed_base_gdf=lifemed_base_gdf, bell_407_heli=AircraftFleet.select["bell_407_gxp_helicopter"], processing_epsg=PROCESSING_EPSG, target_epsg=TARGET_EPSG)
 
         # ArcGIS Online Arcade expressions expect these fields to hold json formatted strings.
-        # The column values were not converted previously because
+        # The column values do not get converted by `create_runways_gdf()` because
         # data contained in dictionaries needs to be accessed by `create_flight_lines_gdf()`.
         aircraft_flight_time_cols = ["learjet_45", "learjet_31_and_35", "beechcraft_king_air_200", "cessna_208_grand_caravan", "bell_407_gxp_helicopter"]
         runways_gdf[aircraft_flight_time_cols] = runways_gdf[aircraft_flight_time_cols].map(json.dumps)
