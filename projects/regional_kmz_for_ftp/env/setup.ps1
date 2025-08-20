@@ -56,7 +56,7 @@ if (-not ($Response -match '^[Yy]$')) {
 & conda install pyogrio --no-deps
 
 & conda install -c esri geomet=1.0.0
-& pip install -e (Join-Path $Env:AKDOF_ROOT "library" "akdof_shared")
+& pip install -e (Join-Path $Env:AKDOF_ROOT "library\akdof_shared")
 
 Write-Host "Conda environment '$($env:CONDA_DEFAULT_ENV)' setup complete. Exiting..."
 & conda deactivate
