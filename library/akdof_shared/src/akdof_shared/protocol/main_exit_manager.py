@@ -11,6 +11,9 @@ from akdof_shared.protocol.file_logging_manager import FileLoggingManager
 from akdof_shared.protocol.datetime_info import now_utc_iso
 from akdof_shared.utils.gmail_sender import GmailSender
 
+class EarlyExitSignal(Exception): pass
+"""Signals an intentional non-error eary exit from the `MainExitManager` or `AsyncMainExitManager` context"""
+
 class CleanupCallable(NamedTuple):
     func: Callable
     kwargs: dict[str, Any] = dict()
@@ -76,7 +79,7 @@ class MainExitManager(_MainExitBase):
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type:
+        if exc_type and exc_type != EarlyExitSignal:
             self.main_logger.critical(self.file_logging_manager.format_exception(exc_val, full_traceback=True))
         self._make_cleanup_calls()
         self._shutdown_logging()
@@ -101,7 +104,7 @@ class AsyncMainExitManager(_MainExitBase):
         return self
     
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        if exc_type:
+        if exc_type and exc_type != EarlyExitSignal:
             self.main_logger.critical(self.file_logging_manager.format_exception(exc_val, full_traceback=True))
         await self._make_cleanup_calls()
         self._shutdown_logging()
