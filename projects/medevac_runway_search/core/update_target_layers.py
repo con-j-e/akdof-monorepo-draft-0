@@ -46,4 +46,5 @@ async def update_target_layers(features_to_update: dict[str, gpd.GeoDataFrame], 
                 success_status = False
     finally:
         await editor_requester.close()
-        return {"success": success_status}
+    
+    return {"success": success_status}

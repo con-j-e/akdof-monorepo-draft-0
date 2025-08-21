@@ -12,5 +12,3 @@ PROCESSING_EPSG: int = 3338
 Spatial reference used for any Euclidean operation requiring the preservation of distance and area.
 NOTE spatial analysis concerning flight distances and flight time estimates is run geodesically using a WGS84 ellipsoid.
 """
-
-FAA_DATA_SHEET_CONFIG = PROJ_DIR / "config" / "faa_data_sheet_config.json"
