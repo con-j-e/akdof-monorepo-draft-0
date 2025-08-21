@@ -23,7 +23,7 @@ class ExitStatus(IntEnum):
 
     Attributes
     ----------
-    OK : 0
+    OK : 1
         Operations normal.
     WARNING : 30
         Something occurred that is out of the ordinary, or that might indicate a problem.
@@ -32,7 +32,7 @@ class ExitStatus(IntEnum):
     CRITICAL : 50
         A critical error occurred. The main program is expected to have terminated prematurely.
     """
-    OK = 0
+    OK = 1
     WARNING = 30
     ERROR = 40
     CRITICAL = 50
