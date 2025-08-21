@@ -20,12 +20,14 @@ class FeatureLayerEditor:
         429: {"sleep_seconds": 10, "attempt_increment": 0.5},
         502: {"sleep_seconds": 5, "attempt_increment": 0.8},
         503: {"sleep_seconds": 8, "attempt_increment": 0.8},
+        504: {"sleep_seconds": 10, "attempt_increment": 0.5},
     }
     """
     - 408 Request Timeout: Server didn't receive complete request in time
     - 429 Too Many Requests: Rate limiting - client sending requests too quickly  
     - 502 Bad Gateway: Upstream server returned invalid response
     - 503 Service Unavailable: Server temporarily overloaded or down for maintenance
+    - 504 Gateway Timeout: Upstream server didn't respond in time
     """
 
     def __init__(
