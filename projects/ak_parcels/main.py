@@ -1,7 +1,7 @@
 import asyncio
 import sys
 
-from akdof_shared.protocol.main_exit_manager import AsyncMainExitManager, CleanupCallable
+from akdof_shared.protocol.main_exit_manager import AsyncMainExitManager, CleanupCallable, EarlyExitSignal
 from akdof_shared.protocol.file_logging_manager import ExitStatus
 
 from config.process_config import PROJ_DIR, TARGET_LAYER_CONFIG
@@ -27,10 +27,11 @@ async def main() -> ExitStatus:
 
         feature_history_results = await load_parcel_feature_history()
         features_to_update = identify_parcel_features_to_update(feature_history_results=feature_history_results)
+        if not features_to_update:
+            raise EarlyExitSignal
 
         token = SOA_ARCGIS_AUTH.checkout_token(minutes_needed=45)
         await update_target_layer(target_layer_config=TARGET_LAYER_CONFIG, token=token, features_to_update=features_to_update)
-        
         target_feature_count_validation()
 
     return exit_manager.exit_status or ExitStatus.CRITICAL
