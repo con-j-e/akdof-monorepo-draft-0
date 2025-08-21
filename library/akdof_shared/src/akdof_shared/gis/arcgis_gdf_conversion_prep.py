@@ -14,8 +14,8 @@ class FieldDefinition:
     type: str
     alias: str
     sqlType: str
-    nullable: bool
-    editable: bool
+    nullable: bool | None = None
+    editable: bool | None = None
     domain: str | None = None
     defaultValue: str | int | float | None = None
     length: int | None = None
