@@ -18,18 +18,15 @@ from akdof_shared.gis.arcgis_helpers import (
 from akdof_shared.utils.drop_none_vals import drop_none_vals
 from akdof_shared.io.async_requester import AsyncArcGisRequester
 from akdof_shared.gis.spatial_json_conversion import arcgis_json_to_gdf
-from akdof_shared.gis.arcgis_api_validation import validate_arcgis_json, ArcGisApiErrorResponse, ArcGisApiKeyError
 from akdof_shared.io.file_cache_manager import FileCacheManager, CacheCompareError
 from akdof_shared.protocol.datetime_info import now_utc_iso, iso_file_naming
 from akdof_shared.protocol.file_logging_manager import FileLoggingManager
 
 class InputFeatureLayerError(Exception): pass
-class InvalidFeaturesResponse(InputFeatureLayerError): pass
-class UnclearSpatialReference(InputFeatureLayerError): pass
+class InvalidFeatureCount(InputFeatureLayerError): pass
 class InvalidIndex(InputFeatureLayerError): pass
 class PaginationNotSupported(InputFeatureLayerError): pass
 class ResourceNotInitialized(InputFeatureLayerError): pass
-class MetadataConflict(InputFeatureLayerError): pass
 class DuplicateAlias(InputFeatureLayerError): pass
 
 class FeaturesGdf:
@@ -134,27 +131,19 @@ class InputFeatureLayer(BaseModel):
     async def refresh_features(self) -> Literal[True]:
 
         self._validate_required_resources("semaphore", "requester", "thread_executor")
-
         if not self._supports_pagination():
             raise PaginationNotSupported(f"{self.alias} does not support pagination! Consider implementing an alternate code path using objectId based queries.")
         
         target_feature_count, target_extent = self._get_feature_count_and_extent()
-
         complete_parameters, query_parameters, spatial_query_parameters = self._collect_params_with_metadata()
-        json_responses = await self._get_features_by_pagination(params=complete_parameters)
-        self._validate_feature_json_responses(json_responses)
-
-        if len({json.dumps(resp["spatialReference"], sort_keys=True) for resp in json_responses}) != 1:
-            raise UnclearSpatialReference(f"{self.alias}: Multiple spatial references found in feature layer query responses.")
-        spatial_reference = json_responses[0]["spatialReference"]
-
-        arcgis_json = drop_none_vals({
-            "features": [feat for resp in json_responses for feat in resp["features"]],
-            "spatialReference": spatial_reference,
-            "uniqueIdField": self._unique_id_field()
-        })
-        if len(arcgis_json["features"]) < target_feature_count:
-            raise InvalidFeaturesResponse(f"{self.alias}: Returned {len(arcgis_json['features'])} features, when the target feature count was {target_feature_count}.")
+        
+        arcgis_json = await self._get_features_by_pagination(params=complete_parameters)
+        paginated_feature_count = len(arcgis_json["features"])
+        if paginated_feature_count < target_feature_count:
+            raise InvalidFeatureCount(f"{self.alias}: Returned {paginated_feature_count} features, when the target feature count was {target_feature_count}.")
+        uid_field = self._unique_id_field()
+        if uid_field:
+            arcgis_json["uniqueIdField"] = uid_field
         
         cache = {
             "target_feature_count": target_feature_count,
@@ -326,26 +315,15 @@ class InputFeatureLayer(BaseModel):
 
         return (complete_parameters, query_parameters, spatial_query_parameters)
 
-    async def _get_features_by_pagination(self, params: dict) -> list[dict]:
+    async def _get_features_by_pagination(self, params: dict) -> dict:
 
         ssl_context = None
         if isinstance(self.certificate_chain, Path):
             ssl_context = ssl.create_default_context(cafile=self.certificate_chain)
         async with self.semaphore:
-            json_responses = await self.requester.paginate_json_features(url=f"{self.url}/query?", params=params, max_record_count=self._max_record_count(), ssl=ssl_context or True)
-        return json_responses
-    
-    def _validate_feature_json_responses(self, json_responses: list[dict]):
-        exc = False
-        for resp in json_responses:
-            try:
-                validate_arcgis_json(resp, expected_keys=("features", "spatialReference"), expected_keys_requirement="all")
-            except (ArcGisApiErrorResponse, ArcGisApiKeyError) as e:
-                self.logger.error(f"{self.alias}: {FileLoggingManager.format_exception(e)}")
-                exc = True
-        if exc:
-            raise InvalidFeaturesResponse(f"{self.alias}: One or more JSON responses failed validation. See logs for details.")
-        
+            arcgis_json = await self.requester.paginate_json_features(base_url=self.url, params=params, max_record_count=self._max_record_count(), ssl=ssl_context or True)
+        return arcgis_json
+            
     def _validate_gdf_index(self, gdf: gpd.GeoDataFrame) -> bool:
         unique_id_field_name = self._unique_id_field_name()
         if not (unique_id_field_name is not None and gdf.index.name is not None and unique_id_field_name == gdf.index.name):

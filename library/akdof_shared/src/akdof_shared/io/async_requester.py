@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import ssl
 from typing import Literal, Mapping, TypedDict
@@ -7,6 +8,8 @@ import random
 import aiohttp
 
 from akdof_shared.protocol.file_logging_manager import FileLoggingManager
+from akdof_shared.gis.arcgis_api_validation import validate_arcgis_json
+from akdof_shared.utils.with_retry import with_retry_async
 
 class StatusCodeInstructions(TypedDict, total=False):
     """
@@ -230,22 +233,39 @@ class AsyncRequester:
 
 class AsyncArcGisRequester(AsyncRequester):
     
-    async def paginate_json_features(self, url: str, params: dict, max_record_count: int, ssl: ssl.SSLContext | bool = True) -> list[dict]:
+    async def paginate_json_features(self, base_url: str, params: dict, max_record_count: int, ssl: ssl.SSLContext | bool = True) -> dict:
 
-        json_responses = list()
-        paginating_params = {**params, "resultRecordCount": max_record_count, "resultOffset": 0}
-
-        paginating = True
-        while paginating:
-            json_response = await self.send_request(
-                url=url,
+        async def _paginate(current_paginating_params: dict) -> dict:
+            feature_response = await self.send_request(
+                url=f"{base_url}/query?",
                 request_method="get",
                 read_method="json",
-                params=paginating_params,
-                ssl=ssl
+                params=current_paginating_params,
+                ssl=ssl,
+                timeout=aiohttp.ClientTimeout(total=45)
             )
-            json_responses.append(json_response)
-            paginating_params["resultOffset"] += max_record_count
-            paginating = json_response.get("exceededTransferLimit", False)
+            validate_arcgis_json(feature_response, expected_keys=("features", "spatialReference"), expected_keys_requirement="all")
+            return feature_response
 
-        return json_responses
+        paginating = True
+        all_feature_responses = list()
+        paginating_params = {**params, "resultRecordCount": max_record_count, "resultOffset": 0}
+        while paginating:
+            feature_response = await with_retry_async(
+                _paginate,
+                current_paginating_params=paginating_params,
+                retry_logger=self.logger
+            )
+            all_feature_responses.append(feature_response)
+            paginating_params["resultOffset"] += max_record_count
+            paginating = feature_response.get("exceededTransferLimit", False)
+
+        assert len({json.dumps(resp["spatialReference"], sort_keys=True) for resp in all_feature_responses}) == 1, "paginated feature responses contain more than one unique spatial reference!"
+        spatial_reference = all_feature_responses[0]["spatialReference"]
+
+        arcgis_json = {
+            "features": [feat for resp in all_feature_responses for feat in resp["features"]],
+            "spatialReference": spatial_reference,
+        }
+
+        return arcgis_json
