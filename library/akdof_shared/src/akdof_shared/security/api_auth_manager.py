@@ -132,7 +132,8 @@ class ArcGisApiAuthManager(ApiAuthManager):
                 "client": "referer",
                 "f": "json",
             },
-            verify=self.ssl_cert_chain or True
+            verify=self.ssl_cert_chain or True,
+            timeout=30
         )
         json_response = validate_arcgis_rest_api_json_response(response=response, expected_keys=("token","expires"), expected_keys_requirement="all")
 
@@ -168,7 +169,8 @@ class SentinelApiAuthManager(ApiAuthManager):
                 "client_id": client_id,
                 "client_secret": client_secret,
             },
-            verify=self.ssl_cert_chain or True
+            verify=self.ssl_cert_chain or True,
+            timeout=30
         )
         response.raise_for_status()
         data = response.json()

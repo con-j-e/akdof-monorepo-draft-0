@@ -33,7 +33,8 @@ def agol_upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[st
                 response = requests.post(
                     url=f"https://www.arcgis.com/sharing/rest/content/users/AK_State_Authoritative_nifc/items/{item_id}/update",
                     data={"token": token, "f": "json"},
-                    files=files
+                    files=files,
+                    timeout=30
                 )
             response_json = validate_arcgis_rest_api_json_response(response=response, expected_keys=("success", "id"), expected_keys_requirement="all")
             if response_json["success"] is not True:

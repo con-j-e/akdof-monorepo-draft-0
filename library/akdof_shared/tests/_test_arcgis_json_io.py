@@ -4,7 +4,7 @@ from akwf_gis.json_io import arcgis_json_to_gdf, gdf_to_arcgis_json
 
 def test_arcgis_json_io(services: dict[str,str]) -> None:
     for alias, url in services.items():
-        resp = requests.get(f"{url}/query?", params={"f":"json","where":"1=1","outfields":"*"})
+        resp = requests.get(f"{url}/query?", params={"f":"json","where":"1=1","outfields":"*"}, timeout=60)
         resp.raise_for_status()
         feats_0 = resp.json()
         gdf = arcgis_json_to_gdf(feats_0)
