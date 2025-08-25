@@ -1,11 +1,11 @@
 from pathlib import Path
+from typing import Literal
 import uuid
 
 import requests
 
 from akdof_shared.gis.arcgis_api_validation import validate_arcgis_rest_api_json_response
 from akdof_shared.utils.drop_none_vals import drop_none_vals
-
 
 NO_CACHE_HEADERS: dict[str, str] = {
     "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -17,6 +17,8 @@ To be used with GET requests that have the potential to break internal logic if 
 Note that headers alone are not adequate to prevent caching of responses from ArcGIS REST APIs.
 A `{"nocache": uuid.uuid4().hex}` parameter should be passed with the request when the client wants to avoid all caching.
 """ 
+
+class CleanupChangeTrackingFailure(Exception): pass
 
 def get_feature_layer_resource_info(base_url: str, token: str | None = None, verify: Path | bool = True) -> dict:
     """Retrieve comprehensive information about an ArcGIS Online feature layer resource"""
@@ -31,7 +33,8 @@ def get_feature_layer_resource_info(base_url: str, token: str | None = None, ver
         url=base_url,
         params=layer_info_params,
         headers=NO_CACHE_HEADERS,
-        verify=verify
+        verify=verify,
+        timeout=30
     )
     layer_info_json = validate_arcgis_rest_api_json_response(response=layer_info_response)
 
@@ -62,7 +65,8 @@ def get_feature_count_and_extent(
         url=f"{base_url}/query?",
         params=get_count_and_extent_params,
         headers=NO_CACHE_HEADERS,
-        verify=verify
+        verify=verify,
+        timeout=30
     )
     count_and_extent_json = validate_arcgis_rest_api_json_response(response=count_and_extent_response, expected_keys=("count","extent"), expected_keys_requirement="all")
 
@@ -90,12 +94,45 @@ def get_object_ids(
         url=f"{base_url}/query?",
         params=get_oids_params,
         headers=NO_CACHE_HEADERS,
-        verify=verify
+        verify=verify,
+        timeout=30
     )
     oids_json = validate_arcgis_rest_api_json_response(response=oids_response, expected_keys="objectIds")
 
     return oids_json["objectIds"]
-            
+
+def cleanup_change_tracking(
+        admin_base_url: str,
+        token: str,
+        layers: int | list[int],
+        retention_period: int,
+        retention_period_units: Literal["days", "seconds", "minutes", "hours"]
+    ):
+    """
+    Makes a post request to clean up change tracking on a feature service.
+    Parameters are best understood by referencing
+    [API documentation](https://developers.arcgis.com/rest/services-reference/enterprise/cleanupchangetracking-feature-service/).
+
+    Raises
+    ------
+    CleanupChangeTrackingFailure
+        Request response failed validation or the response indicates the operation failed.
+    """
+    data = {
+        "layers": layers,
+        "retentionPeriod": retention_period,
+        "retentionPeriodUnits": retention_period_units,
+        "token": token,
+        "f": "json"
+    }
+    response = requests.post(url=f"{admin_base_url}/cleanupChangeTracking", data=data, timeout=60)
+    try:
+        response_json = validate_arcgis_rest_api_json_response(response, expected_keys="success")
+        if response_json["success"] is not True:
+            raise CleanupChangeTrackingFailure(f"{admin_base_url} failed to clean up change tracking: {response_json}")
+    except Exception as e:
+        raise CleanupChangeTrackingFailure from e
+     
 def expand_envelope(envelope: dict, expansion_distance: int) -> dict:
     """
     Modify an ArcGIS json [envelope](https://developers.arcgis.com/rest/services-reference/enterprise/geometry-objects/#envelope) in-place by expanding it in all directions by the specified expansion distance.
