@@ -18,6 +18,19 @@ from config.secrets_config import NIFC_AGOL_CREDENTIALS
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 def arcpy_create_kmzs() -> ExitStatus:
+    """
+    Create KMZ files for Alaska fire regions using ArcPy.
+
+    Connects to ArcGIS Online, clips input feature layers to each fire region, 
+    applies symbology, and exports as KMZ files. Processing scope depends on 
+    the configured cycle (annual vs non-annual layers). Individual layer 
+    processing failures are logged but do not stop overall processing.
+
+    Returns
+    -------
+    ExitStatus
+        OK if processing completes, CRITICAL if a fatal error occurs.
+    """
     try:
         exit_status = ExitStatus.OK
 
@@ -71,7 +84,9 @@ def _clip_layer_to_kmz(
     clip_layer: str, layer_to_clip: str, layer_file: str, output_path: str, query: str | None = None
 ) -> None:
     """
-    ArcPy dependent function that clips a layer, optionally applies a SQL where-clause, and applies symbology from a layer file prior to saving a .kmz output.
+    ArcPy dependent function that clips a layer,
+    optionally applies a SQL where-clause,
+    and applies symbology from a layer file prior to saving a .kmz output.
 
     Parameters
     ----------

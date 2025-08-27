@@ -1,3 +1,5 @@
+"""Secure credential management for external service authentication."""
+
 import os
 from pathlib import Path
 
@@ -13,21 +15,32 @@ CKM = CryptfileKeyringManager(
     master_password_username="akdof_monorepo_master_user",
     cryptfile_path=Path(os.getenv("AKDOF_ROOT")) / "admin" / "secrets" / "keyring_cryptfile.cfg"
 )
+"""Central keyring manager for encrypted credential storage"""
 
 NIFC_FTP_CREDENTIALS = CKM.get_full_secret(ProjectSecret(service_name="ftp.wildfire.gov", username="cedick"))
-"""`<ftp_url>, <username>, <password>` for authenticating with ftp.wildfire.gov"""
+"""FTP credentials for wildfire.gov - contains {url}, {username}, {password}"""
 
 NIFC_AGOL_CREDENTIALS = CKM.get_full_secret(ProjectSecret(service_name="https://nifc.maps.arcgis.com/", username="AK_State_Authoritative_nifc"))
-"""`<portal_url>, <username>, <password>` for authenticating with ArcGIS Online"""
+"""ArcGIS Online credentials - contains {portal_url}, {username}, {password}"""
 
 NIFC_ARCGIS_AUTH = ArcGisApiAuthManager(
     cryptfile_keyring_manager=CKM,
     project_secret=NIFC_AGOL_CREDENTIALS
 )
-
-NIFC_TOKEN = NIFC_ARCGIS_AUTH.checkout_token(minutes_needed=45)
+"""Token lifecycle manager for NIFC ArcGIS Online authentication"""
 
 def gmail_sender_factory() -> GmailSender:
+    """
+    Create configured Gmail sender for notification emails.
+    
+    Retrieves sender credentials and recipient address from the keyring manager
+    and configures a GmailSender instance for project notifications.
+
+    Returns
+    -------
+    GmailSender
+        Configured email sender with authentication and recipient settings.
+    """
     sender_full_secret = CKM.get_full_secret(
         ProjectSecret(
             service_name="gmail",
@@ -47,3 +60,4 @@ def gmail_sender_factory() -> GmailSender:
     )
 
 GMAIL_SENDER = gmail_sender_factory()
+"""Pre-configured Gmail sender for project notifications"""

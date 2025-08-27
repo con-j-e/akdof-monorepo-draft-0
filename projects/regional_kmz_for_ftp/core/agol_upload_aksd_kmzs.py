@@ -9,25 +9,39 @@ from config.logging_config import FLM
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
-class ItemUpdateFailure(Exception): pass
+class ItemUpdateFailure(Exception): 
+    """Exception raised if AKSD KMZ item update fails."""
+    pass
 
 def agol_upload_aksd_kmzs(output_kmz_directory: Path, aksd_kmz_item_ids: dict[str, str], token: str) -> None:
+    """
+    Zips Alaska Known Sites Database KMZ files and uploads them to corresponding ArcGIS Online items.
+    Successfully uploaded files are moved to an 'agol_complete' subdirectory.
+    Missing files and upload failures are logged but do not interrupt processing of remaining items.
 
+    Parameters
+    ----------
+    output_kmz_directory : Path
+        Directory containing the KMZ files to upload.
+    aksd_kmz_item_ids : dict[str, str]
+        Mapping of region names to ArcGIS Online item IDs.
+    token : str
+        ArcGIS Online authentication token.
+    """
     for region, item_id in aksd_kmz_item_ids.items():
-        
-        stem = f"{region}_AKSD"
 
-        if not (output_kmz_directory / f"{stem}.kmz").exists():
-            _LOGGER.error(f"File not found: {stem}.kmz")
+        stem = f"{region}_AKSD"
+        kmz_file = output_kmz_directory / f"{stem}.kmz"
+        if not kmz_file.exists():
+            _LOGGER.error(f"File not found: {kmz_file}")
             continue
 
-        kmz_file = output_kmz_directory / f"{stem}.kmz"
         kmz_zip = output_kmz_directory / f"{stem}.zip"
-
         with ZipFile(kmz_zip, "w") as myzip:
             myzip.write(kmz_file, arcname=kmz_file.name)
 
         def _update_aksd_item():
+            """Update item via ArcGIS REST API."""
             with open(kmz_zip, "rb") as myzip:
                 files = {"file": (f"{stem}.zip", myzip, "application/zip")}
                 response = requests.post(

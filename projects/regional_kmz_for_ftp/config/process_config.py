@@ -1,3 +1,5 @@
+"""Core processing configuration for Alaska fire region KMZ generation."""
+
 import os
 from pathlib import Path
 from typing import Iterable, Literal
@@ -20,7 +22,7 @@ so this is not an essential detail.
 """
 
 OUTPUT_KMZ_DIRECTORY: Path = PROJ_DIR / "data" / "temp" / "output_kmz"
-"""Where KMZ files will be stored temporarily before being uploaded to FTP or AGOL."""
+"""Temporary storage directory for KMZ files before upload to FTP or AGOL."""
 
 LYRX_DIRECTORY: Path = PROJ_DIR / "data" / "layer_files"
 """

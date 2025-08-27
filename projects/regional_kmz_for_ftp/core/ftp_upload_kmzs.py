@@ -8,8 +8,24 @@ from config.logging_config import FLM
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
+def ftp_upload_kmzs(processing_regions: Iterable[str], output_kmz_directory: Path, ftp_username: str, ftp_password: str) -> None:
+    """
+    Connects to the wildfire.gov FTP server and uploads KMZ files to region-specific directories.
+    Alaska Known Sites Database KMZ files, if present, will be skipped.
+    Successfully uploaded files are moved to an 'ftp_complete' subdirectory.
+    Upload failures are logged but do not interrupt processing of remaining files.
 
-def ftp_upload_kmzs(processing_regions: Iterable[str], output_kmz_directory: Path, ftp_username: str, ftp_password: str):
+    Parameters
+    ----------
+    processing_regions : Iterable[str]
+        Region names used for directory navigation and file filtering.
+    output_kmz_directory : Path
+        Directory containing the KMZ files to upload.
+    ftp_username : str
+        FTP server username.
+    ftp_password : str
+        FTP server password.
+    """
     with Explicit_FTP_TLS(timeout=30) as ftps:
         ftps.connect(host="ftp.wildfire.gov", port=1021)
         ftps.login(user=ftp_username, passwd=ftp_password)
@@ -34,9 +50,15 @@ def ftp_upload_kmzs(processing_regions: Iterable[str], output_kmz_directory: Pat
                     _LOGGER.error(FLM.format_exception(exc_val=e, full_traceback=True))
 
 class Explicit_FTP_TLS(ftplib.FTP_TLS):
-    """Explicit FTPS, with shared TLS session"""
+    """
+    Explicit FTPS connection with shared TLS session.
+    
+    Extends FTP_TLS to properly handle data connections by reusing the 
+    control connection's TLS session for data transfers.
+    """
 
-    def ntransfercmd(self, cmd, rest=None):
+    def ntransfercmd(self, cmd, rest=None) -> tuple:
+        """Create data connection with shared TLS session."""
         conn, size = ftplib.FTP.ntransfercmd(self, cmd, rest)
         if self._prot_p:
             conn = self.context.wrap_socket(conn, server_hostname=self.host, session=self.sock.session)

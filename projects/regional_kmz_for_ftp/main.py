@@ -8,13 +8,17 @@ from config.logging_config import FLM
 from config.process_config import AKSD_KMZ_ITEM_IDS, OUTPUT_KMZ_DIRECTORY, PROCESSING_REGIONS, PROJ_DIR
 from config.secrets_config import (
     NIFC_FTP_CREDENTIALS,
-    NIFC_TOKEN,
+    NIFC_ARCGIS_AUTH,
     GMAIL_SENDER
 )
 from core.agol_upload_aksd_kmzs import agol_upload_aksd_kmzs
 from core.ftp_upload_kmzs import ftp_upload_kmzs
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
+
+class ArcPySubprocessCriticalError(Exception): 
+    """An error occurred in the ArcPy subprocess that warrants premature termination of the main program"""
+    pass
 
 def main() -> ExitStatus:
     with MainExitManager(
@@ -26,11 +30,15 @@ def main() -> ExitStatus:
         
         # kmz outputs are created using arcpy
         # arcpy is contained in a subprocess to prevent its imports from modifying the main runtime environment
-        subprocess.run([sys.executable, str(PROJ_DIR / "_subprocess.py")], check=True, timeout=3600)
+        # _subprocess.py exits using the ExitStatus enum (1 indicates an "operations normal" status)
+        result = subprocess.run([sys.executable, str(PROJ_DIR / "_subprocess.py")], timeout=3600)
+        if result.returncode != 1:
+            raise ArcPySubprocessCriticalError(f"Exit Status: {result.returncode}. Check logs for details.")
 
         # alaska known sites database kmzs will be uploaded to nifc arcgis online
         try:
-            agol_upload_aksd_kmzs(output_kmz_directory=OUTPUT_KMZ_DIRECTORY, aksd_kmz_item_ids=AKSD_KMZ_ITEM_IDS, token=NIFC_TOKEN)
+            nifc_token = NIFC_ARCGIS_AUTH.checkout_token(minutes_needed=5)
+            agol_upload_aksd_kmzs(output_kmz_directory=OUTPUT_KMZ_DIRECTORY, aksd_kmz_item_ids=AKSD_KMZ_ITEM_IDS, token=nifc_token)
         except Exception as e:
             _LOGGER.critical(FLM.format_exception(exc_val=e, full_traceback=True))
 
