@@ -15,7 +15,23 @@ from config.logging_config import FLM
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 async def update_target_layers(features_to_update: dict[str, gpd.GeoDataFrame], token: str) -> dict[Literal["success"], bool]:
+    """
+    Updates ArcGIS Online feature layers by replacing all features with new data.
+    
+    Parameters
+    ----------
+    features_to_update : dict[str, gpd.GeoDataFrame]
+        Layer aliases mapped to their replacement GeoDataFrames.
+        Aliases are used to identify associated static configuration files
+        that determine how data gets formatted in preparation for the update.
+    token : str
+        ArcGIS authentication token for API access.
         
+    Returns
+    -------
+    dict[Literal["success"], bool]
+        Success status indicating whether all layer updates completed without error.
+    """
     try:
         success_status = True
         editor_requester = AsyncRequester(logger=_LOGGER)

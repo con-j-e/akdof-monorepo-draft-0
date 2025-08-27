@@ -14,7 +14,28 @@ def create_heli_range_gdf(
     processing_epsg: int,
     target_epsg: int
 ) -> gpd.GeoDataFrame:
-
+    """
+    Create helicopter range zones as concentric time-based buffers.
+    
+    Generates 10-minute interval zones (10-20, 20-30, etc.) up to 60 minutes,
+    plus a final zone covering remaining range capability.
+    
+    Parameters
+    ----------
+    lifemed_base_gdf : gpd.GeoDataFrame
+        All LifeMed base locations with geometry and metadata.
+    bell_407_heli : Bell_407_Heli
+        Aircraft class with range and speed specifications.
+    processing_epsg : int
+        EPSG code for distance calculations (should be a projected coordinate system with units in meters).
+    target_epsg : int
+        EPSG code for final output coordinate system.
+        
+    Returns
+    -------
+    gpd.GeoDataFrame
+        Helicopter range zones with flight time intervals and departure base info.
+    """
     heli_base_gdf = lifemed_base_gdf[
         lifemed_base_gdf["loc_id"].isin(bell_407_heli.base_locations)
     ]
@@ -28,7 +49,6 @@ def create_heli_range_gdf(
             gdf_dict["departure_loc_id"].append(row.loc_id)
             gdf_dict["departure_name"].append(row.name)
             gdf_dict["departure_airport"].append(f"{row.name} ({row.loc_id})")
-            #gdf_dict["aircraft"].append(bell_407_heli.alias.replace("_"," "))
             gdf_dict["aircraft"].append("Bell 407 GXP Helicopter") # explicitly assigning string value to match existing schema in target service
 
             minutes = i * 10
@@ -50,7 +70,6 @@ def create_heli_range_gdf(
         gdf_dict["departure_loc_id"].append(row.loc_id)
         gdf_dict["departure_name"].append(row.name)
         gdf_dict["departure_airport"].append(f"{row.name} ({row.loc_id})")
-        #gdf_dict["aircraft"].append(bell_407_heli.alias.replace("_"," "))
         gdf_dict["aircraft"].append("Bell 407 GXP Helicopter") # explicitly assigning string value to match existing schema in target service
 
         remaining_miles = bell_407_heli.range_miles - buf_miles

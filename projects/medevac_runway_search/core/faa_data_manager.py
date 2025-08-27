@@ -11,18 +11,18 @@ _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 @dataclass
 class SheetConfig:
     """
-    Configuration for accessing data from a single sheet in the ADIP Published 5010
+    Configuration for accessing data from a single sheet in the ADIP Published 5010.
 
     Attributes
     ----------
     state_column : str
-        Name of the column containing state identifiers for filtering
+        Name of the column containing state identifiers for filtering.
     index : list[str]
-        Column names to use as the DataFrame index for the processed data
+        Column names to use as the DataFrame index for the processed data.
     columns_to_keep : list[str]
-        List of column names to retain from the original sheet data
+        List of column names to retain from the original sheet data.
     cached_csv : str
-        Relative path to the cached CSV file for this sheet's data
+        Relative path to the cached CSV file for this sheet's data.
     """
     state_column: str
     index: list[str]
@@ -32,16 +32,16 @@ class SheetConfig:
 @dataclass
 class FAADataConfig:
     """
-    Configuration for accessing all data sheets in the ADIP Published 5010
+    Configuration for accessing all data sheets in the ADIP Published 5010.
 
     Attributes
     ----------
     url : str
-        URL to the FAA Excel file containing all airport data sheets
+        URL to the FAA Excel file containing all airport data sheets.
     state_of_interest : str
-        State code used to filter data (e.g., "AK" for Alaska)
+        State code used to filter data (e.g., "AK" for Alaska).
     sheets : dict[str, SheetConfig]
-        Mapping of sheet names to their individual configurations
+        Mapping of sheet names to their individual configurations.
     """
     url: str
     state_of_interest: str
@@ -49,14 +49,14 @@ class FAADataConfig:
 
     @classmethod
     def load(cls, json_path: Path):
-        """Load the `FAADataConfig` from a locally saved JSON file"""
+        """Load the `FAADataConfig` from a locally saved JSON file."""
         with open(json_path) as f:
             data = json.load(f)
         return cls._from_dict(data)
     
     @classmethod
     def _from_dict(cls, data: dict):
-        """Create the `FAADataConfig` from a Python dictionary"""
+        """Create the `FAADataConfig` from a Python dictionary."""
         sheets = {
             name: SheetConfig(**sheet_data) 
             for name, sheet_data in data["sheets"].items()
@@ -69,20 +69,20 @@ class FAADataConfig:
     
 class FaaDataManager():
     """
-    Manages data retrieval, new data identification, and data caching for the ADIP Published 5010 online excel workbook
+    Manages data retrieval, new data identification, and data caching for the ADIP Published 5010 online excel workbook.
 
     Attributes
     ----------
     proj_dir : Path
-        Base directory path for the project, used to resolve relative cache file paths
+        Base directory path for the project, used to resolve relative cache file paths.
     faa_data_config : FAADataConfig
-        Configuration object specifying data source URL, target state, and sheet processing rules
+        Configuration object specifying data source URL, target state, and sheet processing rules.
     fresh_data : dict[str, pd.DataFrame]
-        Mapping of sheet names to DataFrames containing records that are new or updated since last cache
+        Mapping of sheet names to DataFrames containing records that are new or updated since last cache.
     complete_data : dict[str, pd.DataFrame]
-        Mapping of sheet names to DataFrames containing all current records from the FAA data source
+        Mapping of sheet names to DataFrames containing all current records from the FAA data source.
     deleted_data : dict[str, pd.DataFrame]
-        Mapping of sheet names to DataFrames containing records present in cache but missing from current data
+        Mapping of sheet names to DataFrames containing records present in cache but missing from current data.
     """
     def __init__(self, proj_dir: Path, faa_data_config: FAADataConfig):
         self.proj_dir = proj_dir
@@ -131,14 +131,14 @@ class FaaDataManager():
         self._get_related_records()
 
     def update_cache(self):
-        """Overwrite cached CSV files with the current complete data retrieved by `self.refresh_data()`"""
+        """Overwrite cached CSV files with the current complete data retrieved by `self.refresh_data()`."""
         for sheet_name, sheet_config in self.faa_data_config.sheets.items():
             complete_df = self.complete_data[sheet_name]
             with open(self.proj_dir / sheet_config.cached_csv, "w", newline="") as file:
                 complete_df.to_csv(file, index=False)
     
     def _get_related_records(self):
-        """Ensure fresh dataframes contain all current complete records for any Site Id represented in the fresh data that was identified by `self.refresh_data()`"""
+        """Ensure fresh dataframes contain all current complete records for any Site Id represented in the fresh data that was identified by `self.refresh_data()`."""
 
         fresh_site_ids = set()
         for fresh_df in self.fresh_data.values():

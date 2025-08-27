@@ -2,14 +2,17 @@ from abc import ABC, abstractmethod
 from typing import Hashable, Any, Iterable, Type
 
 class DataFrameTranslator(ABC):
+    """Abstract base class for translating FAA data values to the target schema."""
     target_column: str
     source_column: str
     mapping: dict[Hashable, Any]
 
     @classmethod
     @abstractmethod
-    def translate(cls, value: Any) -> Any: ...
-
+    def translate(cls, value: Any) -> Any:
+        """Translate a source value to target schema format."""
+        raise NotImplementedError("Subclasses are required to implement a translate method.")
+    
 class TranslateSurface(DataFrameTranslator):
     target_column = "surface"
     source_column = "surface_type_condition"
@@ -33,6 +36,7 @@ class TranslateSurface(DataFrameTranslator):
     }
     @classmethod
     def translate(cls, value):
+        """Extract surface type from prefix of surface_type_condition string."""
         for prefix, label in cls.mapping.items():
             if value.startswith(prefix):
                 return label
@@ -50,6 +54,7 @@ class TranslateCondition(DataFrameTranslator):
     }
     @classmethod
     def translate(cls, value):
+        """Extract condition from suffix of surface_type_condition string."""
         for suffix, label in cls.mapping.items():
             if value.endswith(suffix):
                 return label
@@ -68,10 +73,11 @@ class TranslateOwnership(DataFrameTranslator):
     }
     @classmethod
     def translate(cls, value):
+        """Map ownership codes to full names."""
         return cls.mapping.get(value, value)
     
 class TranslateUse(DataFrameTranslator):
-    target_column = "use_" # underscore is to match a typo that exists in the schema of the target service
+    target_column = "use_" # underscore suffix is to match a typo in target service schema
     source_column = "use"
     mapping = {
         "PU": "Public",
@@ -79,6 +85,7 @@ class TranslateUse(DataFrameTranslator):
     }
     @classmethod
     def translate(cls, value):
+        """Map use codes to full names."""
         return cls.mapping.get(value, value)
 
 class TranslateLightIntensity(DataFrameTranslator):
@@ -93,6 +100,7 @@ class TranslateLightIntensity(DataFrameTranslator):
     }
     @classmethod
     def translate(cls, value):
+        """Map light intensity codes to descriptive names."""
         return cls.mapping.get(value, value)
     
 FAA_DATA_TRANSLATORS: Iterable[Type[DataFrameTranslator]] = (

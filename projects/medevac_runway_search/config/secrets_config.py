@@ -1,3 +1,5 @@
+"""Secure credential management for external service authentication."""
+
 import os
 from pathlib import Path
 
@@ -13,6 +15,7 @@ CKM = CryptfileKeyringManager(
     master_password_username="akdof_monorepo_master_user",
     cryptfile_path=Path(os.getenv("AKDOF_ROOT")) / "admin" / "secrets" / "keyring_cryptfile.cfg"
 )
+"""Central keyring manager for encrypted credential storage"""
 
 SOA_ARCGIS_AUTH = ArcGisApiAuthManager(
     cryptfile_keyring_manager=CKM,
@@ -21,8 +24,20 @@ SOA_ARCGIS_AUTH = ArcGisApiAuthManager(
         username="for_admin"
     )
 )
+"""Token lifecycle manager for SOA DNR ArcGIS Online authentication"""
 
 def gmail_sender_factory() -> GmailSender:
+    """
+    Create configured Gmail sender for notification emails.
+    
+    Retrieves sender credentials and recipient address (or addresses) from the keyring manager
+    and configures a GmailSender instance for project notifications.
+
+    Returns
+    -------
+    GmailSender
+        Configured Gmail sender with authentication and recipient settings.
+    """
     sender_full_secret = CKM.get_full_secret(
         ProjectSecret(
             service_name="gmail",
@@ -42,3 +57,4 @@ def gmail_sender_factory() -> GmailSender:
     )
 
 GMAIL_SENDER = gmail_sender_factory()
+"""Pre-configured Gmail sender for project notifications"""

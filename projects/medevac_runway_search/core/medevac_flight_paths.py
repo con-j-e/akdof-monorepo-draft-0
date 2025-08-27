@@ -7,8 +7,31 @@ from config.logging_config import FLM
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
-def create_flight_lines_gdf(lifemed_aircraft_locations: dict[str, Iterable[str]], runways_gdf: gpd.GeoDataFrame, lifemed_base_gdf: gpd.GeoDataFrame, target_epsg: int) -> gpd.GeoDataFrame:
-
+def create_flight_lines_gdf(
+    lifemed_aircraft_locations: dict[str, Iterable[str]], 
+    runways_gdf: gpd.GeoDataFrame, 
+    lifemed_base_gdf: gpd.GeoDataFrame, 
+    target_epsg: int
+) -> gpd.GeoDataFrame:
+    """
+    Create flight path lines connecting aircraft bases to runways that are viable for specific aircraft.
+    
+    Parameters
+    ----------
+    lifemed_aircraft_locations : dict[str, Iterable[str]]
+        Aircraft types mapped to their base location IDs.
+    runways_gdf : gpd.GeoDataFrame
+        Runway data with flight time estimates for each aircraft type.
+    lifemed_base_gdf : gpd.GeoDataFrame
+        Base locations with aircraft availability indicators.
+    target_epsg : int
+        EPSG code for output coordinate system.
+        
+    Returns
+    -------
+    gpd.GeoDataFrame
+        Flight path LineString geometries with distance, time, and aircraft metadata.
+    """
     flight_lines_rows = list()
     for aircraft_alias in lifemed_aircraft_locations.keys():
         rows = _process_runways_and_bases(runways_gdf, lifemed_base_gdf, aircraft_alias)
@@ -22,7 +45,7 @@ def create_flight_lines_gdf(lifemed_aircraft_locations: dict[str, Iterable[str]]
     return flight_lines_gdf
 
 def _process_runways_and_bases(runways_gdf: gpd.GeoDataFrame, lifemed_base_gdf: gpd.GeoDataFrame, aircraft_alias: str) -> gpd.GeoDataFrame:
-
+    """Generate flight path records for a specific aircraft type between viable bases and runways."""
     runways = runways_gdf[runways_gdf[aircraft_alias] != "{}"]
     bases = lifemed_base_gdf[lifemed_base_gdf[aircraft_alias] == "{available}"]
 
@@ -56,7 +79,7 @@ def _process_runways_and_bases(runways_gdf: gpd.GeoDataFrame, lifemed_base_gdf: 
     return rows
 
 def _rename_aircraft(aircraft_alias: str) -> str:
-    """Renaming implemented to achieve exact match with arbitrary string values used in target schema"""
+    """Map aircraft aliases to display names matching target service schema."""
     mapping = {
         "learjet_45": "Learjet 45",
         "learjet_31_and_35": "Learjet 31 / 35",

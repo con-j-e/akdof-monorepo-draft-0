@@ -60,7 +60,7 @@ def main() -> ExitStatus:
         aircraft_flight_time_cols = ["learjet_45", "learjet_31_and_35", "beechcraft_king_air_200", "cessna_208_grand_caravan", "bell_407_gxp_helicopter"]
         runways_gdf[aircraft_flight_time_cols] = runways_gdf[aircraft_flight_time_cols].map(json.dumps)
 
-        token = SOA_ARCGIS_AUTH.checkout_token(minutes_needed=10)
+        soa_token = SOA_ARCGIS_AUTH.checkout_token(minutes_needed=10)
         status = asyncio.run(update_target_layers(
             features_to_update={
                 "ak_runways": runways_gdf,
@@ -68,7 +68,7 @@ def main() -> ExitStatus:
                 "medevac_aircraft_base": lifemed_base_gdf,
                 "medevac_flight_paths": flight_lines_gdf
             },
-            token=token
+            token=soa_token
         ))
         if status["success"] is True:
             faa_data_manager.update_cache()

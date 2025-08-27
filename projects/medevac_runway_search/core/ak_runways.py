@@ -21,7 +21,27 @@ def create_runways_gdf(
     aircraft_fleet: AircraftFleet,
     target_epsg: int
 ) -> pd.DataFrame:
-
+    """
+    Create enhanced runways GeoDataFrame with distance calculations and flight time estimates.
+    
+    Parameters
+    ----------
+    faa_data : dict[str, pd.DataFrame]
+        "Airports", "Runways", and "Airport Schedules" FAA data tables loaded into Pandas DataFrames.
+    lifemed_base_coords : dict[str, shp.Point]
+        LifeMed base locations as Point geometries, keyed by location ID.
+    faa_data_translators : Iterable[Type[DataFrameTranslator]]
+        Translators to apply data transformations to the FAA data schema.
+    aircraft_fleet : AircraftFleet
+        Fleet instance for calculating flight time estimates.
+    target_epsg : int
+        Target EPSG code for final GeoDataFrame projection.
+        
+    Returns
+    -------
+    gpd.GeoDataFrame
+        Enhanced runways with distances to bases, flight times, and coordinate conversions.
+    """
     airports_df = faa_data["Airports"].reset_index(drop=True)
     runways_df = faa_data["Runways"].reset_index(drop=True)
     schedules_df = faa_data["Airport Schedules"].reset_index(drop=True)
@@ -65,7 +85,7 @@ def create_runways_gdf(
     return runways_gdf
 
 def _calc_lifemed_base_geodesic_miles(runways_df: pd.DataFrame, lifemed_base_coords: dict[str, shp.Point]) -> pd.DataFrame:
-
+    """Calculate geodesic distances in miles from LifeMed bases to all runways."""
     geod = pyproj.Geod(ellps="WGS84")
     lngs, lats = runways_df["arp_longitude_dd"].values, runways_df["arp_latitude_dd"].values
 

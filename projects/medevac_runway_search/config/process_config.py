@@ -1,8 +1,10 @@
+"""Processing configuration for updating medevac runway search web services."""
+
 import os
 from pathlib import Path
 
 PROJ_DIR = Path(os.getenv("AKDOF_ROOT")) / "projects" / "medevac_runway_search"
-"""Project root directory"""
+"""Project root directory."""
 
 TARGET_EPSG: int = 3857
 """Spatial reference used by all hosted feature layers which are updated by this project."""
