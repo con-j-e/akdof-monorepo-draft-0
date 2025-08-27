@@ -7,3 +7,5 @@
 
 *.crt
 *.pem
+
+*keyring_cryptfile.cfg
