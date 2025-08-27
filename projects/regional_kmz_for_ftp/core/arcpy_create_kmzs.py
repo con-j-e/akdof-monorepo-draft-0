@@ -91,15 +91,15 @@ def _clip_layer_to_kmz(
     Parameters
     ----------
     clip_layer : str
-        Passed to arcpy.analysis.Clip() as the clip_features argument.
+        Passed to `arcpy.analysis.Clip()` as the clip_features argument.
     layer_to_clip : str
-        Passed to arcpy.analysis.Clip() as the in_features argument.
+        Passed to `arcpy.analysis.Clip()` as the in_features argument.
     layer_file : str
         File path to .lyrx that will be used to apply symbology prior to converting clipped layer to KMZ.
     output_path : str
         File path to desired output location.
     query : str | None, optional
-        Standard SQL query passed to arcpy.Management.MakeFeatureLayer() as the where_clause argument, applies filter prior to KMZ conversion. By default None.
+        Standard SQL query passed to `arcpy.Management.MakeFeatureLayer()` as the where_clause argument, applies filter prior to KMZ conversion. By default None.
     """
     memory_clip = r"memory\service_clip"
     memory_layer = r"memory\clip_feature_layer"

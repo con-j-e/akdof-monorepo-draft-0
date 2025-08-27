@@ -1,11 +1,11 @@
-"""Core processing configuration for Alaska fire region KMZ generation."""
+"""Processing configuration for Alaska fire region KMZ generation."""
 
 import os
 from pathlib import Path
 from typing import Iterable, Literal
 
 PROJ_DIR: Path = Path(os.getenv("AKDOF_ROOT")) / "projects" / "regional_kmz_for_ftp"
-"""Project root directory"""
+"""Project root directory."""
 
 AK_FIRE_REGIONS_GDB: Path = PROJ_DIR / "data" / "ak_fire_regions.gdb"
 """

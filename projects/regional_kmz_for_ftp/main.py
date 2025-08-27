@@ -17,7 +17,7 @@ from core.ftp_upload_kmzs import ftp_upload_kmzs
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
 class ArcPySubprocessCriticalError(Exception): 
-    """An error occurred in the ArcPy subprocess that warrants premature termination of the main program"""
+    """An error occurred in the ArcPy subprocess that warrants premature termination of the main program."""
     pass
 
 def main() -> ExitStatus:

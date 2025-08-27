@@ -33,13 +33,13 @@ def gmail_sender_factory() -> GmailSender:
     """
     Create configured Gmail sender for notification emails.
     
-    Retrieves sender credentials and recipient address from the keyring manager
+    Retrieves sender credentials and recipient address (or addresses) from the keyring manager
     and configures a GmailSender instance for project notifications.
 
     Returns
     -------
     GmailSender
-        Configured email sender with authentication and recipient settings.
+        Configured Gmail sender with authentication and recipient settings.
     """
     sender_full_secret = CKM.get_full_secret(
         ProjectSecret(
