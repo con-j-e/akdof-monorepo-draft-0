@@ -15,7 +15,7 @@ CKM = CryptfileKeyringManager(
     master_password_username="akdof_monorepo_master_user",
     cryptfile_path=Path(os.getenv("AKDOF_ROOT")) / "admin" / "secrets" / "keyring_cryptfile.cfg"
 )
-"""Central keyring manager for encrypted credential storage"""
+"""Central keyring manager for encrypted credential storage."""
 
 SOA_ARCGIS_AUTH = ArcGisApiAuthManager(
     cryptfile_keyring_manager=CKM,
@@ -24,7 +24,7 @@ SOA_ARCGIS_AUTH = ArcGisApiAuthManager(
         username="for_admin"
     )
 )
-"""Token lifecycle manager for SOA DNR ArcGIS Online authentication"""
+"""Token lifecycle manager for SOA DNR ArcGIS Online authentication."""
 
 def gmail_sender_factory() -> GmailSender:
     """
@@ -57,4 +57,4 @@ def gmail_sender_factory() -> GmailSender:
     )
 
 GMAIL_SENDER = gmail_sender_factory()
-"""Pre-configured Gmail sender for project notifications"""
+"""Pre-configured Gmail sender for project notifications."""
