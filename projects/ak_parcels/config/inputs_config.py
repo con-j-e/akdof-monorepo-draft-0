@@ -1,3 +1,5 @@
+"""Input feature layer configurations for Alaska Statewide Parcels ETL process."""
+
 import asyncio
 from datetime import timedelta
 from concurrent.futures import ThreadPoolExecutor
@@ -19,6 +21,19 @@ _SHARED_REQUESTER = AsyncArcGisRequester(logger=_LOGGER)
 _SHARED_THREAD_EXECUTOR = ThreadPoolExecutor(thread_name_prefix="inputs_config")
 
 def parcel_feature_layer_cache_factory(cache_path: Path) -> InputFeatureLayerCache:
+    """
+    Create cache configuration for input feature layer data.
+    
+    Parameters
+    ----------
+    cache_path : Path
+        Base path for an input feature layer's caching subdirectories.
+
+    Returns
+    -------
+    InputFeatureLayerCache
+        Configured input feature layer cache instance.
+    """
     resource_info_fcm = FileCacheManager(
         path=cache_path / "resource_info",
 
@@ -42,6 +57,27 @@ def parcel_feature_layer_cache_factory(cache_path: Path) -> InputFeatureLayerCac
     return input_feature_layer_cache
 
 def input_parcel_factory(url: str, alias: str | None, field_map: dict[str, str], certificate_chain: Path | None = None) -> InputFeatureLayer:
+    """
+    Create configured input feature layer for parcel data ETL.
+
+    Parameters
+    ----------
+    url : str
+        ArcGIS REST service URL for the feature layer.
+    alias : str
+        Short name used for file naming and identification, as well as populating 'local_gov' field of the target layer.
+    field_map : dict[str, str]
+        Mapping of target layer field names to source layer field names.
+        Note that many inputs do not map fully to the target layer schema.
+        Key, value pairs where value is None are included for configuration consistency and verbosity.
+    certificate_chain : Path | None, default None
+        Custom certificate chain for SSL verification.
+
+    Returns
+    -------
+    InputFeatureLayer
+        Configured input feature layer instance.
+    """
     ifl = InputFeatureLayer(
         url=url,
         alias=alias,
@@ -304,6 +340,7 @@ INPUT_FEATURE_LAYERS_CONFIG = InputFeatureLayersConfig((
         },
     ),
 ))
+"""All configured input feature layers for Alaska Statewide Parcels ETL process."""
 
 # option to filter inputs
 # can be useful to re-process only certain inputs with logged failures on previous executions

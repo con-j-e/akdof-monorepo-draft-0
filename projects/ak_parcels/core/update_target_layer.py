@@ -16,8 +16,22 @@ from config.logging_config import FLM
 
 _LOGGER = FLM.get_file_logger(logger_name=__name__, file_name=__file__)
 
-async def update_target_layer(target_layer_config: ArcGisTargetLayerConfig, token: str, features_to_update: dict[str, gpd.GeoDataFrame]):
-        
+async def update_target_layer(target_layer_config: ArcGisTargetLayerConfig, token: str, features_to_update: dict[str, gpd.GeoDataFrame]) -> None:
+    """
+    Update ArcGIS Online target hosted feature layer with parcel features using delete-and-add strategy.
+    
+    For each alias in `features_to_update`, deletes existing features matching the alias
+    and adds new features. Includes retry logic for transient failures. Rolls back feature cache on error.
+    
+    Parameters
+    ----------
+    target_layer_config : ArcGisTargetLayerConfig
+        Configuration for the ArcGIS Online target hosted feature layer.
+    token : str
+        Authentication token for editing the ArcGIS Online target hosted feature layer
+    features_to_update : dict[str, gpd.GeoDataFrame]
+        Features to update, keyed by local government alias.
+    """
     try:
         editor_requester = AsyncRequester(timeout=3600, logger=_LOGGER)
         for alias, gdf in features_to_update.items():
@@ -47,20 +61,45 @@ async def update_target_layer(target_layer_config: ArcGisTargetLayerConfig, toke
     finally:
         await editor_requester.close()
 
-def target_feature_count_validation():
+def target_feature_count_validation() -> None:
+    """
+    Validate feature counts between source and target layers for all configured inputs.
+    Logs discrepancies and validation failures.
+    """
     for input_feature_layer in INPUT_FEATURE_LAYERS_CONFIG:
         try:
             source_count, _ = input_feature_layer._get_feature_count_and_extent()
             target_count, _ = get_feature_count_and_extent(base_url=TARGET_LAYER_CONFIG.url, where=f"local_gov = '{input_feature_layer.alias}'")
             if source_count != target_count:
-                _LOGGER.error(f"{input_feature_layer.alias} has a feature count discrepency of {source_count - target_count} between source layer ({source_count}) and target layer ({target_count}).")
+                _LOGGER.error(f"{input_feature_layer.alias} has a feature count discrepancy of {source_count - target_count} between source layer ({source_count}) and target layer ({target_count}).")
             else:
                 _LOGGER.info(f"{input_feature_layer.alias} source and target feature counts are an exact match: {target_count}")
         except Exception as e:
             _LOGGER.error(f"{input_feature_layer.alias} target feature count validation failed with Exception: {FLM.format_exception(e)}")
 
 def _format_agol_json_features(gdf: gpd.GeoDataFrame, alias: str, target_layer_config: ArcGisTargetLayerConfig) -> dict:
-
+    """
+    Formats GeoDataFrame according to `target_layer_config` and converts rows to ArcGIS JSON features.
+    
+    Adds local_gov, datetime_processed, and feature_id fields.
+    Conditionally creates 'owner' field from first/last names and
+    'total_value' from land/building values,
+    depending on existing source columns.
+    
+    Parameters
+    ----------
+    gdf : gpd.GeoDataFrame
+        Input parcel features to format.
+    alias : str
+        Local government alias identifier.
+    target_layer_config : ArcGisTargetLayerConfig
+        Configuration for the ArcGIS Online target hosted feature layer.
+        
+    Returns
+    -------
+    dict
+        ArcGIS JSON features.
+    """
     gdf = gdf.reset_index(drop=True)
     gdf["local_gov"] = alias
     gdf["datetime_processed"] = now_utc_iso()
