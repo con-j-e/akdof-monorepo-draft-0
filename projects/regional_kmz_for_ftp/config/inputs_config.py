@@ -27,7 +27,7 @@ def kmz_feature_layer_cache_factory(cache_path: Path) -> InputFeatureLayerCache:
     Parameters
     ----------
     cache_path : Path
-        Base path for an input feature layer's caching subdirectories
+        Base path for an input feature layer's caching subdirectories.
 
     Returns
     -------
@@ -163,7 +163,7 @@ INPUT_FEATURE_LAYERS_CONFIG = InputFeatureLayersConfig((
         processing_frequency="annual",
     ),
 ))
-"""All configured input feature layers for KMZ generation"""
+"""All configured input feature layers for KMZ generation."""
 
 # This is to proactively monitor the status of input feature layer dependencies,
 # and has nothing to do with the core functionality of the project.

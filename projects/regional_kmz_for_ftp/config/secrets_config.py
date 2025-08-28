@@ -15,19 +15,19 @@ CKM = CryptfileKeyringManager(
     master_password_username="akdof_monorepo_master_user",
     cryptfile_path=Path(os.getenv("AKDOF_ROOT")) / "admin" / "secrets" / "keyring_cryptfile.cfg"
 )
-"""Central keyring manager for encrypted credential storage"""
+"""Central keyring manager for encrypted credential storage."""
 
 NIFC_FTP_CREDENTIALS = CKM.get_full_secret(ProjectSecret(service_name="ftp.wildfire.gov", username="cedick"))
-"""FTP credentials for wildfire.gov - contains {url}, {username}, {password}"""
+"""FTP credentials for wildfire.gov - contains {url}, {username}, {password}."""
 
 NIFC_AGOL_CREDENTIALS = CKM.get_full_secret(ProjectSecret(service_name="https://nifc.maps.arcgis.com/", username="AK_State_Authoritative_nifc"))
-"""ArcGIS Online credentials - contains {portal_url}, {username}, {password}"""
+"""ArcGIS Online credentials - contains {portal_url}, {username}, {password}."""
 
 NIFC_ARCGIS_AUTH = ArcGisApiAuthManager(
     cryptfile_keyring_manager=CKM,
     project_secret=NIFC_AGOL_CREDENTIALS
 )
-"""Token lifecycle manager for NIFC ArcGIS Online authentication"""
+"""Token lifecycle manager for NIFC ArcGIS Online authentication."""
 
 def gmail_sender_factory() -> GmailSender:
     """
@@ -60,4 +60,4 @@ def gmail_sender_factory() -> GmailSender:
     )
 
 GMAIL_SENDER = gmail_sender_factory()
-"""Pre-configured Gmail sender for project notifications"""
+"""Pre-configured Gmail sender for project notifications."""
