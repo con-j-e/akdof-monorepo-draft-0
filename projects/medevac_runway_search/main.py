@@ -1,9 +1,11 @@
 import asyncio
 import json
 import sys
+import time
 
 from akdof_shared.protocol.file_logging_manager import ExitStatus
 from akdof_shared.protocol.main_exit_manager import MainExitManager, EarlyExitSignal
+from akdof_shared.gis.arcgis_helpers import cleanup_change_tracking, CleanupChangeTrackingFailure
 
 from config.process_config import PROJ_DIR, TARGET_EPSG, PROCESSING_EPSG
 from core.faa_data_manager import FAADataConfig, FaaDataManager
@@ -55,7 +57,7 @@ def main() -> ExitStatus:
         heli_range_gdf = create_heli_range_gdf(lifemed_base_gdf=lifemed_base_gdf, bell_407_heli=AircraftFleet.select["bell_407_gxp_helicopter"], processing_epsg=PROCESSING_EPSG, target_epsg=TARGET_EPSG)
 
         # ArcGIS Online Arcade expressions expect these fields to hold json formatted strings.
-        # GeoDataFrame column values do not get converted by `create_runways_gdf()` because
+        # Values do not get converted to string by `create_runways_gdf()` because
         # data contained in dictionaries needs to be accessed by `create_flight_lines_gdf()`.
         aircraft_flight_time_cols = ["learjet_45", "learjet_31_and_35", "beechcraft_king_air_200", "cessna_208_grand_caravan", "bell_407_gxp_helicopter"]
         runways_gdf[aircraft_flight_time_cols] = runways_gdf[aircraft_flight_time_cols].map(json.dumps)
@@ -72,6 +74,21 @@ def main() -> ExitStatus:
         ))
         if status["success"] is True:
             faa_data_manager.update_cache()
+
+        # The AK_Runways feature service is sync-enabled, so it can be included in offline field maps (note that users cannot edit the data).
+        # After the feature service is updated we clean up change tracking because
+        # there is no reason to track changes made while updating the service, and doing so uses storage space in ArcGIS Online.
+        time.sleep(15)
+        try:
+            cleanup_change_tracking(
+                admin_base_url="https://services1.arcgis.com/7HDiw78fcUiM2BWn/arcgis/rest/admin/services/AK_Runways/FeatureServer",
+                token=soa_token,
+                layers=0,
+                retention_period=10,
+                retention_period_units="seconds"
+            )
+        except CleanupChangeTrackingFailure as e:
+            _LOGGER.error(FLM.format_exception(e))
 
     return exit_manager.exit_status or ExitStatus.CRITICAL
 

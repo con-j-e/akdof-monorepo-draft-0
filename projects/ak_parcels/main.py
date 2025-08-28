@@ -1,8 +1,10 @@
 import asyncio
 import sys
+import time
 
 from akdof_shared.protocol.main_exit_manager import AsyncMainExitManager, CleanupCallable, EarlyExitSignal
 from akdof_shared.protocol.file_logging_manager import ExitStatus
+from akdof_shared.gis.arcgis_helpers import cleanup_change_tracking, CleanupChangeTrackingFailure
 
 from config.process_config import PROJ_DIR, TARGET_LAYER_CONFIG
 from config.logging_config import FLM
@@ -30,9 +32,24 @@ async def main() -> ExitStatus:
         if not features_to_update:
             raise EarlyExitSignal
 
-        token = SOA_ARCGIS_AUTH.checkout_token(minutes_needed=45)
-        await update_target_layer(target_layer_config=TARGET_LAYER_CONFIG, token=token, features_to_update=features_to_update)
+        soa_token = SOA_ARCGIS_AUTH.checkout_token(minutes_needed=45)
+        await update_target_layer(target_layer_config=TARGET_LAYER_CONFIG, token=soa_token, features_to_update=features_to_update)
         target_feature_count_validation()
+
+        # The AK_Parcels feature service is sync-enabled, so it can be included in offline field maps (note that users cannot edit the data).
+        # After the feature service is updated we clean up change tracking because
+        # there is no reason to track changes made while updating the service, and doing so uses storage space in ArcGIS Online.
+        time.sleep(15)
+        try:
+            cleanup_change_tracking(
+                admin_base_url="https://services1.arcgis.com/7HDiw78fcUiM2BWn/arcgis/rest/admin/services/AK_Parcels/FeatureServer",
+                token=soa_token,
+                layers=0,
+                retention_period=10,
+                retention_period_units="seconds"
+            )
+        except CleanupChangeTrackingFailure as e:
+            _LOGGER.error(FLM.format_exception(e))
 
     return exit_manager.exit_status or ExitStatus.CRITICAL
 
