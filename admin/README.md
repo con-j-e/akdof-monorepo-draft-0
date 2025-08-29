@@ -1,28 +1,19 @@
-## Initial Setup
-./system folder might be absolete
+# About
 
-### Software Dependencies
-- miniconda
-- git for windows
-- github cli
-- open ssl
-- arcgis pro
+A directory for resources and configuration used to administer projects. 
 
-### PowerShell Execution Policy
+## certs/
+Resources for SSL verification on the State of Alaska network. The `root/` subdirectory contains the Zscaler root certificate. The `chain/` subdirectory contains certificate chains that can be used for SSL verification with specific HTTPS endpoints. All certificate chains are expected to use the naming convention `{host}:{port}_chain.pem`. See `certs/README.md` for instructions on creating certificate chains.
 
-### Long File System Paths
+## env/
+Conda environment used for admin purposes. See `env` description in `projects/README.md` for details.
 
-### User-Level Environment Variables
-- keep these or write everything into the powershell profile?
-- perhaps those created in powershell profile should be isolated to what powershell scripts need
-- python will rely on those set explicitly here (this might just be AKDOF_ROOT)
-- AKDOF_USER makes sense from the standpoint of: verbosity, clear designation of where conda lives, of which profile will orchestrate tasks, of where the required powershell profile lives
+## exit_log/
+It is expected that `start.ps1` in every project imports from `exit_log/WriteExitLog.psm1` to write a log message to `exit_log/exit_log.csv`.
 
-### SSL Certificates
-- formalize naming convention of .pem files in admin/certs/chain? <host:port>_chain.pem
-- fewer env vars required, can construct cert paths based on AKDOF_ROOT
-- enforces structure in one step, and is extendible from the start (more certs can be introduced without modifying initial setup)
+## secrets/
+Encrypted secret store and a Python script for configuring encrypted secrets that projects depend on at runtime. 
 
-### Example PowerShell Profile
-
-### Example .condarc
+## tasks/
+`TaskSchedule.psm1` defines the configuration for all tasks that are scheduled across the repository.
+`RegisterProjectTasks.ps1` registers tasks from `TaskSchedule.psm1` with the operating system.
