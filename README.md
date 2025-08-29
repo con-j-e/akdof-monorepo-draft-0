@@ -22,9 +22,9 @@ akdof-monorepo/
 ## Documentation
 - [**REQUIREMENTS**](requirements.md)
 - [admin](admin/README.md)
-- [admin/certs](admin/certs/README.md)
+- [admin / certs](admin/certs/README.md)
 - [library](library/README.md)
 - [projects](projects/README.md)
-- [projects/ak_parcels](projects/ak_parcels/README.md) 
-- [projects/medevac_runway_search](projects/medevac_runway_search/README.md)
-- [projects/regional_kmz_for_ftp](projects/regional_kmz_for_ftp/README.md)
+- [projects / ak_parcels](projects/ak_parcels/README.md) 
+- [projects / medevac_runway_search](projects/medevac_runway_search/README.md)
+- [projects / regional_kmz_for_ftp](projects/regional_kmz_for_ftp/README.md)
