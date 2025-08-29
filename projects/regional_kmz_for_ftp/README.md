@@ -1,3 +1,7 @@
+↩️ [Back to repository overview](../../README.md)
+
+↩️ [Back to projects](../README.md)
+
 # About
 
 This project provides users of [Alaska Statewide Maps](https://alaska-division-of-forestry-and-fire-protection-nifc.hub.arcgis.com/pages/statewide-maps) with up-to-date KMZ layers for Avenza basemap customization. Layers are generated on a nightly or annual basis, depending on the potential change frequency of the input data source. All input data sources are ArcGIS Online hosted feature layers.

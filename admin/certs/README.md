@@ -1,3 +1,7 @@
+↩️ [Back to repository overview](../../README.md)
+
+↩️ [Back to admin](../README.md)
+
 ## Creating custom certificate chains for use on the SOA network
 Self-signed certificate errors can occur when SSL is used to verify connections made over HTTPS between the SOA network and an external endpoint.
 Tools / libraries used to make connections may offer the ability to specify a custom certification file to verify the connection.

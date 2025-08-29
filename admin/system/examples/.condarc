@@ -1,7 +1,0 @@
-channels:
-  - defaults
-
-channel_priority: strict
-show_channel_urls: true
-auto_activate_base: false
-auto_update_conda: false

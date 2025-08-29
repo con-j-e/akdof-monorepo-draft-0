@@ -1,3 +1,7 @@
+↩️ [Back to repository overview](../../README.md)
+
+↩️ [Back to projects](../README.md)
+
 # About
 
 This project updates the [Alaska Statewide Parcels](https://soa-dnr.maps.arcgis.com/home/item.html?id=458be3d8aafa47cd882af05cee983f6b) ArcGIS Online hosted feature layer. Updates are triggered when changes are detected in an input parcel data source. All input data sources are ArcGIS Online hosted feature layers.
