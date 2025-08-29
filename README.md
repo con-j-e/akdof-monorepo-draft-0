@@ -20,7 +20,7 @@ akdof-monorepo/
 ```
 
 ## Documentation
-- [**REQUIREMENTS**](requirements.md)
+- [**REQUIREMENTS**](REQUIREMENTS.md)
 - [admin](admin/README.md)
 - [admin / certs](admin/certs/README.md)
 - [library](library/README.md)
