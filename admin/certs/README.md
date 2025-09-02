@@ -2,6 +2,17 @@
 
 ↩️ [Back to admin](../README.md)
 
+# About
+Resources for SSL verification on the State of Alaska network.
+
+# Contents
+### `root/`
+Contains the Zscaler root certificate.
+
+### `chain/`
+Contains certificate chains that can be used for SSL verification with specific HTTPS endpoints.
+All certificate chains are expected to use the naming convention `{host}:{port}_chain.pem`.
+
 # Creating custom certificate chains for use on the SOA network
 Self-signed certificate errors can occur when SSL is used to verify connections made over HTTPS between the SOA network and an external endpoint.
 Tools / libraries used to make connections may offer the ability to specify a custom certification file to verify the connection.
@@ -24,8 +35,6 @@ FireDaemon provides binary distributions of OpenSSL for Microsoft Windows that c
 `openssl s_client -connect anaconda.org:443 -showcerts`
 
 `openssl s_client -connect pypi.org:443 -showcerts`
-
-`openssl s_client -connect "ftp.wildfire.gov:1021" -starttls ftp -showcerts`
 
 ## Getting the Zscaler root certificate
 Download "Windows Zscaler Root CA Certificate" from [SOA OIT](https://oit-int.alaska.gov/security/zscaler)

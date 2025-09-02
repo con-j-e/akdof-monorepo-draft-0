@@ -1,23 +1,20 @@
 ↩️ [Back to repository overview](../README.md)
 
 # About
-A directory for resources and configuration used to administer projects. 
+A directory for resources and configuration used to administer projects.
 
+# Contents
 ### `certs/`
-Resources for SSL verification on the State of Alaska network.
-The `root/` subdirectory contains the Zscaler root certificate.
-The `chain/` subdirectory contains certificate chains that can be used for SSL verification with specific HTTPS endpoints.
-All certificate chains are expected to use the naming convention `{host}:{port}_chain.pem`.
-See `certs/README.md` for instructions on creating certificate chains.
+Resources for SSL verification on the State of Alaska network. Further context [here](certs/README.md).
 
 ### `env/`
-Conda environment used for admin purposes. See `env` description in `projects/README.md` for details.
+Conda environment, used for admin purposes. See `env/` description [here](../projects/README.md) for details.
 
 ### `exit_log/`
-It is expected that `start.ps1` in every project imports from `exit_log/WriteExitLog.psm1` to write a log message to `exit_log/exit_log.csv`.
+Exit code log file and an exit code logging module that get used by all projects.
 
 ### `secrets/`
-Encrypted secret store and a Python script for configuring encrypted secrets that projects depend on at runtime. 
+Encrypted secret store and a Python script for configuring encrypted secrets.
 
 ### `tasks/`
 `TaskSchedule.psm1` defines the configuration for all tasks that are scheduled across the repository.
