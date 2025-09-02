@@ -1,5 +1,5 @@
 # About
-This is a shared repository for code produced by the Alaska Division of Forestry and Fire Protection GIS Unit. A [monorepo](https://en.wikipedia.org/wiki/Monorepo) was chosen with the following benefits in mind:
+This is a shared repository for projects that are maintained by the Alaska Division of Forestry and Fire Protection GIS Unit. A [monorepo](https://en.wikipedia.org/wiki/Monorepo) was chosen with the following benefits in mind:
 1. Ease of code reuse across different projects.
 2. Standardized protocols for logging, event notification, secret management, reproducable environments, and more.
 3. Consistent project organization to help facilitate long term maintainability.
