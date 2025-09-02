@@ -1,9 +1,9 @@
 ↩️ [Back to repository overview](README.md)
 
-## System
+# System
 This repository and all documentation within assumes the use of a Windows Operating System that is connected to the State of Alaska network. Additionally, it assumes there is a user profile on the operating system with software installation capabilities, and that all work done in the repository will be done by the properly configured user profile.
 
-## Software Tooling
+# Software Tooling
 Some of the software listed below can be considered optional if performing a limited scope of work inside the repository. However all the listed software has been essential in the development and maintenance of the repository as a whole. 
 | Tool      | Use Case |
 |-----------------|-------------|
@@ -12,36 +12,36 @@ Some of the software listed below can be considered optional if performing a lim
 | [**Git for Windows**](https://gitforwindows.org/) | Local version control system. |
 | [**Miniconda**](https://www.anaconda.com/download/success) | A ***user-level*** installation of Miniconda is required for all virtual environments and package management. |
 | [**OpenSSL**](https://kb.firedaemon.com/support/solutions/articles/4000121705#Windows-Installer) | Retrieving broken SSL certificate chains. Further context [here](admin/certs/README.md). |
-| [**VS Code**](https://code.visualstudio.com/Download) | Most work on this repository is done using VS Code, so as an IDE it will deliver the most consistent development experience. |
+| [**VS Code**](https://code.visualstudio.com/Download) | Most work on this repository is done using VS Code, so VS Code may deliver a more consistent development experience than other IDEs / text editors. |
 
-## Getting Started
-### Set Environment Variables
+# Getting Started
+## Set Environment Variables
 Two environment variables will be expected by PowerShell and Python scripts:
 
 * **AKDOF_ROOT**: Directory path to the root of akdof-monorepo on the local file system, for example: *C:\REPOS\akdof-monorepo*.
 
 * **AKDOF_USER**: Directory path to the root of the user profile which works on akdof-monorepo, for example: *C:\Users\Install*.
 
-### Set PowerShell Execution Policy
+## Set PowerShell Execution Policy
 Depending on current execution policy settings, you may need start a PowerShell session and manually enable script execution before any of the PowerShell scripts in the repository will work. 
 
-#### Example Command
+### Example Command
 ```
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 <sub><sup>※</sup><i>Remote signed policy is a conservative choice (unsigned scripts from an external source, a remote repository for example, may be blocked).</i></sub>
 
-#### Additional Reading
+### Additional Reading
 * [About Execution Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.5)
 * [Get-ExecutionPolicy Command](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-7.5)
 * [Set-ExecutionPolicy Command](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.5)
 
-### Create PowerShell Profile
+## Create PowerShell Profile
 A user-level PowerShell profile handles the initial configuration that prepares us for calling `conda` commands in the terminal or from PowerShell scripts.
 
 Your user-level PowerShell profile is expected to be in this exact location: *{AKDOF_USER}\Documents\PowerShell\Microsoft.PowerShell_profile.ps1*
 
-#### Example Profile
+### Example Profile
 ```
 #---------------------------------------------------------------------------------------------------------------------------------#
 # PERSONAL SETUP
@@ -86,15 +86,15 @@ If (Test-Path $CondaPath) {
 }
 ```
 
-#### Additional Reading
+### Additional Reading
 * [About Profiles](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles?view=powershell-7.5)
 
-### Create .condarc
+## Create .condarc
 Preferred default behavior of `conda` commands should be configured in a .condarc file.
 
 Your user-level .condarc is expected to be in this exact location: *{AKDOF_USER}\miniconda3\\.condarc*
 
-#### Example .condarc
+### Example .condarc
 ```
 channels:
   - defaults
@@ -105,21 +105,21 @@ auto_activate_base: false
 auto_update_conda: false
 ```
 
-#### Additional Reading
+### Additional Reading
 * [Use Condarc](https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html#)
 
-### Enable Long File System Paths (optional)
+## Enable Long File System Paths (optional)
 Depending on where akdof-monorepo is located in the local file system,
 and whether projects use deeply nested folders and/or verbose folder and file naming,
 issues with long file system paths may arise.
 
-#### Example Command
+### Example Command
 ```
 New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
 ```
 <sub><sup>※</sup><i>You must run PowerShell as an administrator to execute this command.</i></sub>
 
-#### Additional Reading
+### Additional Reading
 * [Registry Setting to Enable Long Paths](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=powershell#registry-setting-to-enable-long-paths)
 
 

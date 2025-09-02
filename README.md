@@ -1,10 +1,10 @@
-## About
-This is a shared repository for code produced by Alaska Division of Forestry and Fire Protection staff. A [monorepo](https://en.wikipedia.org/wiki/Monorepo) architecture was chosen with the following benefits in mind:
+# About
+This is a shared repository for code produced by Alaska Division of Forestry and Fire Protection staff. A [monorepo](https://en.wikipedia.org/wiki/Monorepo) was chosen with the following benefits in mind:
 1. Ease of code reuse across different projects.
-2. Implementation of standardized protocols for logging, event notification, secret management, reproducable environments, and more.
-3. Establishment of consistent project organization to help facilitate long term maintainability.
+2. Standardized protocols for logging, event notification, secret management, reproducable environments, and more.
+3. Consistent project organization to help facilitate long term maintainability.
 
-## Repository Structure
+# Repository Structure
 ```
 akdof-monorepo/
 	admin/
@@ -14,12 +14,12 @@ akdof-monorepo/
 		secrets/
 		tasks/
 	library/
-		akdof_shared/
+		...
 	projects/
 		...
 ```
 
-## Documentation
+# Documentation
 - [**REQUIREMENTS**](REQUIREMENTS.md)
 - [admin](admin/README.md)
 - [admin / certs](admin/certs/README.md)
