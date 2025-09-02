@@ -8,7 +8,7 @@ A directory for resources and configuration used to administer projects.
 Resources for SSL verification on the State of Alaska network. Further context [here](certs/README.md).
 
 ### `env/`
-Conda environment, used for admin purposes. Further context [here](../projects/README.md#L30).
+Conda environment, used for admin purposes. Further context [here](../projects/README.md#env).
 
 ### `exit_log/`
 An exit code log file and a PowerShell exit code logging module that get used by all projects.
