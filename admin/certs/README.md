@@ -48,12 +48,12 @@ Download "Windows Zscaler Root CA Certificate" from [SOA OIT](https://oit-int.al
 
 ```
 -----BEGIN CERTIFICATE-----
-<cert>
+{cert}
 -----END CERTIFICATE-----
 -----BEGIN CERTIFICATE-----
-<cert>
+{cert}
 -----END CERTIFICATE-----
 -----BEGIN CERTIFICATE-----
-<Zscaler root cert>
+{Zscaler root cert}
 -----END CERTIFICATE-----
 ```
