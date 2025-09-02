@@ -1,4 +1,4 @@
-Import-Module (Join-Path $Env:AKWF_ROOT "config\TaskSchedule.psm1")
+Import-Module (Join-Path $Env:AKDOF_ROOT "admin\tasks\TaskSchedule.psm1")
 
 function Register-ProjectTasks {
     param(
@@ -59,4 +59,4 @@ function Register-ProjectTasks {
     }
 }
 
-Register-ProjectTasks -TaskSchedule $TaskSchedule -OverwriteTasks:$true
+Register-ProjectTasks -TaskSchedule $TaskSchedule

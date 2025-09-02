@@ -5,13 +5,59 @@
 
 $TaskSchedule = @{
 
-    RegionalKmzForFtp = @{
-        Description = "Converts hosted feature layers to KMZ files and uploads KMZ files to ftp.wildfire.gov or ArcGIS Online."
-        TaskPath = "\akwf\"
+    AkParcels = @{
+        Description = "Updates the Alaska Statewide Parcels ArcGIS Online hosted feature layer."
+        TaskPath = "\akdof\"
         ActionParams = @{
             Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
             Execute = "powershell.exe"
-            WorkingDirectory = (Join-Path $Env:AKWF_ROOT "regional_kmz_for_ftp")
+            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects\ak_parcels")
+        }
+        SettingsSetParams = @{
+            AllowStartIfOnBatteries = $true
+            DontStopIfGoingOnBatteries = $true
+            ExecutionTimeLimit = (New-TimeSpan -Minutes 90)
+            MultipleInstances = "IgnoreNew"
+            RestartCount = 0
+            WakeToRun = $true
+        }
+        TriggerParams = @{
+            At = (Get-Date -Year 2025 -Month 09 -Day 03 -Hour 01 -Minute 00)
+            Daily = $true
+            DaysInterval = 1
+        }
+    }
+
+    MedevacRunwaySearch = @{
+        Description = "Updates a suite of ArcGIS Online hosted feature layers that drive core functionality of the Alaska Medevac Runway Search web app."
+        TaskPath = "\akdof\"
+        ActionParams = @{
+            Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
+            Execute = "powershell.exe"
+            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects\medevac_runway_search")
+        }
+        SettingsSetParams = @{
+            AllowStartIfOnBatteries = $true
+            DontStopIfGoingOnBatteries = $true
+            ExecutionTimeLimit = (New-TimeSpan -Minutes 30)
+            MultipleInstances = "IgnoreNew"
+            RestartCount = 0
+            WakeToRun = $true
+        }
+        TriggerParams = @{
+            At = (Get-Date -Year 2025 -Month 09 -Day 03 -Hour 02 -Minute 30)
+            Daily = $true
+            DaysInterval = 1
+        }
+    }
+
+    RegionalKmzForFtp = @{
+        Description = "Converts hosted feature layers to KMZ files and uploads KMZ files to ftp.wildfire.gov or ArcGIS Online."
+        TaskPath = "\akdof\"
+        ActionParams = @{
+            Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
+            Execute = "powershell.exe"
+            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects\regional_kmz_for_ftp")
         }
         SettingsSetParams = @{
             AllowStartIfOnBatteries = $true
@@ -22,31 +68,7 @@ $TaskSchedule = @{
             WakeToRun = $true
         }
         TriggerParams = @{
-            At = (Get-Date -Year 2025 -Month 07 -Day 09 -Hour 02 -Minute 00)
-            Daily = $true
-            DaysInterval = 1
-        }
-    }
-
-    SatelliteImagePolling = @{
-        Description = "Requests satellite images of fires from the Sentinel Hub Process API."
-        TaskPath = "\akwf\"
-        ActionParams = @{
-            Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
-            Execute = "powershell.exe"
-            WorkingDirectory = (Join-Path $Env:AKWF_ROOT "satellite_image_polling")
-        }
-        SettingsSetParams = @{
-            AllowStartIfOnBatteries = $true
-            DontStopIfGoingOnBatteries = $true
-            ExecutionTimeLimit = (New-TimeSpan -Minutes 30)
-            MultipleInstances = "IgnoreNew"
-            RestartCount = 3
-            RestartInterval = (New-TimeSpan -Minutes 10)
-            WakeToRun = $true
-        }
-        TriggerParams = @{
-            At = (Get-Date -Year 2025 -Month 07 -Day 08 -Hour 18 -Minute 00)
+            At = (Get-Date -Year 2025 -Month 09 -Day 03 -Hour 03 -Minute 00)
             Daily = $true
             DaysInterval = 1
         }
