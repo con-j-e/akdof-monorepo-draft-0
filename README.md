@@ -1,7 +1,7 @@
 # About
 This is a shared repository for projects that are developed by the Alaska Division of Forestry and Fire Protection GIS Unit. A [monorepo](https://en.wikipedia.org/wiki/Monorepo) was chosen with the following benefits in mind:
 1. Ease of code reuse across different projects.
-2. Standardized protocols for logging, event notification, secret management, reproducable environments, and more.
+2. Standardized protocols for logging, event notification, secret management, reproducible environments, and more.
 3. Consistent project organization to help facilitate long term maintainability.
 
 # Repository Structure
@@ -20,8 +20,7 @@ akdof-monorepo/
 ```
 
 # Documentation
-Our documentation layout maps onto the overall repository structure, with forward-links and back-links connecting related markdown files.
-It should be noted that the target audience for all documentation is an internal team with specific usage constraints (no additional effort goes toward encouraging the adoption of our work in other contexts).
+Our documentation layout maps onto the overall repository structure, with forward-links and back-links connecting related markdown files. It should be noted that documentation is primarily written for the use-cases of an internal team - not necessarily with the interests of a broader audience in mind.
 
 - [**REQUIREMENTS**](REQUIREMENTS.md)
 - [admin](admin/README.md)
