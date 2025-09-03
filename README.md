@@ -20,6 +20,9 @@ akdof-monorepo/
 ```
 
 # Documentation
+Our documentation layout is intended to map to the overall repository structure, with forward-links and back-links connecting related markdown files.
+It should be noted that the target audience for all documentation is an internal team with specific usage constraints and requirements (no added effort goes toward encouraging the adoption of our work in other contexts).
+
 - [**REQUIREMENTS**](REQUIREMENTS.md)
 - [admin](admin/README.md)
 - [admin / certs](admin/certs/README.md)
