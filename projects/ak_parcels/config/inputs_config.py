@@ -346,6 +346,6 @@ INPUT_FEATURE_LAYERS_CONFIG = InputFeatureLayersConfig((
 # can be useful to re-process only certain inputs with logged failures on previous executions
 """
 INPUT_FEATURE_LAYERS_CONFIG = InputFeatureLayersConfig(
-    input for input in INPUT_FEATURE_LAYERS_CONFIG if input.alias == "Kodiak Island Borough"
+    input for input in INPUT_FEATURE_LAYERS_CONFIG if input.alias == "North Slope Borough"
 )
 """
