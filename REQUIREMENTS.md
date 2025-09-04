@@ -3,7 +3,7 @@
 # System
 This repository and all documentation within assumes the use of a Windows Operating System that is connected to the State of Alaska network. Additionally, it assumes there is a user profile on the operating system with software installation capabilities, and that all work done in the repository will be done by the properly configured user profile.
 
-The user profile is emphasized because in general we want to keep our development configuration seperated from system-wide concerns.
+The user profile is emphasized because in general we want to keep our development configuration separated from system-wide concerns.
 
 # Software Tooling
 Some of the software listed below can be considered optional depending on the scope of work being done inside the repository. However all the listed software has been essential in the development and maintenance of the repository as a whole.
@@ -16,7 +16,7 @@ Some of the software listed below can be considered optional depending on the sc
 | [**OpenSSL**](https://kb.firedaemon.com/support/solutions/articles/4000121705#Windows-Installer) | Retrieving broken SSL certificate chains. Further context [here](admin/certs/README.md). |
 | [**VS Code**](https://code.visualstudio.com/Download) | VS Code may deliver a more consistent development experience than other IDEs / text editors (most work on this repository is done using VS Code). |
 
-<sub>*The user-level Miniconda installation is particularly important on machines with a system-level ArcGIS Pro installation. We want our package management concerns to be seperated from the ArcGIS Pro package manager and the user-level | system-level boundary helps achieve this seperation. See [example PowerShell profile](#example-profile) for further context.</sub>
+<sub>*The user-level Miniconda installation is particularly important on machines with a system-level ArcGIS Pro installation. We want our package management concerns to be separated from the ArcGIS Pro package manager and the user-level | system-level boundary helps achieve this seperation. See [example PowerShell profile](#example-profile) for further context.</sub>
 
 # Getting Started
 ## Set Environment Variables
