@@ -94,7 +94,7 @@ If (Test-Path $CondaPath) {
 * [About Profiles](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles?view=powershell-7.5)
 
 ## Create .condarc
-Preferred default behavior of `conda` commands should be configured in a .condarc file.
+Preferred default behavior of `conda` commands is configured in a .condarc file.
 
 Your user-level .condarc is expected to be in this exact location: *{AKDOF_USER}\miniconda3\\.condarc*
 
