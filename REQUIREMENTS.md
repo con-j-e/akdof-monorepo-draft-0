@@ -3,7 +3,7 @@
 # System
 This repository and all documentation within assumes the use of a Windows Operating System that is connected to the State of Alaska network. Additionally, it assumes there is a user profile on the operating system with software installation capabilities, and that all work done in the repository will be done by the properly configured user profile.
 
-The operating system user profile is emphasized because in general we want to keep our development configuration seperated from system-wide concerns.   
+The user profile is emphasized because in general we want to keep our development configuration seperated from system-wide concerns.   
 
 # Software Tooling
 Some of the software listed below can be considered optional depending on the scope of work being done inside the repository. However all the listed software has been essential in the development and maintenance of the repository as a whole. 
