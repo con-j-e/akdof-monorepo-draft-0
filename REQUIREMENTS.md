@@ -16,7 +16,7 @@ Some of the software listed below can be considered optional depending on the sc
 | [**OpenSSL**](https://kb.firedaemon.com/support/solutions/articles/4000121705#Windows-Installer) | Retrieving broken SSL certificate chains. Further context [here](admin/certs/README.md). |
 | [**VS Code**](https://code.visualstudio.com/Download) | VS Code may deliver a more consistent development experience than other IDEs / text editors (most work on this repository is done using VS Code). |
 
-<sub>*User-level installation means installing for your specific user account rather than system-wide, which avoids permission issues and keeps environments isolated.</sub>
+<sub>*The user-level Miniconda installation is particularly important on machines with a system-level ArcGIS Pro installation. We want our package management concerns to be seperated from the ArcGIS Pro package manager and the user-level | system-level boundary helps achieve this seperation. See [example PowerShell profile](#example-profile) for further context.</sub>
 
 # Getting Started
 ## Set Environment Variables
