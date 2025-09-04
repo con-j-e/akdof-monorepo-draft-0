@@ -33,7 +33,7 @@ Depending on current execution policy settings, you may need start a PowerShell 
 ```
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
-<sub><sup>※</sup><i>Remote signed policy is a conservative choice (unsigned scripts from an external source, a remote repository for example, may be blocked).</i></sub>
+<sub><sup>※</sup>Remote signed policy is a conservative choice (unsigned scripts from an external source, a remote repository for example, may be blocked).</sub>
 
 ### Additional Reading
 * [About Execution Policies](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.5)
