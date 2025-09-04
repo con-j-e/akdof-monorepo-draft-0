@@ -6,14 +6,14 @@ Project subdirectories represent stable units of work meeting clearly defined bu
 # Standard Project Structure 
 ```
 projects/
-	{project_name}/
-		config/
-		core/
-		data/
-		env/
-		main.py
-		start.ps1
-		README.md
+└── {project_name}/
+    ├── config/
+    ├── core/
+    ├── data/
+    ├── env/
+    ├── main.py
+    ├── start.ps1
+    └── README.md
 ```
 
 # Standard Project Contents
@@ -39,7 +39,7 @@ Environment setup components:
 Entry point for execution of all Python code.
 
 ### `start.ps1`
-Executable that triggers all work done by the project. Handles capture of any stderr output as well as exit code logging.
+PowerShell script that triggers all work done by the project. Handles capture of any stderr output as well as exit code logging.
 
 ### `README.md`
 A high-level overview of why this project exists, what it does, and any contextual information a new developer would need to effectively maintain it.
