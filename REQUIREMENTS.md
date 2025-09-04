@@ -12,11 +12,11 @@ Some of the software listed below can be considered optional depending on the sc
 | [**ArcGIS Pro**](https://pro.arcgis.com/en/pro-app/latest/get-started/download-arcgis-pro.htm) | Projects that use ArcPy will require a licensed ArcGIS Pro installation to function. |
 | [**GitHub CLI**](https://cli.github.com/) | Remote repository connection. |
 | [**Git for Windows**](https://gitforwindows.org/) | Local version control system. |
-| [**Miniconda**](https://www.anaconda.com/download/success) | A ***user-level***[^1] installation of Miniconda is required for all virtual environments and package management. |
+| [**Miniconda**](https://www.anaconda.com/download/success) | A ***user-level***<sup>1</sup> installation of Miniconda is required for all virtual environments and package management. |
 | [**OpenSSL**](https://kb.firedaemon.com/support/solutions/articles/4000121705#Windows-Installer) | Retrieving broken SSL certificate chains. Further context [here](admin/certs/README.md). |
 | [**VS Code**](https://code.visualstudio.com/Download) | VS Code may deliver a more consistent development experience than other IDEs / text editors (most work on this repository is done using VS Code). |
 
-[^1]: This means installing Miniconda for your specific user account rather than system-wide, which avoids permission issues and keeps environments isolated.
+<sup>1</sup> This means installing Miniconda for your specific user account rather than system-wide, which avoids permission issues and keeps environments isolated.
 
 # Getting Started
 ## Set Environment Variables
