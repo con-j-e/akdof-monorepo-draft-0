@@ -5,19 +5,16 @@ This is a shared repository for projects that are developed by the Alaska Divisi
 3. Consistent project organization to help facilitate long term maintainability.
 
 # Repository Structure
-```
-akdof-monorepo/
-	admin/
-		certs/
-		env/
-		exit_log/
-		secrets/
-		tasks/
-	library/
-		...
-	projects/
-		...
-```
+📁 `akdof-monorepo/`
+  📁 `admin/` — *Resources and configuration for administering projects.*
+    📁 `certs/` — *SSL certificates for use on the State of Alaska network.*  
+    📁 `env/` — *Conda environment for admin use.* 
+    📁 `exit_log/` — *Exit status log file / logging protocol shared across projects.*
+    📁 `secrets/` — *Secure management of credentials and other sensitive information.*
+    📁 `tasks/` — *Configuration and registration of all tasks that are scheduled across the repository.*
+  📁 `library/` — *Python packages shared by multiple projects.*
+  📁 `projects/` — *Individual project subdirectories.*
+		
 
 # Documentation
 Our documentation layout maps onto the overall repository structure, with forward-links and back-links connecting related markdown files. It should be noted that documentation is primarily written for the use-cases of an internal team and not necessarily with the interests of a broader audience in mind.
