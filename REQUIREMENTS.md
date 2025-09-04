@@ -3,10 +3,24 @@
 # System
 This repository and all documentation within assumes the use of a Windows Operating System that is connected to the State of Alaska network. Additionally, it assumes there is a user profile on the operating system with software installation capabilities, and that all work done in the repository will be done by the properly configured user profile.
 
-The user profile is emphasized because in general we want to keep our development configuration seperated from system-wide concerns.   
+The user profile is emphasized because in general we want to keep our development configuration seperated from system-wide concerns.
 
 # Software Tooling
-Some of the software listed below can be considered optional depending on the scope of work being done inside the repository. However all the listed software has been essential in the development and maintenance of the repository as a whole. 
+Some of the software listed below can be considered optional depending on the scope of work being done inside the repository. However all the listed software has been essential in the development and maintenance of the repository as a whole.
+| Tool      | Use Case |
+|-----------------|-------------|
+| [**ArcGIS Pro**](https://pro.arcgis.com/en/pro-app/latest/get-started/download-arcgis-pro.htm) | Projects that use ArcPy will require a licensed ArcGIS Pro installation to function. |
+| [**GitHub CLI**](https://cli.github.com/) | Remote repository connection. |
+| [**Git for Windows**](https://gitforwindows.org/) | Local version control system. |
+| [**Miniconda**](https://www.anaconda.com/download/success) | A ***user-level***[^1] installation of Miniconda is required for all virtual environments and package management. |
+| [**OpenSSL**](https://kb.firedaemon.com/support/solutions/articles/4000121705#Windows-Installer) | Retrieving broken SSL certificate chains. Further context [here](admin/certs/README.md). |
+| [**VS Code**](https://code.visualstudio.com/Download) | VS Code may deliver a more consistent development experience than other IDEs / text editors (most work on this repository is done using VS Code). |
+
+[^1]: This means installing Miniconda for your specific user account rather than system-wide, which avoids permission issues and keeps environments isolated.
+
+
+
+
 | Tool      | Use Case |
 |-----------------|-------------|
 | [**ArcGIS Pro**](https://pro.arcgis.com/en/pro-app/latest/get-started/download-arcgis-pro.htm) | Projects that use ArcPy will require a licensed ArcGIS Pro installation to function. |
