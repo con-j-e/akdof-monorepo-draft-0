@@ -9,7 +9,6 @@ This is a shared repository for projects that are developed by the Alaska Divisi
 akdof-monorepo/
 ├── admin/
 │   ├── certs/
-│   ├── env/
 │   ├── exit_log/
 │   ├── secrets/
 │   └── tasks/
