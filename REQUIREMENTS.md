@@ -6,7 +6,7 @@ This repository and all documentation within assumes the use of a Windows Operat
 The user profile is emphasized because in general we want to keep our development configuration separated from system-wide concerns.
 
 # Software Tooling
-Some of the software listed below can be considered optional depending on the scope of work being done inside the repository. However all the listed software has been essential in the development and maintenance of the repository as a whole.
+Some of the software listed below can be considered optional, depending on the scope of work being done inside the repository. All of the listed software has been essential in the development and maintenance of the repository as a whole.
 | Tool      | Use Case |
 |-----------------|-------------|
 | [**ArcGIS Pro**](https://pro.arcgis.com/en/pro-app/latest/get-started/download-arcgis-pro.htm) | Projects that use ArcPy will require a licensed ArcGIS Pro installation to function. |
