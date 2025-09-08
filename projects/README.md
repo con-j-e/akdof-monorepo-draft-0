@@ -35,7 +35,7 @@ Environment setup components:
 - `setup.ps1`: PowerShell script that creates `conda_env/`. This should always be used for environment creation to ensure completion of any custom setup.
 - [`spec-file.txt`](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#building-identical-conda-environments): Used for reproducibility.
 
-<sub>*There is significant overlap between environments for existing projects. If deploying from a storage constrained setting in the future (cloud infrastructure for example) it could make sense to build shared environments. Currently storage space is not a factor so the assurances of isolated project-specific environments are chosen over maximizing storage efficiency.</sub>
+<sub>*There is significant overlap between environments for existing projects. If deploying from a storage constrained setting in the future (cloud infrastructure for example) it could make sense to build shared environments. Currently storage space is not a factor so the simplicity of isolated project-specific environments is chosen over maximizing storage efficiency.</sub>
 
 ### `main.py`
 Entry point for execution of all Python code.
