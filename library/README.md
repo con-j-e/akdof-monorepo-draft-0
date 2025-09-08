@@ -12,13 +12,13 @@ library/
     ├── src/
     │   └── <package_name>/
     │       ├── __init__.py
-    │       ├── module.py
-    │       ├── sub_package_1/
+    │       ├── <module.py>
+    │       ├── <sub_package_1>/
     │       │   ├── __init__.py
-    │       │   └── module.py
-    │       └── sub_package_2/
+    │       │   └── <module.py>
+    │       └── <sub_package_2>/
     │           ├── __init__.py
-    │           └── module.py
+    │           └── <module.py>
     ├── tests/
     └── pyproject.toml
 ```
