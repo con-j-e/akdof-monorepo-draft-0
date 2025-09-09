@@ -4,7 +4,7 @@
 
 # About
 
-Two third-party Python libraries are involved in securily storing and accessing sensitive information: [keyring](https://pypi.org/project/keyring/) and [keyrings.cryptfile](https://pypi.org/project/keyrings.cryptfile/). These libraries are implemented by [CryptfileKeyringManager] to standardize how sensitive information is handled across the repository. This approach offers multiple layers of protection for sensitive information. However, determining what information to consider "sensitive", and protecting this information using the established protocol, is a developer responsibility.
+Two third-party Python libraries are involved in securily storing and accessing sensitive information: [keyring](https://pypi.org/project/keyring/) and [keyrings.cryptfile](https://pypi.org/project/keyrings.cryptfile/). These libraries are implemented by [CryptfileKeyringManager](../../library/akdof_shared/src/akdof_shared/security/cryptfile_keyring_manager.py#L28) to standardize how sensitive information is handled across the repository. This approach offers multiple layers of protection for sensitive information. However, determining what information to consider "sensitive", and protecting this information using the established protocol, is a developer responsibility.
 
 * should have footnotes for keyring and keyrings.cryptfile, gen overview and dependency rational
 
@@ -12,7 +12,7 @@ Two third-party Python libraries are involved in securily storing and accessing 
 
 ## ProjectSecret
 
-Sensitive information is declared using a [ProjectSecret]. The only time that a `ProjectSecret` will have a hard-coded `password` attribute is when a developer is manually saving a new secret to the cryptfile keyring, after which the `password` attribute is removed from code. Once saved, accessing the full `ProjectSecret` at runtime will only require hard-coded `service_name` and `username` attributes. The names of these attributes were chosen to reflect tight coupling with the [keyring API] and don't necessarily describe the contents of what is being saved. At a basic level, `service_name` and `username` are just arbitrary string identifiers that together are used to reference `password`, which is just a piece of sensitive string data. 
+Sensitive information is declared using a [ProjectSecret](../../library/akdof_shared/src/akdof_shared/security/cryptfile_keyring_manager.py#L10). The only time that a `ProjectSecret` will have a hard-coded `password` attribute is when a developer is manually saving a new secret to the cryptfile keyring, after which the `password` attribute is removed from code. Once saved, accessing the full `ProjectSecret` at runtime will only require hard-coded `service_name` and `username` attributes. The names of these attributes were chosen to reflect tight coupling with the [keyring API] and don't necessarily describe the contents of what is being saved. At a basic level, `service_name` and `username` are just arbitrary string identifiers that together are used to reference `password`, which is just a piece of sensitive string data. 
 
 ## The Keyring Cryptfile Master Password
 
