@@ -15,4 +15,4 @@ Three steps are required for a project to adhere to proper exit code logging:
 2. Use [MainExitManager](../../library/akdof_shared/src/akdof_shared/protocol/main_exit_manager.py#L76) (or [AsyncMainExitManager](../../library/akdof_shared/src/akdof_shared/protocol/main_exit_manager.py#L101), if defining an asynchronous main process) as a context manager for all the core business logic that executes in `main.py`.
 3. Trigger all work done by the project with [start.ps1](../../projects/README.md#startps1), which calls [Write-ExitLog](WriteExitLog.psm1#L1) as soon as `main.py` is finished executing.
 
-People are encouraged to read and understand the Python and PowerShell modules that compose this protocol, but from a purely implementation standpoint, this should not be necessary.
+While team members are encouraged to review the underlying Python and PowerShell modules for a deeper understanding, simply following the previously established usage pattern is sufficient for integrating new projects with the repository. 
