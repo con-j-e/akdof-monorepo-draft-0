@@ -12,11 +12,12 @@ Two third-party Python libraries are involved in securily storing and accessing 
 
 The protocol described below offers multiple layers of protection for sensitive information:
 1. Exclusion of all sensitive information from version control.
-2. Encryption of locally persisting sensitive information using an [industry standard cryptographic algorithm]().
+2. Encryption of locally persisting sensitive information using industry standard cryptographic algorithms.*
 3. Storing the master password that decrypts locally persisting sensitive information with [Windows Credential Manager](https://woshub.com/saved-passwords-windows-credential-manager/). 
 
 Determining what information to consider "sensitive", and securing this information by following the established protocol, is ultimately a developer responsibility.
 
+<sub>* Implements [Argon2id password hashing](https://datatracker.ietf.org/doc/rfc9106/) and [AES authenticated encryption](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf) ([GCM default](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38d.pdf)). Configuration: Argon2id m=65536,t=15,p=2; AES with CCM/EAX/GCM/OCB modes.</sub>
 
 # Protocol
 
