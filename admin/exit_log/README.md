@@ -4,7 +4,7 @@
 
 # About
 
-Exit code logging provides a generalizable process stability metric that can be used across all projects. Exit codes are formalized by the [ExitStatus](../../library/akdof_shared/src/akdof_shared/protocol/file_logging_manager.py#L19) enum. Codes  `30`, `40`, and `50` correspond directly to log levels established in the Python [logging] module. Code `1` was arbitrarily chosen for all normal exit circumstances - although it is important that a truthy value is used (instead of `0` which is falsey). This gives us a [last line of defense] for documenting unexpected edge cases.
+Exit code logging provides a generalizable process stability metric that can be used across all projects. Exit codes are formalized by the [ExitStatus](../../library/akdof_shared/src/akdof_shared/protocol/file_logging_manager.py#L19) [IntEnum](https://docs.python.org/3/library/enum.html#enum.IntEnum). Codes  `30`, `40`, and `50` correspond directly to log levels established in the Python [logging](https://docs.python.org/3/library/logging.html) module. Code `1` was arbitrarily chosen for all normal exit circumstances - although it is important that a truthy value is used (instead of `0` which is falsey). This allows us to return from main() using a ternary expression, giving a "last line of defense" for documenting unexpected edge cases. 
 
 # Protocol
 
