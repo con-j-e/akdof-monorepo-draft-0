@@ -16,7 +16,7 @@ Sensitive information is declared using a [ProjectSecret](../../library/akdof_sh
 
 ## The Keyring Cryptfile Master Password
 
-A specific master password is required to access decrypted data from the keyring cryptfile. ***Note that with the keyring.cryptfile library, this password can only be set once per operating system.*** We keep the master password protected in [Windows Credential Manager](https://woshub.com/saved-passwords-windows-credential-manager/), where it is stored and accessed using the keyring library with a WinVaultKeyring backend. The only situations when the master password should be present outside of Windows Credential Manager are: During the initial cryptfile configuration process, and during temporary internal sharing over agreed upon secure channels. 
+A specific master password is required to access decrypted data from the keyring cryptfile. ***Note that with the keyring.cryptfile library, this password can only be set once per operating system.*** We keep the master password protected in [Windows Credential Manager](https://woshub.com/saved-passwords-windows-credential-manager/), where it is stored and accessed using the keyring library with a [WinVaultKeyring](https://github.com/jaraco/keyring/blob/main/keyring%2Fbackends%2FWindows.py#L65) backend. The only situations when the master password should be present outside of Windows Credential Manager are: During the initial cryptfile configuration process, and during temporary internal sharing over agreed upon secure channels. 
 
 ## The Keyring Cryptfile
 
