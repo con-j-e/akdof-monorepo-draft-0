@@ -4,9 +4,19 @@
 
 # About
 
-Two third-party Python libraries are involved in securily storing and accessing sensitive information: [keyring](https://pypi.org/project/keyring/) and [keyrings.cryptfile](https://pypi.org/project/keyrings.cryptfile/)*. These libraries are implemented by [CryptfileKeyringManager](../../library/akdof_shared/src/akdof_shared/security/cryptfile_keyring_manager.py#L28) to standardize how sensitive information is handled across the repository. The approach described below offers multiple layers of protection for sensitive information: 1) Exclusion of sensitive information from version control; 2) Encryption of locally persisting sensitive information using an [industry standard cryptographic algorithm](); 3) Protection of the cryptfile master password using Windows Credential Manager. However, determining what information to consider "sensitive", and securing this information by following the established protocol, is a developer responsibility.
+Two third-party Python libraries are involved in securily storing and accessing sensitive information: [keyring](https://pypi.org/project/keyring/) and [keyrings.cryptfile](https://pypi.org/project/keyrings.cryptfile/)*. These libraries are implemented by [CryptfileKeyringManager](../../library/akdof_shared/src/akdof_shared/security/cryptfile_keyring_manager.py#L28) to standardize how sensitive information is handled across the repository.
 
-<sub>*`keyrings.cryptfile` is an encrypted file backend for the `keyring` library. All `keyring` backends use the same interface, defined by [keyring.backend.KeyringBackend](https://github.com/jaraco/keyring/blob/main/keyring%2Fbackend.py#L65). This means the approach to storing and accessing sensitive information that is described below could be implemented using a different backend, with very few changes being required in the current `CryptfileKeyringManager` class.</sub> 
+<sub>*`keyrings.cryptfile` is an encrypted file backend for the `keyring` library. All `keyring` backends use the same interface, defined by [keyring.backend.KeyringBackend](https://github.com/jaraco/keyring/blob/main/keyring%2Fbackend.py#L65). This means the current approach could be implemented using a different backend, with very few changes being required in the current `CryptfileKeyringManager` class.</sub> 
+
+# Layers of Protection
+
+The protocol described below offers multiple layers of protection for sensitive information:
+1. Exclusion of sensitive information from version control.
+2. Encryption of locally persisting sensitive information using an [industry standard cryptographic algorithm]().
+3. Protection of the cryptfile master password using Windows Credential Manager. 
+
+Even with layers of protection in place, determining what information to consider "sensitive", and securing this information by following the established protocol, is ultimately a team responsibility.
+
 
 # Protocol
 
