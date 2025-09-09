@@ -4,7 +4,7 @@
 
 # About
 
-Two third-party Python libraries are involved in securily storing and accessing sensitive information: [keyring] and [keyrings.cryptfile]. These libraries are implemented by [CryptfileKeyringManager] to standardize how sensitive information is handled across the repository. This approach offers multiple layers of protection for sensitive information. However, determining what information to consider "sensitive", and protecting this information using the established protocol, is a developer responsibility.
+Two third-party Python libraries are involved in securily storing and accessing sensitive information: [keyring](https://pypi.org/project/keyring/) and [keyrings.cryptfile](https://pypi.org/project/keyrings.cryptfile/). These libraries are implemented by [CryptfileKeyringManager] to standardize how sensitive information is handled across the repository. This approach offers multiple layers of protection for sensitive information. However, determining what information to consider "sensitive", and protecting this information using the established protocol, is a developer responsibility.
 
 * should have footnotes for keyring and keyrings.cryptfile, gen overview and dependency rational
 
