@@ -1,3 +1,7 @@
+↩️ [Back to repository overview](../../README.md)
+
+↩️ [Back to admin](../README.md)
+
 # About
 
 Exit code logging provides a generalizable process stability metric that can be used across all projects. Exit codes are formalized by the [ExitStatus] enum. Codes  `30`, `40`, and `50` correspond directly to log levels established in the Python [logging] module. Code `1` was arbitrarily chosen for all normal exit circumstances - although it is important that a truthy value is used (instead of `0` which is falsey). This gives us a [last line of defense] for documenting unexpected edge cases.
