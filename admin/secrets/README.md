@@ -13,9 +13,9 @@ Two third-party Python libraries are involved in securily storing and accessing 
 The protocol described below offers multiple layers of protection for sensitive information:
 1. Exclusion of sensitive information from version control.
 2. Encryption of locally persisting sensitive information using an [industry standard cryptographic algorithm]().
-3. Protection of the cryptfile master password using Windows Credential Manager. 
+3. Protection of the master password that is capable of decrypting locally persisting sensitive information using [Windows Credential Manager](https://woshub.com/saved-passwords-windows-credential-manager/). 
 
-Even with layers of protection in place, determining what information to consider "sensitive", and securing this information by following the established protocol, is ultimately a team responsibility.
+Even having layers of protection in place, determining what information to consider "sensitive" and securing this information by following the established protocol is ultimately a developer responsibility.
 
 
 # Protocol
@@ -26,7 +26,7 @@ Sensitive information is declared using a [ProjectSecret](../../library/akdof_sh
 
 ## The Cryptfile Master Password
 
-A specific master password is required to access decrypted data from the cryptfile. ***Note that with the `keyrings.cryptfile` library, this password can only be set once per operating system.*** We keep the master password protected in [Windows Credential Manager](https://woshub.com/saved-passwords-windows-credential-manager/), where it is stored and accessed using the keyring library with a [WinVaultKeyring](https://github.com/jaraco/keyring/blob/main/keyring%2Fbackends%2FWindows.py#L65) backend. The only situations when the master password should be present outside of Windows Credential Manager are: During the initial cryptfile configuration process, and during temporary internal sharing over agreed upon secure channels. 
+A specific master password is required to access decrypted data from the cryptfile. ***Note that with the `keyrings.cryptfile` library, this password can only be set once per operating system.*** We keep the master password protected in Windows Credential Manager, where it is stored and accessed using the keyring library with a [WinVaultKeyring](https://github.com/jaraco/keyring/blob/main/keyring%2Fbackends%2FWindows.py#L65) backend. The only situations when the master password should be present outside of Windows Credential Manager are: During the initial cryptfile configuration process, and during temporary internal sharing over agreed upon secure channels. 
 
 ## The Keyring Cryptfile
 
