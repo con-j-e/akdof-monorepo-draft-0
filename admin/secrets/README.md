@@ -11,9 +11,9 @@ Two third-party Python libraries are involved in securily storing and accessing 
 # Layers of Protection
 
 The protocol described below offers multiple layers of protection for sensitive information:
-1. Exclusion of sensitive information from version control.
+1. Exclusion of all sensitive information from version control.
 2. Encryption of locally persisting sensitive information using an [industry standard cryptographic algorithm]().
-3. Protection of the master password that is capable of decrypting locally persisting sensitive information using [Windows Credential Manager](https://woshub.com/saved-passwords-windows-credential-manager/). 
+3. Protection of the master password that can decrypt locally persisting sensitive information by storing it with [Windows Credential Manager](https://woshub.com/saved-passwords-windows-credential-manager/). 
 
 Determining what information to consider "sensitive", and securing this information by following the established protocol, is ultimately a developer responsibility.
 
