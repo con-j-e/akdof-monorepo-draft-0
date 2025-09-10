@@ -4,4 +4,4 @@ Various scripts used for admin level tasks. Each is intended to be self containe
 
 # Python Execution
 
-Admin python scripts should be executed using this Python interpreter: *admin/scripts/env/conda_env/python.exe*. Note that *admin/scripts/env/* follows the exact same structure described [here]().  
+Admin python scripts should be executed using this Python interpreter: *admin/scripts/env/conda_env/python.exe*. Note that *admin/scripts/env/* follows the exact same structure described in [/projects/README.md](../projects/README.md#standard-project-contents].  
