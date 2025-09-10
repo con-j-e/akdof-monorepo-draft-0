@@ -11,7 +11,7 @@
 
 # Configuring TaskSchedule.psm1
 
-The task schedule is really just a nested [hash table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.5) of parameters that will be be passed to core task scheduling PowerShell functions by [Register-ProjectTasks](RegisterProjectTasks.ps1#L3). Below is an example entry into the task schedule, with comments explaining each component. 
+The task schedule is really just a nested [hash table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.5) of parameters that will be be passed to [core task scheduling PowerShell functions](https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/?view=windowsserver2025-ps) by [Register-ProjectTasks](RegisterProjectTasks.ps1#L3). Below is an example entry into the task schedule, with comments explaining each component. 
 
 ```
 # all tasks for the repository are defined inside of a top-level hash table keyed by "TaskSchedule"
