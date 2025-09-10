@@ -62,5 +62,5 @@ $TaskSchedule = @{
 # Executing RegisterProjectTasks.ps1
 
 There are two quirks worth noting about this PowerShell script:
-1. The script must be executed as administrator (scheduling tasks requires elevated privileges) 
-2. At the time of writing this documentation (September of 2025) there is a [bug in PowerShell 5.1](https://superuser.com/questions/1885304/powershell-exe-does-not-prompt-for-credentials) that makes it impossible for the [PoweShell command line shell](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.5#command-line-shell) to execute the script successfully. [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/) can be used to execute the script instead.  
+1. The script must be executed as administrator (scheduling tasks always requires elevated privileges).
+2. At the time of writing this documentation (September of 2025) there is a [bug in PowerShell 5.1](https://superuser.com/questions/1885304/powershell-exe-does-not-prompt-for-credentials) that makes it impossible for the [PowerShell command line shell](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.5#command-line-shell) to execute the script successfully. [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/) can be used to execute the script instead.  
