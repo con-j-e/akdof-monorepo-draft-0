@@ -55,17 +55,15 @@ CKM = CryptfileKeyringManager(
 ```
 
 ## Accessing Stored Secrets
-Projects will access any stored secrets that they rely on from *{project_name}/config/secrets_config.py*. Secrets can then be imported elsewhere for use at runtime. Several examples linked below show what the general config pattern should look like. 
+Projects will access any stored secrets that they rely on from *{project_name}/config/secrets_config.py*. Secrets can then be imported elsewhere in the project for use at runtime. Several examples linked below show what the general config pattern should look like. 
 
 * [ak_parcels/config/secrets_config.py](../../projects/ak_parcels/config/secrets_config.py)
 * [medevac_runway_search/config/secrets_config.py](../../projects/medevac_runway_search/config/secrets_config.py)
 * [regional_kmz_for_ftp/config/secrets_config.py](../../projects/regional_kmz_for_ftp/config/secrets_config.py)
 
-## Initial Cryptfile Configuration
-See [cryptfile_initial_config.py](../scripts/cryptfile_initial_config.py)
+## Admin Cryptfile Scripts
+There are several scripts for managing the cryptfile in the [admin/scripts](../scripts/README.md) directory.
 
-## Storing Secrets
-See [cryptfile_store_secrets.py](../scripts/cryptfile_store_secrets.py)
-
-## Deleting Secrets
-See [cryptfile_delete_secrets.py](../scripts/cryptfile_delete_secrets.py)
+**Initial Cryptfile Configuration**: [cryptfile_initial_config.py](../scripts/cryptfile_initial_config.py)
+**Storing Secrets**: [cryptfile_store_secrets.py](../scripts/cryptfile_store_secrets.py)
+**Deleting Secrets**: [cryptfile_delete_secrets.py](../scripts/cryptfile_delete_secrets.py)
