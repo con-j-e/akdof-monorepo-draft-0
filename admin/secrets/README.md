@@ -65,5 +65,7 @@ Projects will access any stored secrets that they rely on from *{project_name}/c
 There are several scripts for managing the cryptfile in the [admin/scripts](../scripts/README.md) directory.
 
 **Initial Cryptfile Configuration**: [cryptfile_initial_config.py](../scripts/cryptfile_initial_config.py)
+
 **Storing Secrets**: [cryptfile_store_secrets.py](../scripts/cryptfile_store_secrets.py)
+
 **Deleting Secrets**: [cryptfile_delete_secrets.py](../scripts/cryptfile_delete_secrets.py)
