@@ -8,7 +8,10 @@ A directory for resources and configuration used to administer projects.
 Resources for SSL verification on the State of Alaska network. Further context [here](certs/README.md).
 
 ### `exit_log/`
-An exit code log file and a PowerShell exit code logging module that get used by all projects.
+An exit code log file and a PowerShell exit code logging module that get used by all projects. Further context [here](exit_log/README.md).
+
+### `scripts/`
+
 
 ### `secrets/`
 An encrypted secret store and a Python script for configuring encrypted secrets.
