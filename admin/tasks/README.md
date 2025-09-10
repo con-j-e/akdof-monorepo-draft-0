@@ -11,14 +11,10 @@
 
 # Configuring TaskSchedule.psm1
 
-The task schedule is really just a [hash table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.5) that declares parameters that will be be passed to task scheduling PowerShell functions. Viewing the established pattern for existing tasks in `TaskSchedule.psm1`, along with the relevant PowerShell documentation linked below, is the best way to become familiar with what `TaskSchedule.psm1` is doing.
-
-## PowerShell Documentation
-* etc
-* etc
+The task schedule is really just a [hash table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.5) of parameters that will be be passed to core task scheduling PowerShell functions by [Register-ProjectTasks](). 
 
 # Executing RegisterProjectTasks.ps1
 
 There are two quirks worth noting about this PowerShell script:
-1. The script must be executed as administrator (scheduling tasks for the operating system always requires elevated privileges). 
-2. At the time of writing this documentation (20250908) there is a [bug in PowerShell 5.1](https://superuser.com/questions/1885304/powershell-exe-does-not-prompt-for-credentials) that makes it impossible for the [PoweShell command line shell](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.5#command-line-shell) to execute the script successfully. [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/) can be used to execute the script instead. 
+1. The script must be executed as administrator (scheduling tasks requires elevated privileges) 
+2. At the time of writing this documentation (September of 2025) there is a [bug in PowerShell 5.1](https://superuser.com/questions/1885304/powershell-exe-does-not-prompt-for-credentials) that makes it impossible for the [PoweShell command line shell](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.5#command-line-shell) to execute the script successfully. [Windows Terminal](https://learn.microsoft.com/en-us/windows/terminal/) can be used to execute the script instead.  
