@@ -26,7 +26,7 @@ $TaskSchedule = @{
         Description = "Updates the Alaska Statewide Parcels ArcGIS Online hosted feature layer."
 
         # task path should be the same for all tasks in the task schedule
-        # this keeps our tasks organized in a single custom "directory" when viewed in the Task Scheduler GUI
+        # this keeps our tasks organized in a single custom folder when viewed in the Task Scheduler GUI
         TaskPath = "\akdof\"
 
         # parameter configuration for New-ScheduledTaskAction
