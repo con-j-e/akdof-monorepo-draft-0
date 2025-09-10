@@ -42,10 +42,17 @@ Even with the assurances of robust encryption, we will never commit the cryptfil
 
 Team members should rarely, if ever, need to modify the cryptfile. The internally distributed file is intended to be preconfigured and ready to go for our use cases. If modifications to the cryptfile are required, there should be consultation with the rest of the team, so we can assess whether to redistribute the modified version to everyone. 
 
-# Usage Examples
+# Usage
+You will notice that common to all usage of `CryptfileKeyringManager` is the following initialization pattern:
+```
+
+```
 
 ## Initial Cryptfile Configuration
+See [cryptfile_initial_config.py](../scripts/cryptfile_initial_config.py)
 
 ## Storing Secrets
+See [cryptfile_store_secrets.py](../scripts/cryptfile_store_secrets.py)
 
-## Accessing Secrets
+## Deleting Secrets
+See [cryptfile_delete_secrets.py](../scripts/cryptfile_delete_secrets.py)
