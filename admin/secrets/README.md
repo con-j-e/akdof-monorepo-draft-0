@@ -45,8 +45,21 @@ Team members should rarely, if ever, need to modify the cryptfile. The internall
 # Usage
 You will notice that common to all usage of `CryptfileKeyringManager` is the following initialization pattern:
 ```
-
+CKM = CryptfileKeyringManager(
+    master_password_keyring_backend=WinVaultKeyring(),
+    master_password_service_name="akdof_monorepo_master_service",
+    master_password_username="akdof_monorepo_master_user",
+    cryptfile_path=Path(os.getenv("AKDOF_ROOT")) / "admin" / "secrets" / "keyring_cryptfile.cfg"
+)
+"""Central keyring manager for encrypted credential storage."""
 ```
+
+## Accessing Stored Secrets
+Projects will access any stored secrets that they rely on from *{project_name}/config/secrets_config.py*. Secrets can then be imported elsewhere for use at runtime. Several examples linked below show what the general config pattern should look like. 
+
+* [ak_parcels/config/secrets_config.py](../../projects/ak_parcels/config/secrets_config.py)
+* [medevac_runway_search/config/secrets_config.py](../../projects/medevac_runway_search/config/secrets_config.py)
+* [regional_kmz_for_ftp/config/secrets_config.py](../../projects/regional_kmz_for_ftp/config/secrets_config.py)
 
 ## Initial Cryptfile Configuration
 See [cryptfile_initial_config.py](../scripts/cryptfile_initial_config.py)
