@@ -4,7 +4,7 @@
 
 # About
 
-Two third-party Python libraries are involved in securily storing and accessing sensitive information: [keyring](https://pypi.org/project/keyring/) and [keyrings.cryptfile](https://pypi.org/project/keyrings.cryptfile/)*. These libraries are implemented by [CryptfileKeyringManager](../../library/akdof_shared/src/akdof_shared/security/cryptfile_keyring_manager.py#L28) to standardize how sensitive information is handled across the repository.
+Two third-party Python libraries are involved in securely storing and accessing sensitive information: [keyring](https://pypi.org/project/keyring/) and [keyrings.cryptfile](https://pypi.org/project/keyrings.cryptfile/)*. These libraries are implemented by [CryptfileKeyringManager](../../library/akdof_shared/src/akdof_shared/security/cryptfile_keyring_manager.py#L28) to standardize how sensitive information is handled across the repository.
 
 <sub>*`keyrings.cryptfile` is an encrypted file backend for the `keyring` library. All `keyring` backends use the same interface, defined by [keyring.backend.KeyringBackend](https://github.com/jaraco/keyring/blob/main/keyring%2Fbackend.py#L65). This means the current approach could be implemented using a different backend, with very few changes being required in the `CryptfileKeyringManager` class.</sub> 
 
