@@ -43,7 +43,7 @@ Even with the assurances of robust encryption, we will never commit the cryptfil
 Team members should rarely, if ever, need to modify the cryptfile. The internally distributed file is intended to be preconfigured and ready to go for our use cases. If modifications to the cryptfile are required, there should be consultation with the rest of the team, so we can assess whether to redistribute the modified version to everyone. 
 
 # Usage
-You will notice that common to all usage of `CryptfileKeyringManager` is the following initialization pattern:
+Common to all usage of `CryptfileKeyringManager` is the following initialization pattern:
 ```
 CKM = CryptfileKeyringManager(
     master_password_keyring_backend=WinVaultKeyring(),
