@@ -26,6 +26,7 @@ Our documentation maps onto the overall repository structure, with forward-links
 - [admin](admin/README.md)
 - [admin / certs](admin/certs/README.md)
 - [admin / exit_log](admin/exit_log/README.md)
+- [admin / scripts](admin/scripts/README.md)
 - [admin / secrets](admin/secrets/README.md)
 - [admin / tasks](admin/tasks/README.md)
 - [library](library/README.md)
