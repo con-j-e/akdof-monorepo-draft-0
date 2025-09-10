@@ -11,10 +11,46 @@
 
 # Configuring TaskSchedule.psm1
 
-The task schedule is really just a [hash table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.5) of parameters that will be be passed to core task scheduling PowerShell functions by [Register-ProjectTasks](RegisterProjectTasks.ps1#L3).
+The task schedule is really just a nested [hash table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.5) of parameters that will be be passed to core task scheduling PowerShell functions by [Register-ProjectTasks](RegisterProjectTasks.ps1#L3).
 
 ```
+# 
+$TaskSchedule = @{
 
+    # entries in the task schedule are keyed by task names
+    # when applicable, the task name should be a PascalCase rendition of the project root directory that contains the script being run
+    AkParcels = @{
+
+        # a concise overview of what this task does
+        Description = "Updates the Alaska Statewide Parcels ArcGIS Online hosted feature layer."
+
+        # task path should be the same for all tasks in the task schedule
+        # this keeps our tasks organized in a single custom "directory" when viewed in the Task Scheduler GUI
+        TaskPath = "\akdof\"
+
+        # parameter configuration for 
+        ActionParams = @{
+            Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
+            Execute = "powershell.exe"
+            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects\ak_parcels")
+        }
+
+        SettingsSetParams = @{
+            AllowStartIfOnBatteries = $true
+            DontStopIfGoingOnBatteries = $true
+            ExecutionTimeLimit = (New-TimeSpan -Minutes 90)
+            MultipleInstances = "IgnoreNew"
+            RestartCount = 0
+            WakeToRun = $true
+        }
+
+        TriggerParams = @{
+            At = (Get-Date -Year 2025 -Month 09 -Day 03 -Hour 01 -Minute 00)
+            Daily = $true
+            DaysInterval = 1
+        }
+    }
+}
 ```
 
 # Executing RegisterProjectTasks.ps1
