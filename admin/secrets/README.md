@@ -55,7 +55,7 @@ CKM = CryptfileKeyringManager(
 ```
 
 ## Accessing Stored Secrets
-Projects will access any stored secrets that they rely on from *{project_name}/config/secrets_config.py*. Secrets can then be imported elsewhere in the project for use at runtime. Several examples linked below show what the general config pattern should look like. 
+Secrets are accessed using `CryptfileKeyringManager`'s [get_full_secret()] method. Projects will access any stored secrets that they rely on from *{project_name}/config/secrets_config.py*. Secrets can then be imported elsewhere in the project for use at runtime. The example linked below shows what the general config pattern should look like. 
 
 * [ak_parcels/config/secrets_config.py](../../projects/ak_parcels/config/secrets_config.py)
 * [medevac_runway_search/config/secrets_config.py](../../projects/medevac_runway_search/config/secrets_config.py)
