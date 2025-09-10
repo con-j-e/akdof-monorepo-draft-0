@@ -11,7 +11,7 @@
 
 # Configuring TaskSchedule.psm1
 
-The task schedule is really just a [hash table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.5) of parameters that will be be passed to core task scheduling PowerShell functions by [Register-ProjectTasks](). 
+The task schedule is really just a [hash table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.5) of parameters that will be be passed to core task scheduling PowerShell functions by [Register-ProjectTasks](RegisterProjectTasks.ps1#L3). 
 
 # Executing RegisterProjectTasks.ps1
 
