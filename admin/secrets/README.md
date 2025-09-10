@@ -27,7 +27,7 @@ Sensitive information is declared using a [ProjectSecret](../../library/akdof_sh
 
 ## The Cryptfile Master Password
 
-A specific master password is required to access decrypted data from the cryptfile. ***Note that with the `keyrings.cryptfile` library, this password can only be set once per operating system.*** We keep the master password protected in Windows Credential Manager, where it is stored and accessed using the `keyring` library with a [WinVaultKeyring](https://github.com/jaraco/keyring/blob/main/keyring%2Fbackends%2FWindows.py#L65) backend. The only situations when the master password should be present outside of Windows Credential Manager are: During the initial cryptfile configuration process, and during ***temporary*** internal sharing over agreed upon secure channels. 
+A specific master password is required to access decrypted data from the cryptfile. ***Note that with the `keyrings.cryptfile` library, this password can only be set once per operating system.*** We keep the master password protected in Windows Credential Manager, where it is stored and accessed using the `keyring` library with a [WinVaultKeyring](https://github.com/jaraco/keyring/blob/main/keyring%2Fbackends%2FWindows.py#L65) backend. The only situations when the master password should be present outside of Windows Credential Manager are: During the initial cryptfile configuration process, and during *temporary* internal sharing over agreed upon secure channels. 
 
 ## The Cryptfile
 
@@ -36,7 +36,7 @@ The cryptfile (.cfg extension) provides a local file-based backend for the `keyr
 2. The cryptfile is easy to share internally among a development team that works from different computers.
 3. The cryptfile cleanly seperates secret management for the repository from general system level secret management concerns.
 
-Even with the assurances of robust encryption, we will never commit the cryptfile to version control. The cryptfile should only ever exist on your local operating system, or ***temporarily*** on the network / in the cloud while being transferred to team members over agreed upon secure channels.  
+Even with the assurances of robust encryption, we will never commit the cryptfile to version control. The cryptfile should only ever exist on your local operating system, or *temporarily* on the network / in the cloud while being transferred to team members over agreed upon secure channels.  
 
 ## Cryptfile Modifications: Please Consult the Team
 
