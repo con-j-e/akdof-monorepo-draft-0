@@ -10,10 +10,13 @@ akdof-monorepo/
 ├── admin/
 │   ├── certs/
 │   ├── exit_log/
+│   ├── scripts/
 │   ├── secrets/
 │   └── tasks/
 ├── library/
+│   └── ...
 └── projects/
+    └── ...
 ```
 
 # Documentation
