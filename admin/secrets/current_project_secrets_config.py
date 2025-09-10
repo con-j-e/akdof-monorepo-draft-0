@@ -1,4 +1,7 @@
-"""Static configuration documenting what information is currently in the cryptfile."""
+"""
+Static configuration documenting what information is currently in the cryptfile.
+For developer reference, or in case the cryptfile needs to be rebuilt from the ground up.
+"""
 
 from akdof_shared.security.cryptfile_keyring_manager import ProjectSecret
 
