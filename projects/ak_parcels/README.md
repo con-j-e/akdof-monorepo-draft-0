@@ -8,9 +8,9 @@ This project updates the [Alaska Statewide Parcels](https://soa-dnr.maps.arcgis.
 
 # Requirements
 
-## Software
+### Software
 * Miniconda
-## Permissions
+### Permissions
 * Credentials for updating an ArcGIS Online hosted feature layer that is owned by the [Alaska Department of Natural Resources](https://soa-dnr.maps.arcgis.com/home/index.html)
 
 # Adding New Input Data Sources
