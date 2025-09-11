@@ -15,8 +15,7 @@ if (-not ($Response -match '^[Yy]$')) {
 
 Set-Location $PSScriptRoot
 Write-Host "Beginning setup..."
-
-& conda env create --prefix .\conda_env -f .\environment.yml
+& conda env create --prefix .\conda_env --file .\environment.yml
 & conda activate .\conda_env
 if ($env:CONDA_DEFAULT_ENV) {
     $Response = Read-Host ("Conda environment '$($env:CONDA_DEFAULT_ENV)' is now active. Would you like the setup script to proceed with the activated environment? ( y / n )")
