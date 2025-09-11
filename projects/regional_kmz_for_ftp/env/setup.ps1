@@ -17,9 +17,9 @@ Set-Location $PSScriptRoot
 Write-Host "Beginning setup..."
 
 # When configuring an environment that integrates with arcpy, we override our .condarc channel preferences:
-# Check the esri channel for packages first,
+# Check the esri channel for packages before checking conda-forge,
 # and use a 'flexible' channel priority instead of 'strict'.
-$env:CONDA_CHANNELS = "esri,defaults"
+$env:CONDA_CHANNELS = "esri,conda-forge"
 $env:CONDA_CHANNEL_PRIORITY = "flexible"
 
 # Instead building the environment from a YAML file,
@@ -39,13 +39,14 @@ if (-not ($Response -match '^[Yy]$')) {
 }
 
 # The akdof_shared package has dependencies that we pre-emptively get from conda channels, to minimize pip installs.
-& conda install `
+& conda install --freeze-installed `
     aiohttp `
     aiodns `
     argon2-cffi `
     geopandas `
     jaraco.classes `
     keyring `
+    more-itertools `
     pycryptodome `
     pydantic
 
