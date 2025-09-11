@@ -1,5 +1,5 @@
 **/cache/
-**/conda_env/
+**/conda_env*/
 **/*.egg-info/
 **/logs/
 **/__pycache__/
