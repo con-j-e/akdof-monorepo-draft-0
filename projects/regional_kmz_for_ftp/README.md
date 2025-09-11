@@ -6,17 +6,15 @@
 
 This project provides users of [Alaska Statewide Maps](https://alaska-division-of-forestry-and-fire-protection-nifc.hub.arcgis.com/pages/statewide-maps) with up-to-date KMZ layers for Avenza basemap customization. Layers are generated on a nightly or annual basis, depending on the potential change frequency of the input data source. All input data sources are ArcGIS Online hosted feature layers.
 
----
 # Requirements
 
-## Software
+### Software
 * Miniconda
 * ArcGIS Pro
-## Permissions
+### Permissions
 * MFA-exempt credentials for uploading Alaska Known Sites Database KMZ files to the [NIFC ArcGIS Online organization](https://nifc.maps.arcgis.com/home/index.html).
 * Credentials for uploading the remaining KMZ files to the [NIFC FTP Server](https://ftp.wildfire.gov/).
 
----
 # Adding New Input Data Sources
 
 Extending this project to include a new ArcGIS Online input feature layer data source involves two steps:
