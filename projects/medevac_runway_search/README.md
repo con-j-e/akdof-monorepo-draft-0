@@ -13,10 +13,9 @@ Data used to assess runway viability and estimate aircraft cruise times is gathe
 
 Additionally, email correspondence with representatives from LifeMed Alaska, Aero Air, Air Methods, and Fly Grant during July and August of 2024 helped to guide how data gets processed in the production of this application.
 
----
 # Requirements
 
-## Software
+### Software
 * Miniconda
-## Permissions
+### Permissions
 * Credentials for updating ArcGIS Online hosted feature layers that are owned by the [Alaska Department of Natural Resources](https://soa-dnr.maps.arcgis.com/home/index.html)
