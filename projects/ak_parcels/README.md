@@ -6,7 +6,6 @@
 
 This project updates the [Alaska Statewide Parcels](https://soa-dnr.maps.arcgis.com/home/item.html?id=458be3d8aafa47cd882af05cee983f6b) ArcGIS Online hosted feature layer. Updates are triggered when changes are detected in an input parcel data source. All input data sources are ArcGIS Online hosted feature layers.
 
----
 # Requirements
 
 ## Software
@@ -14,7 +13,6 @@ This project updates the [Alaska Statewide Parcels](https://soa-dnr.maps.arcgis.
 ## Permissions
 * Credentials for updating an ArcGIS Online hosted feature layer that is owned by the [Alaska Department of Natural Resources](https://soa-dnr.maps.arcgis.com/home/index.html)
 
----
 # Adding New Input Data Sources
 
 Extending this project to include a new ArcGIS Online input feature layer data source involves one step. The same approach can be used to edit how input fields are mapped to the target layer schema (this can be necessary if an existing input data source has a schema change).
