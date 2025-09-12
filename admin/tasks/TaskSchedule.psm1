@@ -7,7 +7,7 @@ $TaskSchedule = @{
 
     AkParcels = @{
         Description = "Updates the Alaska Statewide Parcels ArcGIS Online hosted feature layer."
-        TaskPath = "/akdof/"
+        TaskPath = "\akdof\"
         ActionParams = @{
             Argument = "-File ./start.ps1 -WindowStyle Hidden -NonInteractive"
             Execute = "powershell.exe"
@@ -22,7 +22,7 @@ $TaskSchedule = @{
             WakeToRun = $true
         }
         TriggerParams = @{
-            At = (Get-Date -Year 2025 -Month 09 -Day 03 -Hour 01 -Minute 00)
+            At = (Get-Date -Year 2025 -Month 09 -Day 13 -Hour 01 -Minute 00)
             Daily = $true
             DaysInterval = 1
         }
@@ -30,7 +30,7 @@ $TaskSchedule = @{
 
     MedevacRunwaySearch = @{
         Description = "Updates a suite of ArcGIS Online hosted feature layers that drive core functionality of the Alaska Medevac Runway Search web app."
-        TaskPath = "/akdof/"
+        TaskPath = "\akdof\"
         ActionParams = @{
             Argument = "-File ./start.ps1 -WindowStyle Hidden -NonInteractive"
             Execute = "powershell.exe"
@@ -45,7 +45,7 @@ $TaskSchedule = @{
             WakeToRun = $true
         }
         TriggerParams = @{
-            At = (Get-Date -Year 2025 -Month 09 -Day 03 -Hour 02 -Minute 30)
+            At = (Get-Date -Year 2025 -Month 09 -Day 13 -Hour 02 -Minute 30)
             Daily = $true
             DaysInterval = 1
         }
@@ -53,7 +53,7 @@ $TaskSchedule = @{
 
     RegionalKmzForFtp = @{
         Description = "Converts hosted feature layers to KMZ files and uploads KMZ files to ftp.wildfire.gov or ArcGIS Online."
-        TaskPath = "/akdof/"
+        TaskPath = "\akdof\"
         ActionParams = @{
             Argument = "-File ./start.ps1 -WindowStyle Hidden -NonInteractive"
             Execute = "powershell.exe"
@@ -68,7 +68,7 @@ $TaskSchedule = @{
             WakeToRun = $true
         }
         TriggerParams = @{
-            At = (Get-Date -Year 2025 -Month 09 -Day 03 -Hour 03 -Minute 00)
+            At = (Get-Date -Year 2025 -Month 09 -Day 13 -Hour 03 -Minute 00)
             Daily = $true
             DaysInterval = 1
         }
