@@ -27,7 +27,8 @@ $TaskSchedule = @{
 
         # task path should be the same for all tasks in the task schedule
         # this keeps our tasks organized in a single custom folder when viewed in the Task Scheduler GUI
-        TaskPath = "/akdof/"
+        # NOTE: back-slashes are used as path seperators because this particular parameter will not accept forward-slashes
+        TaskPath = "\akdof\"
 
         # parameter configuration for New-ScheduledTaskAction
         # https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtaskaction?view=windowsserver2025-ps
