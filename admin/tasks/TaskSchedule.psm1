@@ -7,11 +7,11 @@ $TaskSchedule = @{
 
     AkParcels = @{
         Description = "Updates the Alaska Statewide Parcels ArcGIS Online hosted feature layer."
-        TaskPath = "\akdof\"
+        TaskPath = "/akdof/"
         ActionParams = @{
-            Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
+            Argument = "-File ./start.ps1 -WindowStyle Hidden -NonInteractive"
             Execute = "powershell.exe"
-            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects\ak_parcels")
+            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects/ak_parcels")
         }
         SettingsSetParams = @{
             AllowStartIfOnBatteries = $true
@@ -30,11 +30,11 @@ $TaskSchedule = @{
 
     MedevacRunwaySearch = @{
         Description = "Updates a suite of ArcGIS Online hosted feature layers that drive core functionality of the Alaska Medevac Runway Search web app."
-        TaskPath = "\akdof\"
+        TaskPath = "/akdof/"
         ActionParams = @{
-            Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
+            Argument = "-File ./start.ps1 -WindowStyle Hidden -NonInteractive"
             Execute = "powershell.exe"
-            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects\medevac_runway_search")
+            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects/medevac_runway_search")
         }
         SettingsSetParams = @{
             AllowStartIfOnBatteries = $true
@@ -53,11 +53,11 @@ $TaskSchedule = @{
 
     RegionalKmzForFtp = @{
         Description = "Converts hosted feature layers to KMZ files and uploads KMZ files to ftp.wildfire.gov or ArcGIS Online."
-        TaskPath = "\akdof\"
+        TaskPath = "/akdof/"
         ActionParams = @{
-            Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
+            Argument = "-File ./start.ps1 -WindowStyle Hidden -NonInteractive"
             Execute = "powershell.exe"
-            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects\regional_kmz_for_ftp")
+            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects/regional_kmz_for_ftp")
         }
         SettingsSetParams = @{
             AllowStartIfOnBatteries = $true

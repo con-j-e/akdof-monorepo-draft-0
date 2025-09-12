@@ -18,8 +18,8 @@ Write-Host "Beginning setup..."
 
 # Instead building the environment from a YAML file,
 # we build the arcgis (ArcGIS API for Python) environment and then install packages manually.
-& conda create --prefix=.\conda_env -c esri arcgis
-& conda activate .\conda_env
+& conda create --prefix=./conda_env -c esri arcgis
+& conda activate ./conda_env
 
 if ($env:CONDA_DEFAULT_ENV) {
     $Response = Read-Host ("Conda environment '$($env:CONDA_DEFAULT_ENV)' is now active. Would you like the setup script to proceed with the activated environment? ( y / n )")
@@ -60,7 +60,7 @@ if (-not ($Response -match '^[Yy]$')) {
 # import errors when attempting to use certain geopandas modules.
 & conda install pyogrio>=0.7.2 --no-deps
 
-& pip install -e (Join-Path $Env:AKDOF_ROOT "library\akdof_shared")
+& pip install -e (Join-Path $Env:AKDOF_ROOT "library/akdof_shared")
 
 Write-Host "Conda environment '$($env:CONDA_DEFAULT_ENV)' setup complete. Exiting..."
 & conda deactivate

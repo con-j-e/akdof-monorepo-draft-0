@@ -24,8 +24,8 @@ $env:CONDA_CHANNEL_PRIORITY = "flexible"
 
 # Instead building the environment from a YAML file,
 # we build the arcpy-base environment and then install packages manually.
-& conda create --prefix=.\conda_env -c esri arcpy-base=3.5
-& conda activate .\conda_env
+& conda create --prefix=./conda_env -c esri arcpy-base=3.5
+& conda activate ./conda_env
 
 if ($env:CONDA_DEFAULT_ENV) {
     $Response = Read-Host ("Conda environment '$($env:CONDA_DEFAULT_ENV)' is now active. Would you like the setup script to proceed with the activated environment? ( y / n )")
@@ -57,7 +57,7 @@ if (-not ($Response -match '^[Yy]$')) {
 & conda install pyogrio --no-deps
 
 & conda install -c esri geomet=1.0.0
-& pip install -e (Join-Path $Env:AKDOF_ROOT "library\akdof_shared")
+& pip install -e (Join-Path $Env:AKDOF_ROOT "library/akdof_shared")
 
 Write-Host "Conda environment '$($env:CONDA_DEFAULT_ENV)' setup complete. Exiting..."
 & conda deactivate

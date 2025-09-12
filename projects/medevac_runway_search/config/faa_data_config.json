@@ -28,7 +28,7 @@
                 "ARP Longitude DD",
                 "Elevation"
             ],
-            "cached_csv": "data\\cache\\ak_airports.csv"
+            "cached_csv": "data/cache/ak_airports.csv"
         },
         "Runways": {
             "state_column": "State",
@@ -43,7 +43,7 @@
                 "Surface Treatment",
                 "Edge Light Intensity"
             ],
-            "cached_csv": "data\\cache\\ak_runways.csv"
+            "cached_csv": "data/cache/ak_runways.csv"
         },
         "Airport Schedules": {
             "state_column": "State Id",
@@ -54,7 +54,7 @@
                 "Schedule",
                 "Sequence"
             ],
-            "cached_csv": "data\\cache\\ak_airport_schedules.csv"
+            "cached_csv": "data/cache/ak_airport_schedules.csv"
         }
     }
 }

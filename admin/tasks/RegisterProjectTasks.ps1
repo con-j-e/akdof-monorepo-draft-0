@@ -1,4 +1,4 @@
-Import-Module (Join-Path $Env:AKDOF_ROOT "admin\tasks\TaskSchedule.psm1")
+Import-Module (Join-Path $Env:AKDOF_ROOT "admin/tasks/TaskSchedule.psm1")
 
 function Register-ProjectTasks {
     param(

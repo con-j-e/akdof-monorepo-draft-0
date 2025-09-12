@@ -101,8 +101,8 @@ def _clip_layer_to_kmz(
     query : str | None, optional
         Standard SQL query passed to `arcpy.Management.MakeFeatureLayer()` as the where_clause argument, applies filter prior to KMZ conversion. By default None.
     """
-    memory_clip = r"memory\service_clip"
-    memory_layer = r"memory\clip_feature_layer"
+    memory_clip = "memory/service_clip"
+    memory_layer = "memory/clip_feature_layer"
 
     arcpy.analysis.Clip(in_features=layer_to_clip, clip_features=clip_layer, out_feature_class=memory_clip)
     arcpy.management.MakeFeatureLayer(in_features=memory_clip, out_layer=memory_layer, where_clause=query)

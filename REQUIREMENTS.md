@@ -22,9 +22,9 @@ Some of the software listed below can be considered optional, depending on the s
 ## Set Environment Variables
 Two environment variables will be expected by PowerShell and Python scripts:
 
-* **AKDOF_ROOT**: Directory path to the root of akdof-monorepo on the local file system, for example: *C:\REPOS\akdof-monorepo*.
+* **AKDOF_ROOT**: Directory path to the root of akdof-monorepo on the local file system, for example: *C:/REPOS/akdof-monorepo*.
 
-* **AKDOF_USER**: Directory path to the root of the user profile which works on akdof-monorepo, for example: *C:\Users\Install*.
+* **AKDOF_USER**: Directory path to the root of the user profile which works on akdof-monorepo, for example: *C:/Users/Install*.
 
 ## Set PowerShell Execution Policy
 Depending on current execution policy settings, you may need start a PowerShell session and manually enable script execution before any of the PowerShell scripts in the repository will work. 
@@ -43,7 +43,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ## Create PowerShell Profile
 A user-level PowerShell profile handles the initial configuration that prepares us for calling `conda` commands in the terminal or from PowerShell scripts.
 
-Your user-level PowerShell profile is expected to be in this exact location: *{AKDOF_USER}\Documents\PowerShell\Microsoft.PowerShell_profile.ps1*
+Your user-level PowerShell profile is expected to be in this exact location: *{AKDOF_USER}/Documents/PowerShell/Microsoft.PowerShell_profile.ps1*
 
 ### Example Profile
 ```
@@ -73,18 +73,18 @@ Set-Location $Env:AKDOF_ROOT
 # CONDA SETUP 
 #-------------------------------------------------------------------------------------------------------------------------#
 
-# note that conda behavior in the shell session is determined in part by the user level config defined here: \miniconda3\.condarc
+# note that conda behavior in the shell session is determined in part by the user level config defined here: /miniconda3/.condarc
 
 # tell conda to use a custom certificate chain for SSL verification
-$Env:CONDA_SSL_VERIFY = (Join-Path $Env:AKDOF_ROOT "admin\certs\chain\anaconda.org_chain.pem")
+$Env:CONDA_SSL_VERIFY = (Join-Path $Env:AKDOF_ROOT "admin/certs/chain/anaconda.org_chain.pem")
 
 # inside virtual conda environments, pip can have self-signed certificate errors doing pip installs
 # so we tell pip to use a custom certificate chain for SSL verification as well
-$Env:PIP_CERT = (Join-Path $Env:AKDOF_ROOT "admin\certs\chain\pypi.org_chain.pem")
+$Env:PIP_CERT = (Join-Path $Env:AKDOF_ROOT "admin/certs/chain/pypi.org_chain.pem")
 
-# the expression below gets created by executing the `conda init powershell` command, and is initially saved to \Documents\WindowsPowerShell\profile.ps1
+# the expression below gets created by executing the `conda init powershell` command, and is initially saved to /Documents/WindowsPowerShell/profile.ps1
 # here it has been modified to use the AKDOF_USER environment variable when looking for conda.exe
-$CondaPath = (Join-Path $Env:AKDOF_USER "miniconda3\Scripts\conda.exe")
+$CondaPath = (Join-Path $Env:AKDOF_USER "miniconda3/Scripts/conda.exe")
 If (Test-Path $CondaPath) {
     (& $CondaPath "shell.powershell" "hook") | Out-String | ?{$_} | Invoke-Expression
 }
@@ -98,7 +98,7 @@ Preferred behavior of `conda` commands is configured in a .condarc file.
 The community maintained *conda-forge* channel is being used instead of the Anaconda maintained *defaults* channel
 so that [licensing terms](https://www.anaconda.com/legal/terms/terms-of-service#WhenYouCanUseThePlatformForFree) do not apply to the usage of our conda environments.
 
-Your user-level .condarc is expected to be in this exact location: *{AKDOF_USER}\miniconda3\\.condarc*
+Your user-level .condarc is expected to be in this exact location: *{AKDOF_USER}/miniconda3/.condarc*
 
 ### Example .condarc
 ```
@@ -121,7 +121,7 @@ issues with long file system paths may arise.
 
 ### Example Command
 ```
-New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+New-ItemProperty -Path "HKLM:/SYSTEM/CurrentControlSet/Control/FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
 ```
 <sub><sup>※</sup><i>You must run PowerShell as an administrator to execute this command.</i></sub>
 

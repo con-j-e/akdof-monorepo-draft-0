@@ -27,14 +27,14 @@ $TaskSchedule = @{
 
         # task path should be the same for all tasks in the task schedule
         # this keeps our tasks organized in a single custom folder when viewed in the Task Scheduler GUI
-        TaskPath = "\akdof\"
+        TaskPath = "/akdof/"
 
         # parameter configuration for New-ScheduledTaskAction
         # https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/new-scheduledtaskaction?view=windowsserver2025-ps
         ActionParams = @{
-            Argument = "-File .\start.ps1 -WindowStyle Hidden -NonInteractive"
+            Argument = "-File ./start.ps1 -WindowStyle Hidden -NonInteractive"
             Execute = "powershell.exe"
-            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects\ak_parcels")
+            WorkingDirectory = (Join-Path $Env:AKDOF_ROOT "projects/ak_parcels")
         }
 
         # parameter configuration for New-ScheduledTaskSettingsSet
