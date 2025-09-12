@@ -16,15 +16,9 @@ if (-not ($Response -match '^[Yy]$')) {
 Set-Location $PSScriptRoot
 Write-Host "Beginning setup..."
 
-# When configuring an environment that integrates with arcpy, we override our .condarc channel preferences:
-# Check the esri channel for packages before checking conda-forge,
-# and use a 'flexible' channel priority instead of 'strict'.
-$env:CONDA_CHANNELS = "esri,conda-forge"
-$env:CONDA_CHANNEL_PRIORITY = "flexible"
-
 # Instead building the environment from a YAML file,
-# we build the arcpy-base environment and then install packages manually.
-& conda create --prefix=.\conda_env -c esri arcpy-base=3.5
+# we build the arcgis (ArcGIS API for Python) environment and then install packages manually.
+& conda create --prefix=.\conda_env -c esri arcgis
 & conda activate .\conda_env
 
 if ($env:CONDA_DEFAULT_ENV) {
@@ -38,25 +32,34 @@ if (-not ($Response -match '^[Yy]$')) {
     exit
 }
 
+# Getting geopandas from the esri channel because their version
+# does not use pyogrio (pyogrio has conflicts with the ArcGIS API for Python).
+& conda install -c esri geopandas
+
+# People on our team like to use notebooks during development.
+# Prior experience suggests that ipykernel along with having the Jupyter extension
+# in VS Code is a minimum requirement for .ipynb functionality in VS Code.
+& conda install ipykernel
+
 # The akdof_shared package has dependencies that we pre-emptively get from conda channels, to minimize pip installs.
-& conda install --freeze-installed `
+& conda install `
     aiodns `
     aiohttp `
     argon2-cffi `
-    geopandas `
     jaraco.classes `
-    keyring `
     more-itertools `
-    pycryptodome `
-    pydantic
+    pycryptodome
 
-# pyogrio dependencies will attempt to modify packages that are native to the arcpy-base environment.
-# As a matter of precaution we do not want to modify arcpy-base in any way.
-# The regional_kmz_for_ftp project uses arcpy for all spatial data processing, so pyogrio dependencies can safely be left out.
-# This is an atypical environment configuration, and used in other contexts could lead to import errors and/or unexpected behavior.
-& conda install pyogrio --no-deps
+# If pyogrio is not installed, pip will attempt to install it with akdof_shared.
+# But pyogrio dependencies will attempt to modify packages that are native to the ArcGIS API for Python, and
+# as a matter of precaution we do not want to modify ArcGIS API for Python.
+# To prevent this we use conda to install pyogrio with no dependencies.
+# Because the geopandas version we installed comes from the esri channel and
+# does not actually require pyogrio, this should be fine.
+# If there are any issues related to this, they will most likely be expressed as
+# import errors when attempting to use certain geopandas modules.
+& conda install pyogrio>=0.7.2 --no-deps
 
-& conda install -c esri geomet=1.0.0
 & pip install -e (Join-Path $Env:AKDOF_ROOT "library\akdof_shared")
 
 Write-Host "Conda environment '$($env:CONDA_DEFAULT_ENV)' setup complete. Exiting..."
