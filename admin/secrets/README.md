@@ -55,7 +55,7 @@ CKM = CryptfileKeyringManager(
 ```
 
 ## Accessing Stored Secrets
-Secrets are accessed using `CryptfileKeyringManager`'s [get_full_secret()](../../library/akdof_shared/src/akdof_shared/security/cryptfile_keyring_manager.py#L83) method. Projects will access any stored secrets that they rely on from *{project_name}/config/secrets_config.py*. Secrets and/or objects configured using secrets can then be imported elsewhere in the project for use at runtime. The examples linked below show what the general configuration pattern should look like.
+Secrets are accessed using `CryptfileKeyringManager`'s [get_full_secret()](../../library/akdof_shared/src/akdof_shared/security/cryptfile_keyring_manager.py#L83) method. Projects will access any stored secrets that they rely on from *<project_name>/config/secrets_config.py*. Secrets and/or objects configured using secrets can then be imported elsewhere in the project for use at runtime. The examples linked below show what the general configuration pattern should look like.
 
 * [medevac_runway_search/config/secrets_config.py](../../projects/medevac_runway_search/config/secrets_config.py)
 * [regional_kmz_for_ftp/config/secrets_config.py](../../projects/regional_kmz_for_ftp/config/secrets_config.py)

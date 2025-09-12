@@ -6,7 +6,7 @@ Project subdirectories represent stable units of work meeting clearly defined bu
 # Standard Project Structure 
 ```
 projects/
-└── {project_name}/
+└── <project_name>/
     ├── config/
     ├── core/
     ├── data/

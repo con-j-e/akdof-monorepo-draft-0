@@ -43,7 +43,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ## Create PowerShell Profile
 A user-level PowerShell profile handles the initial configuration that prepares us for calling `conda` commands in the terminal or from PowerShell scripts.
 
-Your user-level PowerShell profile is expected to be in this exact location: *{AKDOF_USER}/Documents/PowerShell/Microsoft.PowerShell_profile.ps1*
+Your user-level PowerShell profile is expected to be in this exact location: *<AKDOF_USER>/Documents/PowerShell/Microsoft.PowerShell_profile.ps1*
 
 ### Example Profile
 ```
@@ -98,7 +98,7 @@ Preferred behavior of `conda` commands is configured in a .condarc file.
 The community maintained *conda-forge* channel is being used instead of the Anaconda maintained *defaults* channel
 so that [licensing terms](https://www.anaconda.com/legal/terms/terms-of-service#WhenYouCanUseThePlatformForFree) do not apply to the usage of our conda environments.
 
-Your user-level .condarc is expected to be in this exact location: *{AKDOF_USER}/miniconda3/.condarc*
+Your user-level .condarc is expected to be in this exact location: *<AKDOF_USER>/miniconda3/.condarc*
 
 ### Example .condarc
 ```

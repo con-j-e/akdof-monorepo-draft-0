@@ -11,7 +11,7 @@ Contains the Zscaler root certificate.
 
 ### `chain/`
 Contains certificate chains that can be used for SSL verification with specific HTTPS endpoints.
-All certificate chains use the naming convention `{host}:{port}_chain.pem`.
+All certificate chains use the naming convention `<host>:<port>_chain.pem`.
 
 # Creating Custom Certificate Chains for use on the SOA Network
 Self-signed certificate errors can occur when SSL is used to verify connections made over HTTPS between the SOA network and an external endpoint.
@@ -41,19 +41,19 @@ Download "Windows Zscaler Root CA Certificate" from [SOA OIT](https://oit-int.al
 
 ## Creating a Custom .pem File
 1. Open a blank file in your editor of choice. After completing steps 2 - 5, the file should be saved with a `.pem` file extension.
-2. Copy the output of a `openssl s_client -connect={host}:{port} -showcerts` command and paste it into the file.
+2. Copy the output of a `openssl s_client -connect=<host>:<port> -showcerts` command and paste it into the file.
 3. Delete content below the final -----END CERTIFICATE----- line.
 4. Copy content from the Zscaler root certificate file and paste it below the final -----END CERTIFICATE----- line.
 5. Delete metadata in between -----END CERTIFICATE----- and -----BEGIN CERTIFICATE----- lines, so the formatting is roughly as follows:
 
 ```
 -----BEGIN CERTIFICATE-----
-{cert}
+<cert>
 -----END CERTIFICATE-----
 -----BEGIN CERTIFICATE-----
-{cert}
+<cert>
 -----END CERTIFICATE-----
 -----BEGIN CERTIFICATE-----
-{Zscaler root cert}
+<Zscaler root cert>
 -----END CERTIFICATE-----
 ```

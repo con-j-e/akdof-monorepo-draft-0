@@ -8,9 +8,9 @@ To begin with, all shared Python code has been organized into subpackages in a s
 A [src-layout](https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#src-layout) is preferred for any local packages added to the library:
 ```
 library/
-└── {package_name}/
+└── <package_name>/
     ├── src/
-    │   └── {package_name}/
+    │   └── <package_name>/
     │       ├── __init__.py
     │       ├── module.py
     │       ├── sub_package_1/
