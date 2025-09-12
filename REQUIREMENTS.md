@@ -94,14 +94,16 @@ If (Test-Path $CondaPath) {
 * [About Profiles](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles?view=powershell-7.5)
 
 ## Create .condarc
-Preferred default behavior of `conda` commands is configured in a .condarc file.
+Preferred behavior of `conda` commands is configured in a .condarc file.
+The community maintained *conda-forge* channel is being used instead of the Anaconda maintained *defaults* channel
+so that [licensing terms](https://www.anaconda.com/legal/terms/terms-of-service#WhenYouCanUseThePlatformForFree) do not apply to the usage of our conda environments.
 
 Your user-level .condarc is expected to be in this exact location: *{AKDOF_USER}\miniconda3\\.condarc*
 
 ### Example .condarc
 ```
 channels:
-  - defaults
+  - conda-forge
 
 channel_priority: strict
 show_channel_urls: true
