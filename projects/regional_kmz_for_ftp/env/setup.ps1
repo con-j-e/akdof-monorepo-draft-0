@@ -16,13 +16,19 @@ if (-not ($Response -match '^[Yy]$')) {
 Set-Location $PSScriptRoot
 Write-Host "Beginning setup..."
 
-# When configuring an environment that integrates with arcpy, we override our .condarc channel preferences:
-# Check the esri channel for packages before checking conda-forge,
+# When building an environment that includes core ESRI packages (ArcGIS API for Python, ArcPy),
+# we override our .condarc channel preferences:
+# Check the ESRI channel for packages before checking conda-forge,
 # and use a 'flexible' channel priority instead of 'strict'.
 $env:CONDA_CHANNELS = "esri,conda-forge"
 $env:CONDA_CHANNEL_PRIORITY = "flexible"
 
-& conda create --prefix ./conda_env --channel esri arcpy-base=3.5 geomet=1.0.0 geopandas
+# We explicitly get the following packages from the ESRI channel:
+# arcpy-base version 3.5 (for programmatic use of ArcGIS Pro geoprocessing tools; this package is only available on the ESRI channel).
+# geomet (required by the akdof_shared package; we prefer ESRI's version because we trust them to maintain the package they use internally for conversions between ArcGIS JSON and GeoJSON data formats).
+# geopandas (required by the akdof_shared package; it is essential that we use ESRI's version, due to conflicts between pyogrio and core ESRI packages).
+& conda create --prefix ./conda_env --channel esri arcpy-base=3.5 geomet geopandas
+
 & conda activate ./conda_env
 if ($env:CONDA_DEFAULT_ENV) {
     $Response = Read-Host ("Conda environment '$($env:CONDA_DEFAULT_ENV)' is now active. Would you like the setup script to proceed with the activated environment? ( y / n )")
@@ -35,7 +41,10 @@ if (-not ($Response -match '^[Yy]$')) {
     exit
 }
 
-# The akdof_shared package has dependencies that we pre-emptively get from conda channels, to minimize pip installs.
+# The following packages are required by the akdof_shared package.
+# We install them from ESRI (or conda-forge if not available from ESRI),
+# without updating or changing any of the already installed dependencies.
+# This is done defensively to ensure we don't modify core ESRI package dependencies.
 & conda install --freeze-installed `
     aiodns `
     aiohttp `
@@ -46,10 +55,9 @@ if (-not ($Response -match '^[Yy]$')) {
     pycryptodome `
     pydantic
 
-# pyogrio dependencies will attempt to modify packages that are native to the arcpy-base environment.
-# As a matter of precaution we do not want to modify arcpy-base in any way.
-# The regional_kmz_for_ftp project uses arcpy for all spatial data processing, so pyogrio dependencies can safely be left out.
-# This is an atypical environment configuration, and used in other contexts could lead to import errors and/or unexpected behavior.
+# Although we have ESRI's geopandas version installed (which does not use pyogrio),
+# if we don't have pyogrio installed pip will attempt to install pyogrio with all of its dependencies while installing akdof_shared.
+# So we pre-emptively install pyogrio with no dependencies using conda. 
 & conda install pyogrio --no-deps
 
 & pip install -e (Join-Path $Env:AKDOF_ROOT "library/akdof_shared")
