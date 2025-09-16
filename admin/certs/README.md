@@ -11,7 +11,7 @@ Contains the Zscaler root certificate.
 
 ### `chain/`
 Contains certificate chains that can be used for SSL verification with specific HTTPS endpoints.
-All certificate chains use the naming convention `<host>:<port>_chain.pem`.
+All certificate chains use the naming convention `<host>_chain.pem`.
 
 # Creating Custom Certificate Chains for use on the SOA Network
 Self-signed certificate errors can occur when SSL is used to verify connections made over HTTPS between the SOA network and an external endpoint.
