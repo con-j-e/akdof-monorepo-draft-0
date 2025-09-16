@@ -30,10 +30,10 @@ Logs, caches, static input data, temporary intermediate data, archived output da
 ### `env/`
 Environment setup components:
 
-- `conda_env/`: Conda environment for the project (this will never be present in the remote repository).
+- `conda_env/`: Conda environment for the project (this is excluded from version control and will never be present in the remote repository).
 - [`environment.yml`](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-file-manually): Defines the environment.
 - `setup.ps1`: PowerShell script that creates `conda_env/`. This should always be used for environment creation to ensure completion of any custom setup.
-- [`spec-file.txt`](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#building-identical-conda-environments): Used for reproducibility.
+- [`spec-file.txt`](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#building-identical-conda-environments): Can be used to reproduce `conda_env/` exactly (on Windows operating systems).
 
 <sub>*There is significant overlap between environments for existing projects. If deploying from a storage constrained setting in the future (cloud infrastructure for example) it could make sense to build shared environments. Currently storage space is not a factor so the simplicity of isolated project-specific environments is chosen over maximizing storage efficiency.</sub>
 
