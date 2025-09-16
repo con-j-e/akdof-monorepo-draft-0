@@ -9,7 +9,7 @@ The user profile is emphasized because in general we want to keep our developmen
 Some of the software listed below can be considered optional, depending on the scope of work being done inside the repository. PowerShell is not listed because the version used across this repository (PowerShell 5.1) is a core component of modern Windows operating systems.
 | Tool      | Use Case |
 |-----------------|-------------|
-| [**ArcGIS Pro**](https://pro.arcgis.com/en/pro-app/latest/get-started/download-arcgis-pro.htm) | Projects that use ArcPy will require a licensed ArcGIS Pro installation to function. |
+| [**ArcGIS Pro**](https://pro.arcgis.com/en/pro-app/latest/get-started/download-arcgis-pro.htm) | Projects that use ArcPy will require a licensed ArcGIS Pro installation to function. Environments are currently configured to use ArcGIS Pro version 3.5.0. |
 | [**GitHub CLI**](https://cli.github.com/) | Remote repository connection. |
 | [**Git for Windows**](https://gitforwindows.org/) | Local version control system. |
 | [**Miniconda**](https://www.anaconda.com/download/success) | A **user-level*** installation of Miniconda is required for all virtual environments and package management. |
