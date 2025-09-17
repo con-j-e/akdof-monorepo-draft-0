@@ -6,26 +6,6 @@ import geomet.esri
 import geopandas as gpd
 import pandas as pd
 
-def json_features_to_dataframe(features: list[dict], format: Literal["arcgis", "geojson"]) -> pd.DataFrame:
-    """Loads json features from one of two standardized geospatial formats into a DataFrame."""
-
-    if format not in ("arcgis", "geojson"):
-        raise ValueError(f"Invalid argument: {format}. Accepted values are 'arcgis' or 'geojson'.")
-
-    df_dict = defaultdict(list)
-    attributes_or_properties = {
-        "arcgis": "attributes",
-        "geojson": "properties",
-    }[format]
-    for feat in features:
-        for key, val in feat[attributes_or_properties].items():
-            df_dict[key].append(val)
-        for key, val in feat.items():
-            if key == attributes_or_properties:
-                continue
-            df_dict[key].append(val)
-    return pd.DataFrame(df_dict)
-
 def arcgis_json_to_gdf(arcgis_json: dict) -> gpd.GeoDataFrame:
     """Loads ArcGIS json features into a GeoDataFrame"""
 
@@ -74,6 +54,26 @@ def gdf_to_arcgis_json(gdf: gpd.GeoDataFrame, geometry_column_name: str = "geome
     arcgis_json["features"] = list(map(_geojson_feature_to_arcgis, geojson["features"]))
 
     return arcgis_json
+
+def json_features_to_dataframe(features: list[dict], format: Literal["arcgis", "geojson"]) -> pd.DataFrame:
+    """Loads json features from one of two standardized geospatial formats into a DataFrame."""
+
+    if format not in ("arcgis", "geojson"):
+        raise ValueError(f"Invalid argument: {format}. Accepted values are 'arcgis' or 'geojson'.")
+
+    df_dict = defaultdict(list)
+    attributes_or_properties = {
+        "arcgis": "attributes",
+        "geojson": "properties",
+    }[format]
+    for feat in features:
+        for key, val in feat[attributes_or_properties].items():
+            df_dict[key].append(val)
+        for key, val in feat.items():
+            if key == attributes_or_properties:
+                continue
+            df_dict[key].append(val)
+    return pd.DataFrame(df_dict)
 
 def _arcgis_feature_to_geojson(arcgis_feature: dict) -> dict:
     """Converts a single ArcGIS JSON feature to a single GeoJSON feature"""
