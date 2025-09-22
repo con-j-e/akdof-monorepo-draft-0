@@ -363,9 +363,17 @@ class InputFeatureLayersConfig:
     def get_layer(self, alias: str) -> InputFeatureLayer:
         return self.layers_dict[alias]
     
-    def update_resource_info(self):
+    def update_resource_info(self, error_action: Literal["log", "raise", "silently_continue"] = "log"):
         for layer in self.input_layers:
-            layer._get_feature_layer_resource_info()
+            try:
+                layer._get_feature_layer_resource_info()
+            except Exception as e:
+                if error_action == "log":
+                    layer.logger.error(FileLoggingManager.format_exception(e))
+                elif error_action == "raise":
+                    raise
+                elif error_action == "silently_continue":
+                    continue
     
     def shutdown_thread_executors(self):
         unique_thread_executors = {layer.thread_executor for layer in self.input_layers if isinstance(layer.thread_executor, ThreadPoolExecutor)}
