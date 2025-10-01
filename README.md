@@ -1,3 +1,6 @@
+# ⚠️ Notice
+This entire repository is being used as a drafting workspace. A new repository will be started when initial drafting stages are complete.
+
 # About
 This is a shared repository for projects that are developed by the Alaska Division of Forestry and Fire Protection GIS Unit. A [monorepo](https://en.wikipedia.org/wiki/Monorepo) was chosen with the following benefits in mind:
 1. Ease of code reuse across different projects.
