@@ -1,4 +1,4 @@
 #!/bin/sh
 echo 
-exec powershell.exe -File "..\pre-commit.ps1" -NoProfile
+exec powershell.exe -NoProfile -File "./admin/scripts/pre-commit.ps1"
 exit
