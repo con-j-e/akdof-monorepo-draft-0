@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "bierner.github-markdown-preview",
+    "bierner.markdown-checkbox",
+    "mechatroner.rainbow-csv",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-toolsai.jupyter",
+    "ms-vscode.live-server",
+    "ms-vscode.powershell",
+    "njpwerner.autodocstring"
+  ]
+}
